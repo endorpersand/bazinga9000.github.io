@@ -145,3 +145,38 @@ function apportion() {
     document.body.appendChild(tbl);
 
 }
+
+
+function uploadCustomTemplate() {
+  let template = prompt("Paste the template here");
+  if (template != null || template != "") {
+    applyTemplate(JSON.parse(template))
+  }
+}
+
+
+function exportTemplate() {
+
+    let template = new Object();
+
+    let districts = [];
+
+    let metadiv = document.getElementById('state_inputs')
+    for (let elem of [...metadiv.children]) {
+        let district = new Object();
+
+        district.name = elem.children[0].value;
+        district.population = elem.children[1].value;
+
+        districts.push(district);
+    }
+
+    let seats = document.getElementById('seat_number').value;
+
+    template.seats = seats;
+    template.states = districts;
+
+    return JSON.stringify(template);
+
+
+}
