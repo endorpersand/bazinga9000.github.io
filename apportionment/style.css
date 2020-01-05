@@ -1,0 +1,21 @@
+table {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  margin-right: 20%;
+  margin-top: 10.5%;
+  margin-left: auto;
+  border-radius: 5px;
+  border: 1px solid #ffffff;
+  border-spacing: 10px 0;
+}
+
+td {
+  text-align: center;
+}
+
+
+.light-color-row {
+    background-color: #303030;
+
+}
