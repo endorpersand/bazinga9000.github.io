@@ -59,9 +59,6 @@ function newState(name = "New District", population = 2763) {
 function apportion() {
     let metadiv = document.getElementById('state_inputs')
 
-    //reduce old table to atoms
-    let oldtable = document.getElementById('apportionment_table');
-    if (oldtable !== null) {oldtable.outerHTML = "";}
 
     //build district list
     let districts = {};
@@ -110,6 +107,37 @@ function apportion() {
     }
 
     console.log(districts);
+    updateDistrictArray(districts);
+    createTable(0);
+
+}
+
+
+function updateDistrictArray(districts) {
+    darray = [];
+
+    //create array of districts
+    for (d of Object.keys(districts)) {
+        darray.push([d, districts[d][1], districts[d][0], Math.round(districts[d][0]/districts[d][1])])
+    }
+}
+
+function createTable(sortmode) {
+    //reduce old table to atoms
+    let oldtable = document.getElementById('apportionment_table');
+    if (oldtable !== null) {oldtable.outerHTML = "";}
+
+    
+    console.log(darray);
+    console.log(sortmode);
+
+    if (oldsortmode != sortmode) {
+        darray.sort(function(a,b){return a[sortmode] > b[sortmode];});
+        descending = false;
+    } else {
+        darray.reverse();
+        descending = !descending;
+    }
 
     let tbl = document.createElement('table');
     tbl.setAttribute('class','apportionment_table');
@@ -117,9 +145,20 @@ function apportion() {
 
     let head = document.createElement('thead');
     let tr = document.createElement('tr');
-    for (s of ["District","Seats", "Population","Citizens per Seat"]) {
+    let arr = ["District","Seats", "Population","Citizens per Seat"];
+    for (var i = 0; i < arr.length; i++) {
         let th = document.createElement('th');
-        th.appendChild(document.createTextNode(s));
+        let text = arr[i];
+        if (i == sortmode) {
+            if (descending) {
+                text += " ▼"
+            } else {
+                text += " ▲"
+            }
+        }
+        th.appendChild(document.createTextNode(text));
+        th.sortmode = i;
+        th.onclick = function(){createTable(th.sortmode);}
         tr.appendChild(th);
     }
     head.appendChild(tr);
@@ -128,11 +167,11 @@ function apportion() {
     let body = document.createElement('tbody');
 
     let color = 0
-    for (d of Object.keys(districts)) {
+    for (d of darray) {
         let r = document.createElement('tr');
         if (color % 2 == 0) {r.setAttribute("class","light-color-row");}
         color = (color + 1)%2
-        for (c of [d, districts[d][1], districts[d][0], Math.round(districts[d][0]/districts[d][1])]) {
+        for (c of d) {
             let td = document.createElement('td');
             td.appendChild(document.createTextNode(c));
             r.appendChild(td);
@@ -144,6 +183,8 @@ function apportion() {
 
     document.body.appendChild(tbl);
 
+
+    oldsortmode = sortmode;
 }
 
 
@@ -180,3 +221,7 @@ function exportTemplate() {
 
 
 }
+
+
+oldsortmode = -1;
+descending = false;
