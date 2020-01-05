@@ -43,3 +43,7 @@ input {
   margin-left: 6px;
 
 }
+
+a { 
+  text-decoration: none;
+} 
