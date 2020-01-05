@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<script src="templates.js"></script>
+		<script src="apportionment.js"></script>
+		<link rel="stylesheet" type="text/css" href="apportionment.css"></style>
+		<title>Apportionment</title>
+	</head>
+	<body>
+		<h1>
+			<img src="koch.png" height=50px width=auto style='vertical-align: middle'></img>
+			<span>Apportionment Simulator</span>
+		</h1>
+		<div class=divbutton>Upload Custom Template</div>
+		<div class=divbutton>Export to Template</div>
+		<div class=divbutton onclick=clearStates();>Clear</div>
+		<br>
+		Number of Seats: <input type=number id="seat_number"></input><br>
+		<input type="checkbox" checked=true id="start_with_one_each">Start with 1 seat given to each</input><br>
+		<div class=divbutton onclick=apportion()>Apportion</div>
+
+		<div id="state_inputs">
+		</div>
+		<div class=divbutton onclick=newState();>Add New District</div><br>
+		
+		<h2>Load Data from Templates</h2>
+		<div class=divbutton onclick=applyTemplate(us2010);>2010 U.S. House of Representatives</div>
+		<div class=divbutton>World Populations</div><br>
+	</body>
+</html>
