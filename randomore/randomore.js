@@ -25,6 +25,7 @@ function drawColoredImageOntoCanvas(canvas, image, color) {
 	[layer.width, layer.height] = [canvas.width, canvas.height];
 	let lctx = layer.getContext('2d');
 	lctx.imageSmoothingEnabled = false;
+	dctx.globalCompositeOperation = 'copy';
 	dctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 	lctx.fillStyle = color;
 	lctx.fillRect(0, 0, layer.width, layer.height);
@@ -75,6 +76,7 @@ function createHeart(isHalf, size) {
 }
 
 
+
 function generateOre() {
 	//make sure the seed is changed
 	Math.seedrandom(document.getElementById("seed").value);
@@ -103,7 +105,7 @@ function generateOre() {
 	let name = language_functions[language]();
 
 	//reduce previous elements to atoms
-	let ids = ['name', "blockimage", "itemimage", "oreimage", "baseimage", "rarity", "blockcanvas", "itemcanvas", "oreblockcanvas", "miningtext", "toolinfo"];
+	let ids = ["rarity", "miningtext", "toolinfo"];
 
 	for (e of ids) {
 		let elem = document.getElementById(e);
@@ -113,17 +115,15 @@ function generateOre() {
 	}
 
 
-	let name_elem = document.createElement("h1")
+	let name_elem = document.getElementById('name');
+	name_elem.innerHTML = "";
 	name_elem.appendChild(document.createTextNode(toTitleCase(name)));
-	name_elem.setAttribute('id', 'name');
 	name_elem.setAttribute('style', 'text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;')
 
 	if (language == "chinese") {
 		name_elem.style.fontFamily = 'Kanit';
 	}
 
-
-	document.body.appendChild(name_elem);
 
 
 	let red = Math.floor(256 * Math.random());
@@ -156,28 +156,13 @@ function generateOre() {
 	}
 
 	//aesthetic information
-	let blockcanvas = document.createElement('canvas');
-	blockcanvas.setAttribute('id', 'blockcanvas');
-	blockcanvas.setAttribute('width', canvas_size);
-	blockcanvas.setAttribute('height', canvas_size);
-
-	let itemcanvas = document.createElement('canvas');
-	itemcanvas.getContext('2d').fillRect(0,0,100,100);
-	itemcanvas.setAttribute('id', 'itemcanvas');
-	itemcanvas.setAttribute('width', canvas_size);
-	itemcanvas.setAttribute('height', canvas_size);
-
-
+	let blockcanvas = document.getElementById('blockcanvas');
+	let itemcanvas = document.getElementById('itemcanvas');
+	let oreblockcanvas = document.getElementById('oreblockcanvas');
 	let orecanvas = document.createElement('canvas');
 	orecanvas.setAttribute('id', 'orecanvas');
 	orecanvas.setAttribute('width', canvas_size);
 	orecanvas.setAttribute('height', canvas_size);
-
-	let oreblockcanvas = document.createElement('canvas');
-	oreblockcanvas.setAttribute('id', 'oreblockcanvas');
-	oreblockcanvas.setAttribute('width', canvas_size);
-	oreblockcanvas.setAttribute('height', canvas_size);
-
 
 	let blockimage = "randomore/resources/block/" + choose(blocks) + ".png";
 	let blockimagee = document.createElement('img');
@@ -214,10 +199,6 @@ function generateOre() {
 			ctx.drawImage(baseimagee, 0, 0, canvas_size, canvas_size);
 			ctx.drawImage(orecanvas, 0, 0, canvas_size, canvas_size);
 		}
-	}
-
-	for (c of [blockcanvas, itemcanvas, oreblockcanvas]) {
-		document.body.appendChild(c);
 	}
 
 	//mining information
