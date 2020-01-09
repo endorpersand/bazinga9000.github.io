@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="generic.css">
+		<script src="seededrandom.js"></script>
+		<script src="randomore/ore_name.js"></script>
+		<script src="randomore/randomore.js"></script>
+		<title>Random Ore</title>
+	</head>
+	<body>
+		<h1>
+			<a href="index.html"><img src="koch.png" height=50px width=auto style='vertical-align: middle'></img></a>
+			<span>Random Ore Generator</span>
+		</h1>
+
+		<div class=divbutton onclick=randomizeSeed();>Randomize Seed</div>
+		Seed: <input type="number" id="seed" onchange=generateOre();></input>
+		<br>
+		Ore Language: <select id='language' onchange=generateOre();>
+			<option value='english'>English</option>
+			<option value='chinese'>Chinese (Pinyin)</option>
+			<option value='japanese_on'> Sino-Japanese (Romaji)</option>
+			<option value='random'>Random</option>
+		</select>
+	</body>
+</html>
