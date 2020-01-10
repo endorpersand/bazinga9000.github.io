@@ -30,7 +30,58 @@ function englishOre() {
 	return name;
 }
 
+function englishComplexOre() {
+	let initials = [
+		[''],
+		['f', 't', 'n', 'r', 's', 'b', 'w', 'y', 'm', 'h', 'v', 'c', 'p', 'g', 'd', 'l', 'k', 'x', 'j', 'z'], 
+		['qu', 'th', 'fr', 'wh', 'ch', 'cl', 'ts', 'pr', 'pl', 'st', 'tw', 'sh', 'bl', 'gh', 'gr', 'kn', 'tr', 'gn', 'ph', 'sp',
+		 'sm', 'cr', 'sc', 'br', 'wr', 'ps', 'dr', 'sk', 'sl', 'gl', 'fl', 'sr', 'sw', 'kl', 'sn', 'dw', 'sf', 'kr', 'vr',
+		 'kw', 'rh'], 
+		['sch','thr', 'scr', 'str', 'spl', 'chr', 'spr', 'scl', 'shm', 'sph', 'thw', 'shl', 'phr', 'squ']
+	];
 
+	let nuclei = [
+		['a', 'e', 'i', 'o', 'u'],
+		['aa', 'ah', 'ai', 'ao', 'au', 'aw', 'ay', 'ea', 'ee', 'ei', 'ey', 'eo', 'eu', 'ew', 'ie', 'oa', 'oe', 'oi', 'oo', 'ou',
+		 'ow', 'oy', 'ue', 'ui', 'uu', 'uy']
+	]
+
+	let finals = [
+		[''],
+		['f', 't', 'n', 'r', 's', 'b', 'w', 'y', 'm', 'v', 'c', 'p', 'g', 'd', 'l', 'k', 'x', 'z'], 
+		['th', 'nd', 'll', 'rm', 'ch', 'ws', 'nt', 'ct', 'ss', 'ls', 'lp', 'ld', 'ck', 'ts', 'st', 'xt', 'rk', 'sh', 'dd', 'mb',
+		 'pp', 'rt', 'ft', 'ks', 'gh', 'rs', 'rd', 'ms', 'mp', 'rn', 'ff', 'ng', 'ph', 'sp', 'bs', 'nk', 'wn', 'rc', 'rr', 'nc',
+		 'sm', 'pt', 'ns', 'sc', 'rg', 'tt', 'rf', 'lt', 'ps', 'ds', 'lm', 'lf', 'sk', 'cs', 'nn', 'lk', 'rp', 'lb', 'gs', 'gg',
+		 'mt', 'mf', 'bb', 'hs', 'fs', 'nx'], 
+		['rch', 'rst', 'rve', 'lth', 'rld', 'cts', 'ght', 'nks', 'nts', 'rms', 'lts', 'rts', 'rth', 'sts', 'ngs', 'nst', 'rls',
+	     'nth', 'rds', 'nds', 'rks', 'fts', 'nct', 'tch', 'nch', 'lve', 'lls', 'rns', 'lds', 'nns', 'lms', 'cks', 'lph', 'lps', 
+	     'mpt', 'mst', 'pts', 'sks', 'phs', 'lfs', 'mns', 'mps', 'mph', 'lks', 'dds', 'cst', 'zzl', 'wns', 'hrs', 'rps', 'mbs',
+	     'ggs', 'scs', 'rph', 'rbs', 'bbs'], 
+	    ['ghts', 'nths', 'ngth', 'ckle', 'mpts', 'rlds', 'thms', 'ngst'], 
+	    ['ngths', 'ngsts']
+	];
+
+	let suffixes = ['ite', 'ium', 'ane', 'ine', 'ene', 'ate', 'lite', 'lith']
+
+	let l = suffixes.length;
+	for (i = 0; i < l; i++) {
+		suffixes.push("");
+	}
+
+	let syllable_count = choose([1, 1, 1, 2, 2, 3]);
+
+	let name = "";
+
+	for (i = 0; i < syllable_count; i++) {
+		name += choose(initials[choose([0,0,0,1,1,1,1,2,2,2,2,3,3])]) + 
+				choose(nuclei[choose([0,0,1])]) + 
+				choose(finals[choose([0,0,0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5])])
+	}
+
+	name += choose(suffixes)
+
+	return name;
+}
 
 //chinese added by milo jacquet
 function chineseSyllable(neutral) {
@@ -116,23 +167,26 @@ function chineseOre() {
 }
 
 //japanese made by milo jacquet
-function japaneseOnSyllable() {
-	let vowel = ['a', 'i', 'u', 'e', 'o', 'ya', 'yu', 'yo']
-	let cons = ['k', 'g', 's', 'z', 't', 'd', 'n', 'h', 'b', 'm', 'r', '']
-	let lvowel = ['ai', 'uu', 'ei', 'ou', 'yuu', 'you']
-	let final = ['k', 't', 'n']
-	let rand = Math.random()
-	let syl
-	if (rand < 0.5) {
-		syl = choose(cons) + choose(lvowel)
-	} else if (rand < 0.89) {
-		syl = choose(cons) + choose(vowel) + choose(final) + ';'
-	} else if (rand < 0.99) {
-		syl = choose(cons) + choose(vowel)
-	} else {
-		syl = 'wa' + choose(['', 'i', 'k;', 't;', 'n;'])
-	}
-	return syl
+function japaneseOnSyllable(){
+  let vowel = ['a','i','u','e','o','ya','yu','yo']
+  let vowelnoy = ['a','i','u','e','o']
+  let cons = ['k','g','s','z','t','d','n','h','b','m','r','']
+  let lvowel = ['ai','uu','ei','ou','yuu','you']
+  let final = ['k','t']
+  let rand = Math.random()
+  let syl
+  if (rand < 0.5){
+    syl = choose(cons) + choose(lvowel)
+  } else if (rand < 0.7){
+    syl = choose(cons) + choose(vowelnoy) + 'n;'
+  } else if (rand < 0.89){
+    syl = choose(cons) + choose(vowel) + choose(final) + ';'
+  } else if (rand < 0.99){
+    syl = choose(cons) + choose(vowel)
+  } else {
+    syl = 'wa' + choose(['','i','k;','t;','n;'])
+  }
+  return syl
 }
 
 function japaneseOnOre() {

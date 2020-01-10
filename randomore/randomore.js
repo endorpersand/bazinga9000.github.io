@@ -98,6 +98,7 @@ function generateOre() {
 
 	let language_functions = {
 		'english': englishOre,
+		'english_complex': englishComplexOre,
 		'chinese': chineseOre,
 		'japanese_on': japaneseOnOre
 	};
@@ -269,6 +270,7 @@ function generateOre() {
 
 	let mining_info_text = document.createElement("h2");
 	mining_info_text.setAttribute('id', 'miningtext');
+	mining_info_text.setAttribute('style', 'align-items: center;');
 
 	let message = "Spawns in Veins between " + vein_bottom + " and " + vein_top + " blocks large.";
 
@@ -300,22 +302,45 @@ function generateOre() {
 	mining_info_text.appendChild(document.createElement('br'));
 
 	message = "Harvest Level: ";
+
 	mining_info_text.appendChild(document.createTextNode(message));
 
-	let hlcolors = {
-		"wood": "#6B511F",
-		"stone": "#898989",
-		"iron": "#C1C1C1",
-		"diamond": "#27B29A"
+	let materials = [
+		"wood","stone", "iron", "diamond"
+	]
+
+	let harvestlevel = choose(materials);
+
+	let hcanvas = document.createElement("canvas");
+	hcanvas.setAttribute('width',128);
+	hcanvas.setAttribute('height',32);
+
+	// __mineableCanvas__ should be a valid canvas
+	// __spawnBlock__ is the ore's spawnblock
+	// __mineableBy__ is the material that can mine the ore
+	// __DIRECTORY__ is the directory to the images
+
+	let pickaxeBlocks = ['stone', 'granite', 'diorite', 'andesite', 'obsidian', 'netherrack', 'end_stone'];
+	let mimg = document.createElement('img');
+	mimg.src = `randomore/resources/comparisons/${pickaxeBlocks.includes(spawnblock) ? 'pickaxe' : 'shovel'}.png`;
+	let mctx = hcanvas.getContext('2d');
+	mctx.imageSmoothingEnabled = false;
+
+	mimg.onload = () => {
+		[mimg.width, mimg.height] = [hcanvas.width, hcanvas.height];
+		mctx.drawImage(mimg, -hcanvas.height * materials.indexOf(harvestlevel), 0, hcanvas.width, hcanvas.height);
 	}
 
-	let harvestlevel = choose(Object.keys(hlcolors));
+	mining_info_text.appendChild(hcanvas);
 
+	/*
 	let harvest_element = document.createElement("span");
 	harvest_element.setAttribute("style", "color: " + hlcolors[harvestlevel] + ";");
 	harvest_element.appendChild(document.createTextNode(toTitleCase(harvestlevel)));
 
 	mining_info_text.appendChild(harvest_element);
+	*/
+
 	document.body.appendChild(mining_info_text);
 
 
@@ -473,3 +498,8 @@ function toTitleCase(str) {
 		}
 	);
 }
+
+
+
+randomizeSeed();
+generateOre();

@@ -3,7 +3,6 @@
 		<link rel="stylesheet" type="text/css" href="generic.css">
 		<script src="seededrandom.js"></script>
 		<script src="randomore/ore_name.js"></script>
-		<script src="randomore/randomore.js"></script>
 		<title>Random Ore</title>
 	</head>
 	<body>
@@ -16,7 +15,8 @@
 		Seed: <input type="number" id="seed" onchange=generateOre();></input>
 		<br>
 		Ore Language: <select id='language' onchange=generateOre();>
-			<option value='english'>English</option>
+			<option value='english'>English (Simple)</option>
+			<option value='english_complex'>English (Complex)</option>
 			<option value='chinese'>Chinese (Pinyin)</option>
 			<option value='japanese_on'> Sino-Japanese (Romaji)</option>
 			<option value='random'>Random</option>
@@ -27,4 +27,7 @@
 		<canvas id=oreblockcanvas width=128 height=128></canvas>
 
 	</body>
+	<footer>
+		<script src="randomore/randomore.js"></script>
+	</footer>
 </html>
