@@ -100,7 +100,8 @@ function generateOre() {
 		'english': englishOre,
 		'english_complex': englishComplexOre,
 		'chinese': chineseOre,
-		'japanese_on': japaneseOnOre
+		'japanese_on': japaneseOnOre,
+		'viet': vietnameseOre
 	};
 
 	let name = language_functions[language]();
@@ -306,14 +307,14 @@ function generateOre() {
 	mining_info_text.appendChild(document.createTextNode(message));
 
 	let materials = [
-		"wood","stone", "iron", "diamond"
+		"wood", "stone", "iron", "diamond"
 	]
 
 	let harvestlevel = choose(materials);
 
 	let hcanvas = document.createElement("canvas");
-	hcanvas.setAttribute('width',128);
-	hcanvas.setAttribute('height',32);
+	hcanvas.setAttribute('width', 128);
+	hcanvas.setAttribute('height', 32);
 
 	// __mineableCanvas__ should be a valid canvas
 	// __spawnBlock__ is the ore's spawnblock
@@ -388,12 +389,17 @@ function generateOre() {
 		toolinfodiv.appendChild(damage);
 		toolinfodiv.appendChild(document.createElement('br'));
 
+		let toolcanvi = document.createElement('div')
+		toolcanvi.setAttribute('id', 'toolcanvi');
+		toolcanvi.setAttribute('style', 'display: flex; align-items: center;');
+
+
 		let durability = Math.floor(choose([32, 131, 250, 250, 250, 250, 1561, 1561, 2500]) * getRandomArbitrary(0.5, 2));
 
 
 		let durabdiv = document.createElement('div');
 		durabdiv.setAttribute('id', 'durability');
-		durabdiv.setAttribute('style', 'style', 'display: flex; align-items: center;');
+		durabdiv.setAttribute('style', 'align-items: center; margin-right: 30px;');
 
 		dh1 = document.createElement('h2');
 		dh1.appendChild(document.createTextNode("Durability: " + durability));
@@ -458,8 +464,82 @@ function generateOre() {
 		}
 
 		durabdiv.appendChild(dcanvas);
+		toolcanvi.appendChild(durabdiv);
 
-		toolinfodiv.appendChild(durabdiv);
+		//mining speed
+		let miningspeed = round(choose([4, 6, 6, 6, 8, 8, 12]) * getRandomArbitrary(0.75, 1.5), 1);
+
+
+		let miningspeeddiv = document.createElement('div');
+		miningspeeddiv.setAttribute('id', 'miningspeed');
+		miningspeeddiv.setAttribute('style', 'align-items: center;');
+
+		dh1 = document.createElement('h2');
+		dh1.appendChild(document.createTextNode("Mining Speed: " + miningspeed + "×"));
+		dh1.setAttribute('style', 'margin-right: 10px;')
+		miningspeeddiv.appendChild(dh1);
+
+
+		let miningcomps = [
+			['wood', 2],
+			['stone', 4],
+			['iron', 6],
+			['diamond', 8],
+			['gold', 12],
+			[name, miningspeed]
+		];
+
+		let maxmining = Math.max(12, miningspeed);
+
+		miningcomps = miningcomps.sort((a, b) => a[1] - b[1]);
+
+		mcanvas = document.createElement('canvas');
+		mcanvas.setAttribute('id', 'miningspeedcanvas');
+		mcanvas.setAttribute('width', 500);
+		mcanvas.setAttribute('height', 6 * 32);
+
+		let miningctx = mcanvas.getContext('2d');
+
+		n = 0;
+		w = mcanvas.width - 32;
+
+		for (i of miningcomps) {
+			if (i[0] != name) {
+				miningctx.fillStyle = compcolors[i[0]];
+			} else {
+				miningctx.fillStyle = colorhex;
+			}
+			miningctx.fillRect(32, n * 32, Math.floor(w * i[1] / maxmining), 32);
+
+			if (i[0] != name) {
+				let img = document.createElement('img');
+				img.setAttribute('src', 'randomore/resources/comparisons/' + i[0] + ".png");
+				img.mining_n = n;
+				img.onload = function() {
+					miningctx.drawImage(this, 0, 32 * this.mining_n, 32, 32);
+				}
+			} else {
+				itemcanvas.mining_n = n;
+				draw_mining = function(ic) {
+					console.log(ic);
+					miningctx.drawImage(ic, 0, 32 * ic.mining_n, 32, 32);
+				}
+
+
+				if (loadFlag) {
+					draw_mining(itemcanvas);
+				} else {
+					functions.push(draw_mining);
+				}
+			}
+
+			n += 1;
+		}
+
+		miningspeeddiv.appendChild(mcanvas);
+		toolcanvi.appendChild(miningspeeddiv);
+
+		toolinfodiv.appendChild(toolcanvi);
 		document.body.appendChild(toolinfodiv);
 
 	}
@@ -491,12 +571,7 @@ function getRandomInt(min, max) {
 
 
 function toTitleCase(str) {
-	return str.replace(
-		/\w\S*/g,
-		function(txt) {
-			return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-		}
-	);
+	return str.split(' ').map(x => x[0].toUpperCase() + x.slice(1)).join(' ');
 }
 
 
