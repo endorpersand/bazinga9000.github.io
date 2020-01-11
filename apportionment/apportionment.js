@@ -181,7 +181,7 @@ function createTable(sortmode) {
     tbl.appendChild(body);
 
 
-    document.body.appendChild(tbl);
+    document.getElementById('meta').appendChild(tbl);
 
 
     oldsortmode = sortmode;
