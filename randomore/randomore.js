@@ -366,6 +366,9 @@ function generateOre() {
 		toolinfodiv.setAttribute('id', 'toolinfo');
 		toolinfodiv.setAttribute('style', 'align-items: center;');
 
+		let th1 = document.createElement('h1');
+		th1.appendChild(document.createTextNode("Tool Information"));
+		toolinfodiv.appendChild(th1);
 
 		let damage = document.createElement('div');
 		damage.setAttribute('id', 'damage');
@@ -387,7 +390,7 @@ function generateOre() {
 
 
 		toolinfodiv.appendChild(damage);
-		toolinfodiv.appendChild(document.createElement('br'));
+		//toolinfodiv.appendChild(document.createElement('br'));
 
 		let toolcanvi = document.createElement('div')
 		toolcanvi.setAttribute('id', 'toolcanvi');
@@ -420,7 +423,7 @@ function generateOre() {
 
 		durabcomps = durabcomps.sort((a, b) => a[1] - b[1]);
 
-		dcanvas = document.createElement('canvas');
+		let dcanvas = document.createElement('canvas');
 		dcanvas.setAttribute('id', 'durabilitycanvas');
 		dcanvas.setAttribute('width', 500);
 		dcanvas.setAttribute('height', 6 * 32);
@@ -472,7 +475,7 @@ function generateOre() {
 
 		let miningspeeddiv = document.createElement('div');
 		miningspeeddiv.setAttribute('id', 'miningspeed');
-		miningspeeddiv.setAttribute('style', 'align-items: center;');
+		miningspeeddiv.setAttribute('style', 'align-items: center; margin-right: 30px;');
 
 		dh1 = document.createElement('h2');
 		dh1.appendChild(document.createTextNode("Mining Speed: " + miningspeed + "× Fist"));
@@ -493,7 +496,7 @@ function generateOre() {
 
 		miningcomps = miningcomps.sort((a, b) => a[1] - b[1]);
 
-		mcanvas = document.createElement('canvas');
+		let mcanvas = document.createElement('canvas');
 		mcanvas.setAttribute('id', 'miningspeedcanvas');
 		mcanvas.setAttribute('width', 500);
 		mcanvas.setAttribute('height', 6 * 32);
@@ -539,9 +542,88 @@ function generateOre() {
 		miningspeeddiv.appendChild(mcanvas);
 		toolcanvi.appendChild(miningspeeddiv);
 
+		//tool enchantability
+		let tool_ench = round(choose([5, 10, 10, 14, 14, 14, 15, 15, 15, 22]) * getRandomArbitrary(0.75, 2.5), 1);
+
+
+		let tool_ench_div = document.createElement('div');
+		tool_ench_div.setAttribute('id', 'tool_ench_');
+		tool_ench_div.setAttribute('style', 'align-items: center;');
+
+		dh1 = document.createElement('h2');
+		dh1.appendChild(document.createTextNode("Tool Enchantability: " + tool_ench));
+		dh1.setAttribute('style', 'margin-right: 10px;')
+		tool_ench_div.appendChild(dh1);
+
+
+		let tenchcomps = [
+			['wood', 15],
+			['stone', 5],
+			['iron', 14],
+			['diamond', 10],
+			['gold', 22],
+			[name, tool_ench]
+		];
+
+		let maxtenchantability = Math.max(22, tool_ench);
+
+		tenchcomps = tenchcomps.sort((a, b) => a[1] - b[1]);
+
+		let tecanvas = document.createElement('canvas');
+		tecanvas.setAttribute('id', 'toolenchcanvas');
+		tecanvas.setAttribute('width', 500);
+		tecanvas.setAttribute('height', 6 * 32);
+
+		let tenchctx = tecanvas.getContext('2d');
+
+		n = 0;
+		w = tecanvas.width - 32;
+
+		for (i of tenchcomps) {
+			if (i[0] != name) {
+				tenchctx.fillStyle = compcolors[i[0]];
+			} else {
+				tenchctx.fillStyle = colorhex;
+			}
+			tenchctx.fillRect(32, n * 32, Math.floor(w * i[1] / maxtenchantability), 32);
+
+			if (i[0] != name) {
+				let img = document.createElement('img');
+				img.setAttribute('src', 'randomore/resources/comparisons/' + i[0] + ".png");
+				img.tench_n = n;
+				img.onload = function() {
+					tenchctx.drawImage(this, 0, 32 * this.tench_n, 32, 32);
+				}
+			} else {
+				itemcanvas.tench_n = n;
+				draw_tench = function(ic) {
+					console.log(ic);
+					tenchctx.drawImage(ic, 0, 32 * ic.tench_n, 32, 32);
+				}
+
+
+				if (loadFlag) {
+					draw_tench(itemcanvas);
+				} else {
+					functions.push(draw_tench);
+				}
+			}
+
+			n += 1;
+		}
+
+		tool_ench_div.appendChild(tecanvas);
+		toolcanvi.appendChild(tool_ench_div);
+
+
 		toolinfodiv.appendChild(toolcanvi);
 		document.body.appendChild(toolinfodiv);
 
+	} else {
+		let th1 = document.createElement('h2')
+		th1.setAttribute('id','toolinfo');
+		th1.appendChild(document.createTextNode(toTitleCase(name) + " cannot be made into tools."));
+		document.body.appendChild(th1);
 	}
 }
 
