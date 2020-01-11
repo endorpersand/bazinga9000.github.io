@@ -359,7 +359,7 @@ function generateOre() {
 	}
 
 	if (canMakeTools) {
-		let swordDamage = getRandomInt(4, 20) / 2;
+		let swordDamage = math.Int(choose([4,4,5,6,7,10]) * getRandomArbitrary(0.5,2)) / 2;
 
 
 		let toolinfodiv = document.createElement('div');
