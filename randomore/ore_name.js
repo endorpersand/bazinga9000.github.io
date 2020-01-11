@@ -200,7 +200,7 @@ function japaneseOnOre() {
 	let ore_suffixes = ['', '', 'kou', 'seki']
 	word = word + ore_suffixes[Math.floor(Math.random() * ore_suffixes.length)]
 
-	word = word.replace(/n;(?=[aiueo])/, 'n\'')
+	word = word.replace(/n;(?=[aiueoy])/, 'n\'')
 	word = word.replace(/n;h/g, 'nb')
 	word = word.replace(/n;/g, 'n')
 	word = word.replace(/[kt];([kt])/g, '$1$1')
