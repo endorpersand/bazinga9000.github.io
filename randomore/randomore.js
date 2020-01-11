@@ -475,7 +475,7 @@ function generateOre() {
 		miningspeeddiv.setAttribute('style', 'align-items: center;');
 
 		dh1 = document.createElement('h2');
-		dh1.appendChild(document.createTextNode("Mining Speed: " + miningspeed + "×"));
+		dh1.appendChild(document.createTextNode("Mining Speed: " + miningspeed + "× Fist"));
 		dh1.setAttribute('style', 'margin-right: 10px;')
 		miningspeeddiv.appendChild(dh1);
 

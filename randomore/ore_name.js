@@ -217,10 +217,11 @@ function japaneseOnOre() {
 	return word
 }
 
+//vietnamese implemented by endr
 function vietnameseOre() {
     let initials = [
-            '', 'b', 'ch', 'd', 'đ', 'gi', 'h', 'kh', 'l', 'm', 'n', 'nh', 'ph', 'r', 's', 't', 'th', 'tr', 'v', 'x',
-            'c', 'g', 'ng' // [c, k, qu], [g, gh], [ngh]
+            //'', 'b', 'ch', 'd', 'đ', 'gi', 'h', 'kh', 'l', 'm', 'n', 'nh', 'ph', 'r', 's', 't', 'th', 'tr', 'v', 'x',
+            'c', 'g', //'ng' // [c, k, qu], [g, gh], [ngh]
         ],
         finals = ['', 'c', 'm', 'n', 'ng', 'p', 't'], // + ch, nh (for a, ê, i)
         monophs = [
@@ -249,37 +250,11 @@ function vietnameseOre() {
         diphconfig = choose(diphables(monoph)),
         final = /_[jw]$/.test(diphconfig) ? '' : (['a', 'ê', 'i'].includes(peek(monoph)) ? choose([...finals, 'ch', 'nh']) : choose(finals));
         tone = choose(tones);
-        /*
-        * <== ORTHOGRAPHICAL RULES ==>
-        * ci, ce => ki, ke
-        * cw_ => qu_
-        * (n)gi, (n)ge => (n)ghi, (n)ghe
-        * iê$, ươ$, uô$ => ia, ưa, ua
-        * <- I TO Y ->
-        * ^iê => yê
-        * wi => uy
-        * <- SEMIVOWEL ORTH ->
-        * ăj, âj => ăy, ây
-        * _j => _i
-        * aw, ew => ao, eo
-        * ăw => au
-        * _w => _u
-        * we, wă => oe, oă // u(e|ă) occurs as qu(e|ă)
-        * wa => oa or ua // por qué??
-        * w_ => u_
-        * <- TONE PLACEMENT ->
-        * let w = semivowel, ◌́ = tone
-        * w_w + ◌́ => w_́w
-        * iê + ◌́ => iế // also applies to ươ, uô
-        * ia + ◌́ => ía // also applies to ưa, ua
-        * <- ->
-        * gii => gi
-        * ăy => ay
-        */
+        
         let syllable = initial + diphconfig.replace('_', monoph) + final;
-        syllable = syllable.replace(/c(i|e)/, 'k$1')
+        syllable = syllable.replace(/c(i|e|ê)/, 'k$1')
                            .replace(/cw/, 'qu')
-        if (peek(initial) === 'g') syllable = syllable.replace(/g(i.*|e)/, 'gh$1');
+        if (peek(initial) === 'g') syllable = syllable.replace(/g(i|e|ê)/, 'gh$1');
         syllable = syllable.replace(/iê$/, 'ia')
                            .replace(/ươ$/, 'ưa')
                            .replace(/uô$/, 'ua')
