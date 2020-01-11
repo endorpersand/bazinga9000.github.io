@@ -220,8 +220,8 @@ function japaneseOnOre() {
 //vietnamese implemented by endr
 function vietnameseOre() {
     let initials = [
-            //'', 'b', 'ch', 'd', 'đ', 'gi', 'h', 'kh', 'l', 'm', 'n', 'nh', 'ph', 'r', 's', 't', 'th', 'tr', 'v', 'x',
-            'c', 'g', //'ng' // [c, k, qu], [g, gh], [ngh]
+            '', 'b', 'ch', 'd', 'đ', 'gi', 'h', 'kh', 'l', 'm', 'n', 'nh', 'ph', 'r', 's', 't', 'th', 'tr', 'v', 'x',
+            'c', 'g', 'ng' // [c, k, qu], [g, gh], [ngh]
         ],
         finals = ['', 'c', 'm', 'n', 'ng', 'p', 't'], // + ch, nh (for a, ê, i)
         monophs = [
@@ -250,7 +250,7 @@ function vietnameseOre() {
         diphconfig = choose(diphables(monoph)),
         final = /_[jw]$/.test(diphconfig) ? '' : (['a', 'ê', 'i'].includes(peek(monoph)) ? choose([...finals, 'ch', 'nh']) : choose(finals));
         tone = choose(tones);
-        
+ 
         let syllable = initial + diphconfig.replace('_', monoph) + final;
         syllable = syllable.replace(/c(i|e|ê)/, 'k$1')
                            .replace(/cw/, 'qu')
