@@ -76,6 +76,9 @@ function createHeart(isHalf, size) {
 }
 
 
+function prettyNumber(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
 
 function generateOre() {
 	//make sure the seed is changed
@@ -143,18 +146,18 @@ function generateOre() {
 
 
 	let spawn_rarities = {
-		"stone": () => getRandomArbitrary(0.05, 1.5),
-		"diorite": () => getRandomArbitrary(0.05, 1.5),
-		"andesite": () => getRandomArbitrary(0.05, 1.5),
-		"granite": () => getRandomArbitrary(0.05, 1.5),
-		"dirt": () => getRandomArbitrary(0.1, 1.5),
-		"gravel": () => getRandomArbitrary(0.1, 1.5),
-		"sand": () => getRandomArbitrary(0.1, 1.5),
-		"red_sand": () => getRandomArbitrary(0.1, 1.5),
-		"soul_sand": () => getRandomArbitrary(0.1, 1.5),
-		"obsidian": () => getRandomArbitrary(1, 3),
-		"end_stone": () => getRandomArbitrary(0.5, 2),
-		"netherrack": () => getRandomArbitrary(0.01, 1.75)
+		"stone": () => getRandomArbitrary(0.00005, 0.0015),
+		"diorite": () => getRandomArbitrary(0.00005, 0.0015),
+		"andesite": () => getRandomArbitrary(0.00005, 0.0015),
+		"granite": () => getRandomArbitrary(0.00005, 0.0015),
+		"dirt": () => getRandomArbitrary(0.0001, 0.0015),
+		"gravel": () => getRandomArbitrary(0.0001, 0.0015),
+		"sand": () => getRandomArbitrary(0.0001, 0.0015),
+		"red_sand": () => getRandomArbitrary(0.0001, 0.0015),
+		"soul_sand": () => getRandomArbitrary(0.0001, 0.0015),
+		"obsidian": () => getRandomArbitrary(0.001, 0.003),
+		"end_stone": () => getRandomArbitrary(0.0005, 0.002),
+		"netherrack": () => getRandomArbitrary(0.00001, 0.00175)
 	}
 
 	//aesthetic information
@@ -205,7 +208,7 @@ function generateOre() {
 
 	//mining information
 	let round = (n, d = 0) => Math.round(n * 10 ** d) / 10 ** d
-	let rarity = round(spawn_rarities[spawnblock](), 4);
+	let rarity = spawn_rarities[spawnblock]();
 
 	let top = 0;
 	let bottom = 0;
@@ -225,10 +228,10 @@ function generateOre() {
 			top = bottom + getRandomInt(7, 30);
 		}
 
-		rtext = "Rarity: " + rarity + "% of Stone between " + bottom + " and " + top;
+		rtext = "Rarity: 1 vein per " + prettyNumber(Math.floor(1/rarity)) + " Stone blocks between " + bottom + " and " + top;
 
 	} else {
-		rtext = "Rarity: " + rarity + "% of " + toTitleCase(spawnblock.replace("_", " "));
+		rtext = "Rarity: 1 vein per " + prettyNumber(Math.floor(1/rarity)) + " " + toTitleCase(spawnblock.replace("_", " ") + " blocks");
 	}
 
 	let rtextelem = document.createElement('h2');
@@ -359,7 +362,7 @@ function generateOre() {
 	}
 
 	if (canMakeTools) {
-		let swordDamage = math.Int(choose([4,4,5,6,7,10]) * getRandomArbitrary(0.5,2)) / 2;
+		let swordDamage = Math.floor(choose([4,4,5,6,7,10]) * getRandomArbitrary(0.5,2)) / 2;
 
 
 		let toolinfodiv = document.createElement('div');
@@ -451,7 +454,6 @@ function generateOre() {
 			} else {
 				itemcanvas.durab_n = n;
 				draw_durab = function(ic) {
-					console.log(ic);
 					durabctx.drawImage(ic, 0, 32 * ic.durab_n, 32, 32);
 				}
 
@@ -524,7 +526,6 @@ function generateOre() {
 			} else {
 				itemcanvas.mining_n = n;
 				draw_mining = function(ic) {
-					console.log(ic);
 					miningctx.drawImage(ic, 0, 32 * ic.mining_n, 32, 32);
 				}
 
@@ -597,7 +598,6 @@ function generateOre() {
 			} else {
 				itemcanvas.tench_n = n;
 				draw_tench = function(ic) {
-					console.log(ic);
 					tenchctx.drawImage(ic, 0, 32 * ic.tench_n, 32, 32);
 				}
 
