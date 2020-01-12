@@ -144,20 +144,21 @@ function generateOre() {
 	let items = ['asbestos', 'black_dye', 'blaze_powder', 'blue_dye', 'bone_meal', 'breccia', 'brown_dye', 'charcoal', 'classic_gem', 'clay_ball', 'coal', 'coarse', 'cyan_dye', 'diamond', 'dried_kelp', 'egg', 'emerald', 'fire_charge', 'flint', 'gray_dye', 'green_dye', 'iron_ingot', 'lapis_lazuli', 'light_blue_dye', 'light_gray_dye', 'magnetite', 'mica', 'orange_dye', 'phantom_membrane', 'prismarine_crystals', 'prismarine_shard', 'pyrite', 'quartz', 'red_dye', 'redstone_dust', 'ruby', 'scute', 'slime_ball', 'tailings', 'white_dye', 'yellow_dye'];
 	let ores = ['coal_ore', 'emerald_ore', 'lapis_ore', 'ore1', 'ore10', 'ore11', 'ore12', 'ore13', 'ore14', 'ore15', 'ore2', 'ore3', 'ore4', 'ore5', 'ore6', 'ore7', 'ore8', 'ore9', 'quartz_ore'];
 
+	let ore_power = 0.25;
 
 	let spawn_rarities = {
-		"stone": () => getRandomArbitrary(0.00005, 0.0015),
-		"diorite": () => getRandomArbitrary(0.00005, 0.0015),
-		"andesite": () => getRandomArbitrary(0.00005, 0.0015),
-		"granite": () => getRandomArbitrary(0.00005, 0.0015),
-		"dirt": () => getRandomArbitrary(0.0001, 0.0015),
-		"gravel": () => getRandomArbitrary(0.0001, 0.0015),
-		"sand": () => getRandomArbitrary(0.0001, 0.0015),
-		"red_sand": () => getRandomArbitrary(0.0001, 0.0015),
-		"soul_sand": () => getRandomArbitrary(0.0001, 0.0015),
-		"obsidian": () => getRandomArbitrary(0.001, 0.003),
-		"end_stone": () => getRandomArbitrary(0.0005, 0.002),
-		"netherrack": () => getRandomArbitrary(0.00001, 0.00175)
+		"stone": () => getRandomPowerAugmented(0.00005, 0.0015, ore_power),
+		"diorite": () => getRandomPowerAugmented(0.00005, 0.0015, ore_power),
+		"andesite": () => getRandomPowerAugmented(0.00005, 0.0015, ore_power),
+		"granite": () => getRandomPowerAugmented(0.00005, 0.0015, ore_power),
+		"dirt": () => getRandomPowerAugmented(0.0001, 0.0015, ore_power),
+		"gravel": () => getRandomPowerAugmented(0.0001, 0.0015, ore_power),
+		"sand": () => getRandomPowerAugmented(0.0001, 0.0015, ore_power),
+		"red_sand": () => getRandomPowerAugmented(0.0001, 0.0015, ore_power),
+		"soul_sand": () => getRandomPowerAugmented(0.0001, 0.0015, ore_power),
+		"obsidian": () => getRandomPowerAugmented(0.001, 0.003, ore_power),
+		"end_stone": () => getRandomPowerAugmented(0.0005, 0.002, ore_power),
+		"netherrack": () => getRandomPowerAugmented(0.00001, 0.00175, ore_power)
 	}
 
 	//aesthetic information
@@ -209,6 +210,7 @@ function generateOre() {
 	//mining information
 	let round = (n, d = 0) => Math.round(n * 10 ** d) / 10 ** d
 	let rarity = spawn_rarities[spawnblock]();
+	console.log(rarity);
 
 	let top = 0;
 	let bottom = 0;
@@ -649,6 +651,10 @@ function getRandomInt(min, max) {
 	min = Math.ceil(min);
 	max = Math.floor(max);
 	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomPowerAugmented(min,max,power) {
+	return getRandomArbitrary(min**power, max**power)**(1/power);
 }
 
 
