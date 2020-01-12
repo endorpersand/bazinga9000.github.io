@@ -82,7 +82,9 @@ function prettyNumber(x) {
 
 function generateOre() {
 	//make sure the seed is changed
-	Math.seedrandom(document.getElementById("seed").value);
+	let seed = parseInt(document.getElementById("seed").value);
+	Math.seedrandom(seed);
+	document.getElementById("seed").value = seed;
 
 	let language = document.getElementById('language').value;
 
