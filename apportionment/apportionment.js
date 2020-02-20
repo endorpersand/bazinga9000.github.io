@@ -76,8 +76,8 @@ function apportion() {
 
     seat_table = []
 
-    //start with 1 seat each, most population first
-    if (document.getElementById('start_with_one_each').value) {
+    //start with extra seats, most population first
+    for (i = 0; i < document.getElementById('starting_seats').value; i++) {
         for (let s of population_order) {
             districts[s][1] += 1;
             seats_to_allocate -= 1;
@@ -86,6 +86,9 @@ function apportion() {
             if (seats_to_allocate == 0) {
                 break;
             }
+        }
+        if (seats_to_allocate == 0) {
+            break;
         }
     }
 

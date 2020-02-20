@@ -60,13 +60,26 @@ function getComparisonImage(name) {
 	return img;
 }
 
-function createHeart(isHalf, size) {
+function createSvgList(value, type, size) {
+	let x = value;
+	let svgs = [];
+	while (x >= 1) {
+		svgs.push(createSvg(type, false, size));
+		x -= 1;
+	}
+
+	if (x != 0) svgs.push(createSvg(type, true, size));
+
+	return svgs;
+}
+
+function createSvg(type, isHalf, size) {
 	let svg = document.createElement('img');
 	let src = "";
 	if (isHalf) {
-		src = 'randomore/resources/comparisons/halfheart.svg';
+		src = 'randomore/resources/comparisons/half' + type + '.svg';
 	} else {
-		src = 'randomore/resources/comparisons/heart.svg';
+		src = 'randomore/resources/comparisons/' + type + '.svg';
 	}
 
 	svg.setAttribute('src', src);
@@ -112,7 +125,7 @@ function generateOre() {
 	let name = language_functions[language]();
 
 	//reduce previous elements to atoms
-	let ids = ["rarity", "miningtext", "toolinfo"];
+	let ids = ["rarity", "miningtext", "toolinfo", "armorinfo"];
 
 	for (e of ids) {
 		let elem = document.getElementById(e);
@@ -388,13 +401,9 @@ function generateOre() {
 
 		let sdm = swordDamage;
 
-		while (sdm >= 1) {
-			damage.appendChild(createHeart(false, 32));
-			sdm -= 1;
+		for (i of createSvgList(sdm,"heart",32)) {
+			damage.appendChild(i);
 		}
-
-		if (sdm != 0) damage.appendChild(createHeart(true, 32));
-
 
 		toolinfodiv.appendChild(damage);
 		//toolinfodiv.appendChild(document.createElement('br'));
@@ -627,6 +636,98 @@ function generateOre() {
 		let th1 = document.createElement('h2')
 		th1.setAttribute('id','toolinfo');
 		th1.appendChild(document.createTextNode(toTitleCase(name) + " cannot be made into tools."));
+		document.body.appendChild(th1);
+	}
+
+
+	if (canMakeArmor) {
+		let swordDamage = Math.floor(choose([4,4,5,6,7,10]) * getRandomArbitrary(0.5,2)) / 2;
+
+
+		let armorinfodiv = document.createElement('div');
+		armorinfodiv.setAttribute('id', 'armorinfo');
+		armorinfodiv.setAttribute('style', 'align-items: center;');
+
+		let th1 = document.createElement('h1');
+		th1.appendChild(document.createTextNode("Armor Information"));
+		armorinfodiv.appendChild(th1);
+
+		let armor_protection = document.createElement('div');
+		armor_protection.setAttribute('id', 'armorprotection');
+		armor_protection.setAttribute('style', 'display: flex; align-items: center;');
+
+		let ph1 = document.createElement('h2');
+		ph1.appendChild(document.createTextNode("Armor Protection: "));
+		ph1.setAttribute('style', 'margin-right: 10px;')
+		armor_protection.appendChild(ph1);
+
+		/*
+		prot_chest = random.randint(3,12)
+            prot_leggings = max(1, prot_chest - random.randint(1, 5))
+            prot_boots = max(1, prot_leggings - random.randint(1, 5))
+            prot_helmet = max(1, prot_boots - random.randint(0,2))
+            */
+
+        let prot_chest = getRandomInt(3,12);
+        let prot_leggings = Math.max(1, prot_chest - getRandomInt(1,5))
+        let prot_helmet = Math.max(1, prot_leggings - getRandomInt(1,5))
+        let prot_boots = Math.max(1, prot_helmet - getRandomInt(0,2))
+
+        prot_chest /= 2;
+        prot_leggings /= 2;
+        prot_helmet /= 2;
+        prot_boots /= 2;
+
+		let totalprot = prot_chest + prot_leggings + prot_helmet + prot_boots;
+
+		for (i of createSvgList(totalprot,"armor",32)) {
+			armor_protection.appendChild(i);
+		} 
+
+		armorinfodiv.appendChild(armor_protection);
+
+		let iad = document.createElement('div');
+		iad.setAttribute('style','display: flex; align-items: center;')
+
+		for (i of [["Helmet",prot_helmet], ["Chestplate",prot_chest], ["Leggings",prot_leggings], ["Boots",prot_boots]]) {
+			let e = document.createElement("div");
+			e.setAttribute('style','display: flex; align-items: center; margin-right: 20px')
+			let h = document.createElement("h3");
+			h.appendChild(document.createTextNode(i[0] + ": "))
+			h.setAttribute('style','margin-right: 5px')
+			e.appendChild(h);
+			for (s of createSvgList(i[1],"armor",16)) {
+				e.appendChild(s);
+			}
+
+			iad.appendChild(e);
+		}
+		armorinfodiv.appendChild(iad)
+
+		let armor_toughness = 0;
+
+		if (Math.random() < 0.25) {
+			armor_toughness = choose([1,1,1,2,2,3,4])
+
+			let e = document.createElement('h3')
+			e.appendChild(document.createTextNode("Each piece of this armor grants " + armor_toughness + " armor toughness."))
+			armorinfodiv.appendChild(e)
+		}
+
+
+		twenty_reduction = round(20*(1 - (Math.min(25,Math.max(totalprot/5, totalprot - (20/(2 + armor_toughness))))/25)),2);
+		console.log(totalprot, twenty_reduction)
+		let dmgreduction = document.createElement('h3')
+		dmgreduction.appendChild(document.createTextNode("A 20 damage attack will be reduced to " + twenty_reduction + " damage when wearing a full set of " + toTitleCase(name) + " armor."))
+		armorinfodiv.appendChild(dmgreduction)
+
+		document.body.appendChild(armorinfodiv);
+
+
+	} else {
+		let th1 = document.createElement('h2')
+		th1.setAttribute('id','armorinfo');
+		th1.appendChild(document.createTextNode(toTitleCase(name) + " cannot be made into armor."));
 		document.body.appendChild(th1);
 	}
 }
