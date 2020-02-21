@@ -44,6 +44,17 @@ input {
 
 }
 
+textarea {
+  border-radius: 5px;
+  border: 1px solid #ffffff;
+  background-color: #202020;
+  margin: 3px;
+  color: #ffffff;
+  margin-right: 10px;
+  margin-left: 6px;
+
+}
+
 a, a:hover, a:focus, a:active {
       text-decoration: none;
       color: inherit;
