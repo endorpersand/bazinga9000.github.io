@@ -715,7 +715,7 @@ function generateOre() {
 		}
 
 
-		twenty_reduction = round(20*(1 - (Math.min(25,Math.max(totalprot/5, totalprot - (20/(2 + armor_toughness))))/25)),2);
+		twenty_reduction = round(20*(1 - (Math.min(25,Math.max(totalprot/5, totalprot - (20/(2 + armor_toughness))))/25)),2) ;
 		console.log(totalprot, twenty_reduction)
 		let dmgreduction = document.createElement('h3')
 		dmgreduction.appendChild(document.createTextNode("A 20 damage attack will be reduced to " + twenty_reduction + " damage when wearing a full set of " + toTitleCase(name) + " armor."))
