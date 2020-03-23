@@ -61,9 +61,9 @@ a, a:hover, a:focus, a:active {
 }
 
 .hyperlink {
-      .color: #51e191;
+      color: #51e191;
 }
 
 .hyperlink:hover {
-      .color: #256643;
+      color: #256643;
 }
