@@ -1,3 +1,4 @@
+//digit data
 let digit_names = [
   "Zero",
   "One",
@@ -60,10 +61,27 @@ let digit_names = [
   "Deve",
   "Clore"
 ]
-
 let suffixes = [
   "","ta","un","zand"
 ]
+
+
+//date magic stolen directly from stackoverflow, lol
+Date.prototype.isLeapYear = function() {
+    var year = this.getFullYear();
+    if((year & 3) != 0) return false;
+    return ((year % 100) != 0 || (year % 400) == 0);
+};
+
+Date.prototype.getDOY = function() {
+    var dayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+    var mn = this.getMonth();
+    var dn = this.getDate();
+    var dayOfYear = dayCount[mn] + dn;
+    if(mn > 1 && this.isLeapYear()) dayOfYear++;
+    return dayOfYear;
+};
+
 
 function parse_suffix(name, suffix) {
   if (suffix == "") return name;
@@ -123,7 +141,7 @@ function update_time() {
                        convert_to_sexagesimal_name(seconds);
 
   let year = date.getFullYear();
-  let dayOfYear = Math.ceil((date - new Date(year,0,1)) / 86400000);
+  let dayOfYear = date.getDOY(); //Math.ceil((date - new Date(year,0,1)) / 86400000);
 
   let dateStringDigits = convert_to_sexagesimal_font(year) + "-" +
                          convert_to_sexagesimal_font(dayOfYear);
