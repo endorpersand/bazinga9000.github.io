@@ -62,7 +62,7 @@ let digit_names = [
   "Clore"
 ]
 let suffixes = [
-  "","ta","un","zand"
+  "","ta","un","zand","myr","lak"
 ]
 
 
@@ -149,10 +149,17 @@ function update_time() {
   let dateStringName = convert_to_sexagesimal_name(year) + " " +
                        convert_to_sexagesimal_name(dayOfYear);
 
+  let unix = Math.floor(date.getTime()/1000);
+
+  let unixStringDigits = convert_to_sexagesimal_font(unix)
+  let unixStringName = convert_to_sexagesimal_name(unix)
+
   document.getElementById("clock").innerText = timeStringDigits;
   document.getElementById("clock-names").innerText = timeStringName;
   document.getElementById("date").innerText = dateStringDigits;
   document.getElementById("date-names").innerText = dateStringName;
+  document.getElementById("unix").innerText = unixStringDigits;
+  document.getElementById("unix-names").innerText = unixStringName;
 
   return;
 }
