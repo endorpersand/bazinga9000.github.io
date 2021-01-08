@@ -8,7 +8,13 @@ let digitNames = [
   "Tress","Dell","Flore","Cadex","Quint","Dithe","Trine","Caven","Neve","Kinex",
   "Sode","Twive","Trell","Dote","Kineff","Exent","Mack","Dax","Trithe","Kinoct",
   "Lume","Exeff","Sill","Cadell","Kinove","Diore","Foss","Exoct","Effent","Kiness",
-  "Trizote","Cadithe","Sull","Exove","Kinell","Sevoct","Triax","Deve","Clore"
+  "Trizote","Cadithe","Sull","Exove","Kinell","Sevoct","Triax","Deve","Clore","Shock",
+  "Ark","Disode","Senove","Octent","Kinithe","Exell","Kale","Cazote","Triore","Sevess",
+  "Calse","Octove","Scand","Dimack","Kinchick","Catax","Sevell","Exithe","Tite","Octess",
+  "Novent","Dilume","Van","Sezzen","Kinote","Dill","Trinue","Octell","Crome","Novess",
+  "Sevithe","Cadore","Trisode","Doss","Kinax","Extess","Mang","Seneff","Novell","Dessent",
+  "Ferr","Exote","Cobe","Octithe","Setrick","Disull","Nick","Catrine","Cupe","Desell",
+  "Trimack","Setess","Zinn","Exax","Kinore","Cadeve","Novithe","Diclore","Sevote","Hund"
 ]
 let suffixes = [
   "","ta","un","zand","myr","lak","cro"
@@ -33,12 +39,38 @@ function parse_suffix(name, suffix) {
     return name + suffix;
 }
 
+function getCSSClass(num, base) {
+    const n = new BigNumber(num);
+    if (n.isNaN()) {
+        return "error";
+    }
+
+    if (!n.isFinite() || base <= 132) {
+        return "argam";
+    }
+
+    return "argam-large";
+}
+
 function toArgamString(num, base) {
-    return new BigNumber(num).toString(base)
+    const n = new BigNumber(num)
+    if (n.isFinite()) {
+        return n.toString(base);
+    }
+
+    if (n.isNaN()) {
+        return "NaN";
+    }
+
+    return (n.isPositive() ? "∞" : "-∞")
 }
 
 function toArgamName(num, base) {
-    let numberString = new BigNumber(num).toString(base)
+    let val = new BigNumber(num)
+    if (val.isNaN()) {
+        return "Not a Number";
+    }
+    let numberString = val.toString(base)
     let name = ""
     if (numberString[0] == "-") {
         name += "Negative "
