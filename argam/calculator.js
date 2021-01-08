@@ -169,3 +169,7 @@ function divide() {
     let b = stack.pop();
     stack.push(b.dividedBy(a));
 }
+
+function stackClear() {
+    stack = [new BigNumber(0)]
+}
