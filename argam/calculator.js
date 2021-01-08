@@ -1,9 +1,6 @@
 let stack = [];
 let base = 60;
 let decimalFlag = false;
-for (const i of [1,2,3,68,923,1234]) {
-    stack.push(new BigNumber(i));
-}
 
 function updateBase() {
     base = parseInt(document.getElementById("base").value);
@@ -155,7 +152,7 @@ function add() {
     stack.push(a.plus(b));
 }
 
-function minus() {
+function subtract() {
     let a = stack.pop();
     let b = stack.pop();
     stack.push(b.subtract(a));
