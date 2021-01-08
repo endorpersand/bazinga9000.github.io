@@ -1,4 +1,4 @@
-let stack = [];
+let stack = [new BigNumber(0)];
 let base = 60;
 let decimalFlag = false;
 
