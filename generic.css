@@ -46,6 +46,21 @@ body {
 
 
 
+button {
+  background: #202020;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  font: inherit;
+  line-height: 1;
+  margin: 0.25em;
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(120%);
+}
+
 input {
   border-radius: 5px;
   border: 1px solid #ffffff;
