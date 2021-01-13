@@ -93,6 +93,73 @@ function prettyNumber(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
 
+let compcolors = {
+	"wood": "#6B511F",
+	"stone": "#898989",
+	"iron": "#C1C1C1",
+	"diamond": "#27B29A",
+	"gold": "#F5CC27",
+	"leather": "#A6472E",
+	"chain": "#6B6B6B",
+	"netherite" : "#32292A"
+}
+
+const COMPARISON_WIDTH = 400
+const COMPARISON_HEIGHT = 32
+const COMP_SPRITE_SIZE = COMPARISON_HEIGHT
+let comparisonCount = 0;
+let functions = [];
+function drawComparisonGraph(canvas, customOreName, customOreColor, comparisons, itemCanvas) {
+	canvas.setAttribute('id', 'durabilitycanvas');
+	canvas.setAttribute('width', COMPARISON_WIDTH);
+	canvas.setAttribute('height', comparisons.length * COMPARISON_HEIGHT);
+
+	let maxValue = Math.max(...comparisons.map((x) => x[1]));
+
+	comparisons = comparisons.sort((a, b) => a[1] - b[1]);
+
+
+	let ctx = canvas.getContext('2d');
+
+	let n = 0;
+	let w = canvas.width - COMP_SPRITE_SIZE;
+
+	for (i of comparisons) {
+		if (i[0] != customOreName) {
+			ctx.fillStyle = compcolors[i[0]];
+		} else {
+			ctx.fillStyle = customOreColor;
+		}
+		ctx.fillRect(COMP_SPRITE_SIZE, n * COMP_SPRITE_SIZE, Math.floor(w * i[1] / maxValue), COMPARISON_HEIGHT);
+		if (i[0] != customOreName) {
+			let img = document.createElement('img');
+			img.setAttribute('src', 'randomore/resources/comparisons/' + i[0] + ".png");
+			img.n = n;
+			img.onload = function() {
+				ctx.drawImage(this, 0, COMP_SPRITE_SIZE * this.n, COMP_SPRITE_SIZE, COMP_SPRITE_SIZE);
+			}
+		} else {
+			itemcanvas["n" + comparisonCount] = n; //this is the worst hack ever im sorry
+			draw = function(ic) {
+				console.log("draw called")
+				console.log(ctx)
+				console.log(ic["n" + comparisonCount])
+				ctx.drawImage(ic, 0, COMP_SPRITE_SIZE * ic["n" + comparisonCount], COMP_SPRITE_SIZE, COMP_SPRITE_SIZE);
+			}
+			comparisonCount += 1;
+
+
+			if (loadFlag) {
+				draw(itemcanvas);
+			} else {
+				functions.push(draw);
+			}
+		}
+
+		n += 1;
+	}
+}
+
 function generateOre() {
 	//make sure the seed is changed
 	let seed = parseInt(document.getElementById("seed").value);
@@ -155,9 +222,24 @@ function generateOre() {
 	name_elem.style.color = colorhex;
 
 
-	let blocks = ['anvil', 'beacon', 'blue_ice', 'bone_block_side', 'brown_mushroom_block', 'coal_block', 'diamond_block', 'emerald_block', 'glowstone', 'gold_block', 'iron_block', 'lapis_block', 'lectern_top', 'mushroom_stem', 'purpur_block', 'quartz_block_bottom', 'redstone_block'];
-	let items = ['asbestos', 'black_dye', 'blaze_powder', 'blue_dye', 'bone_meal', 'breccia', 'brown_dye', 'charcoal', 'classic_gem', 'clay_ball', 'coal', 'coarse', 'cyan_dye', 'diamond', 'dried_kelp', 'egg', 'emerald', 'fire_charge', 'flint', 'gray_dye', 'green_dye', 'iron_ingot', 'lapis_lazuli', 'light_blue_dye', 'light_gray_dye', 'magnetite', 'mica', 'orange_dye', 'phantom_membrane', 'prismarine_crystals', 'prismarine_shard', 'pyrite', 'quartz', 'red_dye', 'redstone_dust', 'ruby', 'scute', 'slime_ball', 'tailings', 'white_dye', 'yellow_dye'];
-	let ores = ['coal_ore', 'emerald_ore', 'lapis_ore', 'ore1', 'ore10', 'ore11', 'ore12', 'ore13', 'ore14', 'ore15', 'ore2', 'ore3', 'ore4', 'ore5', 'ore6', 'ore7', 'ore8', 'ore9', 'quartz_ore'];
+	let blocks = ['amethyst_block', 'anvil', 'beacon', 'blue_ice', 'bone_block_side',
+	'brown_mushroom_block', 'coal_block', 'copper_block', 'diamond_block', 'emerald_block',
+	'glowstone', 'gold_block', 'iron_block', 'lapis_block', 'lectern_top',
+	'mushroom_stem', 'purpur_block', 'quartz_block_bottom', 'redstone_block'];
+
+	let items = ['amethyst_shard', 'asbestos', 'black_dye', 'blaze_powder',
+	'blue_dye', 'bone_meal', 'breccia', 'brown_dye', 'charcoal', 'classic_gem',
+	'clay_ball', 'coal', 'coarse', 'copper_ingot', 'cyan_dye', 'diamond',
+	'dried_kelp', 'egg', 'emerald', 'fire_charge', 'flint', 'gray_dye',
+	'iron_ingot', 'lapis_lazuli', 'light_blue_dye', 'light_gray_dye',
+	'green_dye', 'magnetite', 'mica', 'netherite_ingot', 'old_quartz',
+	'orange_dye', 'phantom_membrane', 'prismarine_crystals', 'prismarine_shard',
+	'pyrite', 'quartz', 'red_dye', 'redstone_dust', 'ruby', 'scute',
+	'slime_ball', 'tailings', 'white_dye', 'yellow_dye'];
+
+	let ores = ['coal_ore', 'emerald_ore', 'lapis_ore', 'ore1', 'ore10',
+	'ore11', 'ore12', 'ore13', 'ore14', 'ore15', 'ore2', 'ore3', 'ore4',
+	'ore5', 'ore6', 'ore7', 'ore8', 'ore9', 'quartz_ore'];
 
 	let ore_power = 0.25;
 
@@ -191,7 +273,7 @@ function generateOre() {
 	blockimagee.onload = () => drawColoredImageOntoCanvas(blockcanvas, blockimagee, colorhex);
 
 	loadFlag = false;
-	let functions = [];
+	functions = [];
 	let itemimage = "randomore/resources/item/" + choose(items) + ".png";
 	let itemimagee = document.createElement('img');
 	itemimagee.setAttribute('src', itemimage);
@@ -368,20 +450,7 @@ function generateOre() {
 	let canMakeTools = Math.random() < 0.75;
 	let canMakeArmor = Math.random() < 0.75;
 
-	let compcolors = {
-		"wood": "#6B511F",
-		"stone": "#898989",
-		"iron": "#C1C1C1",
-		"diamond": "#27B29A",
-		"gold": "#F5CC27",
-		"leather": "#A6472E",
-		"chain": "#6B6B6B"
-	}
-
 	if (canMakeTools) {
-		let swordDamage = Math.floor(choose([4,4,5,6,7,10]) * getRandomArbitrary(0.5,2)) / 2;
-
-
 		let toolinfodiv = document.createElement('div');
 		toolinfodiv.setAttribute('id', 'toolinfo');
 		toolinfodiv.setAttribute('style', 'align-items: center;');
@@ -394,16 +463,39 @@ function generateOre() {
 		damage.setAttribute('id', 'damage');
 		damage.setAttribute('style', 'display: flex; align-items: center;');
 
-		let dh1 = document.createElement('h2');
-		dh1.appendChild(document.createTextNode("Sword Damage: "));
-		dh1.setAttribute('style', 'margin-right: 10px;')
-		damage.appendChild(dh1);
+		let bonusDamage = Math.floor(choose([-1,-1,0,0,0,1,1,2,2,3,3,4,4,6]) * getRandomArbitrary(0.5,2)) / 2;
 
-		let sdm = swordDamage;
+		//unit is POINTS OF DAMAGE
+		let swordDamage = bonusDamage + 4;
+		let shovelDamage = bonusDamage + 2.5;
+		let pickaxeDamage = bonusDamage + 2;
+		let axeDamage = bonusDamage + 7;
 
-		for (i of createSvgList(sdm,"heart",32)) {
-			damage.appendChild(i);
+		let damageTypes = [
+			["Sword", swordDamage],
+			["Shovel", shovelDamage],
+			["Pickaxe", pickaxeDamage],
+			["Axe", axeDamage]
+		]
+
+		for (const d of damageTypes) {
+			let individualDamageDiv = document.createElement("div");
+			let dh1 = document.createElement('h2');
+			dh1.appendChild(document.createTextNode(d[0] + " Damage"));
+			dh1.setAttribute('style', 'margin-right: 10px;')
+			individualDamageDiv.appendChild(dh1);
+
+			for (i of createSvgList(d[1]/2,"heart",32)) {
+				individualDamageDiv.appendChild(i);
+			}
+
+			individualDamageDiv.appendChild(document.createTextNode("(" + d[1] + ")"))
+			damage.append(individualDamageDiv)
 		}
+
+
+
+
 
 		toolinfodiv.appendChild(damage);
 		//toolinfodiv.appendChild(document.createElement('br'));
@@ -413,7 +505,7 @@ function generateOre() {
 		toolcanvi.setAttribute('style', 'display: flex; align-items: center;');
 
 
-		let durability = Math.floor(choose([32, 131, 250, 250, 250, 250, 1561, 1561, 2500]) * getRandomArbitrary(0.5, 2));
+		let durability = Math.floor(choose([32, 131, 250, 250, 250, 250, 1561, 1561, 2031, 2500]) * getRandomArbitrary(0.5, 2));
 
 
 		let durabdiv = document.createElement('div');
@@ -432,60 +524,17 @@ function generateOre() {
 			['stone', 131],
 			['iron', 250],
 			['diamond', 1561],
+			['netherite', 2031],
 			[name, durability]
 		];
 
-		let maxdurab = Math.max(1561, durability);
-
-		durabcomps = durabcomps.sort((a, b) => a[1] - b[1]);
-
 		let dcanvas = document.createElement('canvas');
-		dcanvas.setAttribute('id', 'durabilitycanvas');
-		dcanvas.setAttribute('width', 500);
-		dcanvas.setAttribute('height', 6 * 32);
-
-		let durabctx = dcanvas.getContext('2d');
-
-		let n = 0;
-		let w = dcanvas.width - 32;
-
-		for (i of durabcomps) {
-			if (i[0] != name) {
-				durabctx.fillStyle = compcolors[i[0]];
-			} else {
-				durabctx.fillStyle = colorhex;
-			}
-			durabctx.fillRect(32, n * 32, Math.floor(w * i[1] / maxdurab), 32);
-
-			if (i[0] != name) {
-				let img = document.createElement('img');
-				img.setAttribute('src', 'randomore/resources/comparisons/' + i[0] + ".png");
-				img.n = n;
-				img.onload = function() {
-					durabctx.drawImage(this, 0, 32 * this.n, 32, 32);
-				}
-			} else {
-				itemcanvas.durab_n = n;
-				draw_durab = function(ic) {
-					durabctx.drawImage(ic, 0, 32 * ic.durab_n, 32, 32);
-				}
-
-
-				if (loadFlag) {
-					draw_durab(itemcanvas);
-				} else {
-					functions.push(draw_durab);
-				}
-			}
-
-			n += 1;
-		}
-
+		drawComparisonGraph(dcanvas, name, colorhex, durabcomps, itemcanvas);
 		durabdiv.appendChild(dcanvas);
 		toolcanvi.appendChild(durabdiv);
 
 		//mining speed
-		let miningspeed = round(choose([4, 6, 6, 6, 8, 8, 12]) * getRandomArbitrary(0.75, 1.5), 1);
+		let miningspeed = round(choose([4, 6, 6, 6, 8, 8, 9, 12]) * getRandomArbitrary(0.75, 1.5), 1);
 
 
 		let miningspeeddiv = document.createElement('div');
@@ -503,56 +552,13 @@ function generateOre() {
 			['stone', 4],
 			['iron', 6],
 			['diamond', 8],
+			['netherite', 9],
 			['gold', 12],
 			[name, miningspeed]
 		];
 
-		let maxmining = Math.max(12, miningspeed);
-
-		miningcomps = miningcomps.sort((a, b) => a[1] - b[1]);
-
 		let mcanvas = document.createElement('canvas');
-		mcanvas.setAttribute('id', 'miningspeedcanvas');
-		mcanvas.setAttribute('width', 500);
-		mcanvas.setAttribute('height', 6 * 32);
-
-		let miningctx = mcanvas.getContext('2d');
-
-		n = 0;
-		w = mcanvas.width - 32;
-
-		for (i of miningcomps) {
-			if (i[0] != name) {
-				miningctx.fillStyle = compcolors[i[0]];
-			} else {
-				miningctx.fillStyle = colorhex;
-			}
-			miningctx.fillRect(32, n * 32, Math.floor(w * i[1] / maxmining), 32);
-
-			if (i[0] != name) {
-				let img = document.createElement('img');
-				img.setAttribute('src', 'randomore/resources/comparisons/' + i[0] + ".png");
-				img.mining_n = n;
-				img.onload = function() {
-					miningctx.drawImage(this, 0, 32 * this.mining_n, 32, 32);
-				}
-			} else {
-				itemcanvas.mining_n = n;
-				draw_mining = function(ic) {
-					miningctx.drawImage(ic, 0, 32 * ic.mining_n, 32, 32);
-				}
-
-
-				if (loadFlag) {
-					draw_mining(itemcanvas);
-				} else {
-					functions.push(draw_mining);
-				}
-			}
-
-			n += 1;
-		}
-
+		drawComparisonGraph(mcanvas, name, colorhex, miningcomps, itemcanvas);
 		miningspeeddiv.appendChild(mcanvas);
 		toolcanvi.appendChild(miningspeeddiv);
 
@@ -576,54 +582,12 @@ function generateOre() {
 			['iron', 14],
 			['diamond', 10],
 			['gold', 22],
+			['netherite', 15],
 			[name, tool_ench]
 		];
 
-		let maxtenchantability = Math.max(22, tool_ench);
-
-		tenchcomps = tenchcomps.sort((a, b) => a[1] - b[1]);
-
 		let tecanvas = document.createElement('canvas');
-		tecanvas.setAttribute('id', 'toolenchcanvas');
-		tecanvas.setAttribute('width', 500);
-		tecanvas.setAttribute('height', 6 * 32);
-
-		let tenchctx = tecanvas.getContext('2d');
-
-		n = 0;
-		w = tecanvas.width - 32;
-
-		for (i of tenchcomps) {
-			if (i[0] != name) {
-				tenchctx.fillStyle = compcolors[i[0]];
-			} else {
-				tenchctx.fillStyle = colorhex;
-			}
-			tenchctx.fillRect(32, n * 32, Math.floor(w * i[1] / maxtenchantability), 32);
-
-			if (i[0] != name) {
-				let img = document.createElement('img');
-				img.setAttribute('src', 'randomore/resources/comparisons/' + i[0] + ".png");
-				img.tench_n = n;
-				img.onload = function() {
-					tenchctx.drawImage(this, 0, 32 * this.tench_n, 32, 32);
-				}
-			} else {
-				itemcanvas.tench_n = n;
-				draw_tench = function(ic) {
-					tenchctx.drawImage(ic, 0, 32 * ic.tench_n, 32, 32);
-				}
-
-
-				if (loadFlag) {
-					draw_tench(itemcanvas);
-				} else {
-					functions.push(draw_tench);
-				}
-			}
-
-			n += 1;
-		}
+		drawComparisonGraph(tecanvas, name, colorhex, tenchcomps, itemcanvas);
 
 		tool_ench_div.appendChild(tecanvas);
 		toolcanvi.appendChild(tool_ench_div);
@@ -641,8 +605,6 @@ function generateOre() {
 
 
 	if (canMakeArmor) {
-		let swordDamage = Math.floor(choose([4,4,5,6,7,10]) * getRandomArbitrary(0.5,2)) / 2;
-
 
 		let armorinfodiv = document.createElement('div');
 		armorinfodiv.setAttribute('id', 'armorinfo');
@@ -661,13 +623,6 @@ function generateOre() {
 		ph1.setAttribute('style', 'margin-right: 10px;')
 		armor_protection.appendChild(ph1);
 
-		/*
-		prot_chest = random.randint(3,12)
-            prot_leggings = max(1, prot_chest - random.randint(1, 5))
-            prot_boots = max(1, prot_leggings - random.randint(1, 5))
-            prot_helmet = max(1, prot_boots - random.randint(0,2))
-            */
-
         let prot_chest = getRandomInt(3,12);
         let prot_leggings = Math.max(1, prot_chest - getRandomInt(1,5))
         let prot_helmet = Math.max(1, prot_leggings - getRandomInt(1,5))
@@ -682,7 +637,7 @@ function generateOre() {
 
 		for (i of createSvgList(totalprot,"armor",32)) {
 			armor_protection.appendChild(i);
-		} 
+		}
 
 		armorinfodiv.appendChild(armor_protection);
 
@@ -740,10 +695,6 @@ function componentToHex(c) {
 
 function rgbToHex(r, g, b) {
 	return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
-
-function randint(a, b) {
-	return
 }
 
 function getRandomArbitrary(min, max) {
