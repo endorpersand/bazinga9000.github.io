@@ -12,21 +12,21 @@
 			<center><a href="index"><img src="koch.png" height=50px width=auto style='vertical-align: middle'></img></a></center>
 			<center><span>Apportionment Simulator</span></center>
 		</h1>
-		<div class=divbutton onclick=uploadCustomTemplate();>Upload Custom Template</div>
-		<div class=divbutton onclick=alert(exportTemplate());>Export to Template</div>
-		<div class=divbutton onclick=clearStates();>Clear</div>
+		<button onclick=uploadCustomTemplate();>Upload Custom Template</button>
+		<button onclick=alert(exportTemplate());>Export to Template</button>
+		<button onclick=clearStates();>Clear</button>
 		<br>
 		Number of Seats: <input type=number id="seat_number"></input><br>
 		<input type="number" id="starting_seats" value=1>Number of Seats each District starts with</input><br>
-		<div class=divbutton onclick=apportion()>Apportion</div>
+		<button onclick=apportion()>Apportion</button>
 
 		<div id='meta' style='display: flex;'>
 			<div id="state_inputs" style='margin-right: 30px'></div>
 		</div>
-		<div class=divbutton onclick=newState();>Add New District</div><br>
-		
+		<button onclick=newState();>Add New District</button><br>
+
 		<h2>Load Data from Templates</h2>
-		<div class=divbutton onclick=applyTemplate(us2010);>2010 U.S. House of Representatives</div>
-		<div class=divbutton onclick=applyTemplate(world);>World Populations</div><br>
+		<button onclick=applyTemplate(us2010);>2010 U.S. House of Representatives</button>
+		<button onclick=applyTemplate(world);>World Populations</button><br>
 	</body>
 </html>

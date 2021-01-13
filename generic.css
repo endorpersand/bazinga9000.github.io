@@ -30,22 +30,6 @@ body {
 
 
 
-.divbutton {
-  border-radius: 10px;
-  border: 1px solid #ffffff;
-  padding: 2px;
-  padding-left: 10px;
-  padding-right: 10px;
-  width: auto;
-  height: auto;
-  margin: 5px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  display: inline-block;
-}
-
-
-
 button {
   background: #202020;
   border: 2px solid #ffffff;
@@ -58,11 +42,10 @@ button {
 }
 
 button:hover {
-  filter: brightness(120%);
+  filter: brightness(130%);
 }
 
 input {
-  border-radius: 5px;
   border: 1px solid #ffffff;
   background-color: #202020;
   margin: 3px;

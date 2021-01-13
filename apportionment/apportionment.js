@@ -29,7 +29,7 @@ function newState(name = "New District", population = 2763) {
         box1 = document.createElement('input'),
         text2 = document.createTextNode('Population:'),
         box2 = document.createElement('input'),
-        kill = document.createElement('div'); // kill button
+        kill = document.createElement('button'); // kill button
 
 // add element spice (give them attributes and css or whatever)
     div.class = 'state';
@@ -39,7 +39,6 @@ function newState(name = "New District", population = 2763) {
     box2.value = population;
     //input.classList.add('colors');
     kill.innerHTML = 'x';
-    kill.classList.add('divbutton');
 
 // kill button
     kill.addEventListener('click', e => {
@@ -130,7 +129,7 @@ function createTable(sortmode) {
     let oldtable = document.getElementById('apportionment_table');
     if (oldtable !== null) {oldtable.outerHTML = "";}
 
-    
+
     console.log(darray);
     console.log(sortmode);
 
