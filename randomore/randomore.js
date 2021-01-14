@@ -468,10 +468,10 @@ function generateOre() {
 	mimg.onload = () => {
 		[mimg.width, mimg.height] = [hcanvas.width, hcanvas.height];
 		mctx.drawImage(mimg,
-			16 * (harvestLevel + 1), 0,
-			16 * materials.length, 16,
+			16 * harvestLevel, 0,
+			16 * (materials.length - harvestLevel + 1), 16,
 			0, 0,
-			HARVEST_SPRITE_SIZE * (harvestLevel + 1), HARVEST_SPRITE_SIZE
+			HARVEST_SPRITE_SIZE * (materials.length - harvestLevel + 1), HARVEST_SPRITE_SIZE
 		);
 	}
 
