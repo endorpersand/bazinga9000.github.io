@@ -150,6 +150,7 @@ function drawComparisonGraph(canvas, customOreName, customOreColor, comparisons,
 
 
 	let ctx = canvas.getContext('2d');
+	ctx.imageSmoothingEnabled = false;
 
 	let n = 0;
 	let w = canvas.width - COMP_SPRITE_SIZE;
