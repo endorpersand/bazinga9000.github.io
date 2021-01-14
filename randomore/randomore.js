@@ -919,9 +919,30 @@ function toTitleCase(str) {
 	return str.split(' ').map(x => x[0].toUpperCase() + x.slice(1)).join(' ');
 }
 
-
+function share() {
+	let seed = parseInt(document.getElementById("seed").value);
+	let language = document.getElementById('language').value;
+	const urlString = "https://baz9k.xyz/randomore?language=" + language + "&seed=" + seed;
+	navigator.clipboard.writeText(urlString).then(() => {}).catch(err => {
+		alert('Error in copying text: ', err);
+  	});
+}
 
 randomizeSeed();
+
+const queryString = window.location.search;
+if (queryString != "") {
+	const urlParams = new URLSearchParams(queryString);
+	if (urlParams.has('language')) {
+		document.getElementById('language').value = urlParams.get('language')
+	}
+
+	if (urlParams.has('seed')) {
+		document.getElementById("seed").value = urlParams.get('seed');
+	}
+}
+
+
 generateOre();
 
 window.addEventListener("keydown", function (event) {
