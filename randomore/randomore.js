@@ -10,8 +10,30 @@ function choose(array) {
 	return array[Math.floor(array.length * Math.random())]
 }
 
+function weightedChoose(array, minMult, maxMult) {
+	return choose(array) * getRandomArbitrary(minMult, maxMult)
+}
 
-canvas_size = 128;
+
+
+const canvas_size = 128;
+
+const POSITIVE_POTION_EFFECTS = [
+	"Speed","Haste","Strength","Instant Health","Jump Boost","Regeneration",
+	"Resistance","Fire Resistance","Water Breathing","Invisibility",
+	"Night Vision","Health Boost","Absorption","Saturation","Luck",
+	"Slow Falling","Conduit Power","Dolphin's Grace","Hero of the Village"];
+
+const NEGATIVE_POTION_EFFECTS = [
+	"Slowness","Mining Fatigue","Instant Damage","Nausea","Blindness","Hunger",
+	"Weakness","Poison","Wither","Glowing","Bad Luck","Bad Omen"
+];
+
+const SINGLE_POTENTCY_EFFECTS = [
+	"Water Breathing","Invisibility","Night Vision","Blindness","Glowing"
+];
+
+const POTION_EFFECTS = POSITIVE_POTION_EFFECTS + NEGATIVE_POTION_EFFECTS;
 
 
 //thank mr endr
@@ -64,22 +86,32 @@ function createSvgList(value, type, size) {
 	let x = value;
 	let svgs = [];
 	while (x >= 1) {
-		svgs.push(createSvg(type, false, size));
+		svgs.push(createSvg(type, 0, size));
 		x -= 1;
 	}
 
-	if (x != 0) svgs.push(createSvg(type, true, size));
-
+	if (x != 0) {
+		svgs.push(createSvg(type, 4*x, size));
+	}
 	return svgs;
 }
 
-function createSvg(type, isHalf, size) {
+function createSvg(type, quarter, size) {
 	let svg = document.createElement('img');
 	let src = "";
-	if (isHalf) {
-		src = 'randomore/resources/comparisons/half' + type + '.svg';
-	} else {
-		src = 'randomore/resources/comparisons/' + type + '.svg';
+	switch (quarter) {
+		case 0:
+			src = 'randomore/resources/comparisons/' + type + '.svg';
+			break;
+		case 1:
+			src = 'randomore/resources/comparisons/onequarter' + type + '.svg';
+			break;
+		case 2:
+			src = 'randomore/resources/comparisons/half' + type + '.svg';
+			break;
+		case 3:
+			src = 'randomore/resources/comparisons/threequarter' + type + '.svg';
+			break;
 	}
 
 	svg.setAttribute('src', src);
@@ -107,7 +139,6 @@ let compcolors = {
 const COMPARISON_WIDTH = 400
 const COMPARISON_HEIGHT = 32
 const COMP_SPRITE_SIZE = COMPARISON_HEIGHT
-let comparisonCount = 0;
 let functions = [];
 function drawComparisonGraph(canvas, customOreName, customOreColor, comparisons, itemCanvas) {
 	canvas.setAttribute('id', 'durabilitycanvas');
@@ -139,14 +170,12 @@ function drawComparisonGraph(canvas, customOreName, customOreColor, comparisons,
 				ctx.drawImage(this, 0, COMP_SPRITE_SIZE * this.n, COMP_SPRITE_SIZE, COMP_SPRITE_SIZE);
 			}
 		} else {
-			itemcanvas["n" + comparisonCount] = n; //this is the worst hack ever im sorry
-			draw = function(ic) {
-				console.log("draw called")
-				console.log(ctx)
-				console.log(ic["n" + comparisonCount])
-				ctx.drawImage(ic, 0, COMP_SPRITE_SIZE * ic["n" + comparisonCount], COMP_SPRITE_SIZE, COMP_SPRITE_SIZE);
-			}
-			comparisonCount += 1;
+			//metafunctions go brrr
+			draw = function(n) {
+				return function(ic) {
+					ctx.drawImage(ic, 0, COMP_SPRITE_SIZE * n, COMP_SPRITE_SIZE, COMP_SPRITE_SIZE);
+				}
+			}(n);
 
 
 			if (loadFlag) {
@@ -192,7 +221,7 @@ function generateOre() {
 	let name = language_functions[language]();
 
 	//reduce previous elements to atoms
-	let ids = ["rarity", "miningtext", "toolinfo", "armorinfo"];
+	let ids = ["rarity", "miningtext", "toolinfo", "armorinfo", "specialcharacteristics"];
 
 	for (e of ids) {
 		let elem = document.getElementById(e);
@@ -237,7 +266,7 @@ function generateOre() {
 	'pyrite', 'quartz', 'red_dye', 'redstone_dust', 'ruby', 'scute',
 	'slime_ball', 'tailings', 'white_dye', 'yellow_dye'];
 
-	let ores = ['coal_ore', 'emerald_ore', 'lapis_ore', 'ore1', 'ore10',
+	let ores = ['ancient_debris_side','coal_ore', 'emerald_ore', 'lapis_ore', 'ore1', 'ore10',
 	'ore11', 'ore12', 'ore13', 'ore14', 'ore15', 'ore2', 'ore3', 'ore4',
 	'ore5', 'ore6', 'ore7', 'ore8', 'ore9', 'quartz_ore'];
 
@@ -255,7 +284,8 @@ function generateOre() {
 		"soul_sand": () => getRandomPowerAugmented(0.0001, 0.0015, ore_power),
 		"obsidian": () => getRandomPowerAugmented(0.001, 0.003, ore_power),
 		"end_stone": () => getRandomPowerAugmented(0.0005, 0.002, ore_power),
-		"netherrack": () => getRandomPowerAugmented(0.00001, 0.00175, ore_power)
+		"netherrack": () => getRandomPowerAugmented(0.00001, 0.00175, ore_power),
+		"blackstone": () => getRandomPowerAugmented(0.00005, 0.0015, ore_power),
 	}
 
 	//aesthetic information
@@ -307,7 +337,6 @@ function generateOre() {
 	//mining information
 	let round = (n, d = 0) => Math.round(n * 10 ** d) / 10 ** d
 	let rarity = spawn_rarities[spawnblock]();
-	console.log(rarity);
 
 	let top = 0;
 	let bottom = 0;
@@ -404,19 +433,26 @@ function generateOre() {
 	mining_info_text.appendChild(document.createTextNode(message));
 	mining_info_text.appendChild(document.createElement('br'));
 
-	message = "Harvest Level: ";
+	message = toTitleCase(name) + " ore is breakable with: ";
 
 	mining_info_text.appendChild(document.createTextNode(message));
 
 	let materials = [
-		"wood", "stone", "iron", "diamond"
+		"wood", "stone", "iron", "diamond", "netherite"
 	]
 
-	let harvestlevel = choose(materials);
+	let harvestTool;
+	if (spawnblock == "obsidian") {
+		harvestTool = choose(["diamond", "netherite"])
+	} else {
+		harvestTool = choose(materials);
+	}
+	let harvestLevel = materials.indexOf(harvestTool);
 
 	let hcanvas = document.createElement("canvas");
-	hcanvas.setAttribute('width', 128);
-	hcanvas.setAttribute('height', 32);
+	const HARVEST_SPRITE_SIZE = 32
+	hcanvas.setAttribute('width', materials.length * HARVEST_SPRITE_SIZE);
+	hcanvas.setAttribute('height', HARVEST_SPRITE_SIZE);
 
 	// __mineableCanvas__ should be a valid canvas
 	// __spawnBlock__ is the ore's spawnblock
@@ -431,7 +467,12 @@ function generateOre() {
 
 	mimg.onload = () => {
 		[mimg.width, mimg.height] = [hcanvas.width, hcanvas.height];
-		mctx.drawImage(mimg, -hcanvas.height * materials.indexOf(harvestlevel), 0, hcanvas.width, hcanvas.height);
+		mctx.drawImage(mimg,
+			16 * (harvestLevel + 1), 0,
+			16 * materials.length, 16,
+			0, 0,
+			HARVEST_SPRITE_SIZE * (harvestLevel + 1), HARVEST_SPRITE_SIZE
+		);
 	}
 
 	mining_info_text.appendChild(hcanvas);
@@ -463,7 +504,7 @@ function generateOre() {
 		damage.setAttribute('id', 'damage');
 		damage.setAttribute('style', 'display: flex; align-items: center;');
 
-		let bonusDamage = Math.floor(choose([-1,-1,0,0,0,1,1,2,2,3,3,4,4,6]) * getRandomArbitrary(0.5,2)) / 2;
+		let bonusDamage = Math.floor(weightedChoose([-1,-1,0,0,0,1,1,2,2,3,3,4,4,6], 0.5, 2));
 
 		//unit is POINTS OF DAMAGE
 		let swordDamage = bonusDamage + 4;
@@ -493,19 +534,21 @@ function generateOre() {
 			damage.append(individualDamageDiv)
 		}
 
-
-
-
-
 		toolinfodiv.appendChild(damage);
 		//toolinfodiv.appendChild(document.createElement('br'));
+
+		let oreToolHarvestLevel = toTitleCase(choose(materials));
+
+		let oTHLHeader = document.createElement("h4");
+		oTHLHeader.appendChild(document.createTextNode(toTitleCase(name) + " Pickaxes have the same harvest level as " + oreToolHarvestLevel + " Pickaxes"))
+		toolinfodiv.appendChild(oTHLHeader);
 
 		let toolcanvi = document.createElement('div')
 		toolcanvi.setAttribute('id', 'toolcanvi');
 		toolcanvi.setAttribute('style', 'display: flex; align-items: center;');
 
 
-		let durability = Math.floor(choose([32, 131, 250, 250, 250, 250, 1561, 1561, 2031, 2500]) * getRandomArbitrary(0.5, 2));
+		let durability = Math.floor(weightedChoose([32, 131, 250, 250, 250, 250, 1561, 1561, 2031, 2500], 0.5, 2));
 
 
 		let durabdiv = document.createElement('div');
@@ -534,7 +577,7 @@ function generateOre() {
 		toolcanvi.appendChild(durabdiv);
 
 		//mining speed
-		let miningspeed = round(choose([4, 6, 6, 6, 8, 8, 9, 12]) * getRandomArbitrary(0.75, 1.5), 1);
+		let miningspeed = round(weightedChoose([4, 6, 6, 6, 8, 8, 9, 12], 0.75, 1.5), 1);
 
 
 		let miningspeeddiv = document.createElement('div');
@@ -563,7 +606,7 @@ function generateOre() {
 		toolcanvi.appendChild(miningspeeddiv);
 
 		//tool enchantability
-		let tool_ench = round(choose([5, 10, 10, 14, 14, 14, 15, 15, 15, 22]) * getRandomArbitrary(0.75, 2.5), 1);
+		let tool_ench = round(weightedChoose([5, 10, 10, 14, 14, 14, 15, 15, 15, 22], 0.75, 2.5), 1);
 
 
 		let tool_ench_div = document.createElement('div');
@@ -619,7 +662,7 @@ function generateOre() {
 		armor_protection.setAttribute('style', 'display: flex; align-items: center;');
 
 		let ph1 = document.createElement('h2');
-		ph1.appendChild(document.createTextNode("Armor Protection: "));
+		ph1.appendChild(document.createTextNode("Full Set Armor Protection: "));
 		ph1.setAttribute('style', 'margin-right: 10px;')
 		armor_protection.appendChild(ph1);
 
@@ -628,16 +671,13 @@ function generateOre() {
         let prot_helmet = Math.max(1, prot_leggings - getRandomInt(1,5))
         let prot_boots = Math.max(1, prot_helmet - getRandomInt(0,2))
 
-        prot_chest /= 2;
-        prot_leggings /= 2;
-        prot_helmet /= 2;
-        prot_boots /= 2;
-
 		let totalprot = prot_chest + prot_leggings + prot_helmet + prot_boots;
 
-		for (i of createSvgList(totalprot,"armor",32)) {
+		for (i of createSvgList(totalprot/2,"armor",32)) {
 			armor_protection.appendChild(i);
 		}
+
+		armor_protection.appendChild(document.createTextNode("(" + totalprot + ")"))
 
 		armorinfodiv.appendChild(armor_protection);
 
@@ -651,9 +691,11 @@ function generateOre() {
 			h.appendChild(document.createTextNode(i[0] + ": "))
 			h.setAttribute('style','margin-right: 5px')
 			e.appendChild(h);
-			for (s of createSvgList(i[1],"armor",16)) {
+			for (s of createSvgList(i[1]/2,"armor",16)) {
 				e.appendChild(s);
 			}
+
+			e.appendChild(document.createTextNode("(" + i[1] + ")"))
 
 			iad.appendChild(e);
 		}
@@ -669,12 +711,64 @@ function generateOre() {
 			armorinfodiv.appendChild(e)
 		}
 
+		if (Math.random() < 0.25) {
+			knockbackResistance = choose([0.5,0.5,0.5,1,1,1,1,2])
+			let e = document.createElement('h3')
+			e.appendChild(document.createTextNode("Each piece of this armor grants " + knockbackResistance + " point(s) of knockback resistance."))
+			armorinfodiv.appendChild(e)
+		}
 
 		twenty_reduction = round(20*(1 - (Math.min(25,Math.max(totalprot/5, totalprot - (20/(2 + armor_toughness))))/25)),2) ;
-		console.log(totalprot, twenty_reduction)
 		let dmgreduction = document.createElement('h3')
 		dmgreduction.appendChild(document.createTextNode("A 20 damage attack will be reduced to " + twenty_reduction + " damage when wearing a full set of " + toTitleCase(name) + " armor."))
 		armorinfodiv.appendChild(dmgreduction)
+
+		/*
+		In minecraft, the total armor durability is always a multiple of 55.
+
+		The points are distributed amongst the individual pieces as follows:
+		helmet - 11/55
+		chestplate - 16/55
+		leggings - 15/55
+		boots - 13/55
+
+		why is 55 the denominator? i have no idea!
+		[5, 7, 15, 15, 33, 37]
+		*/
+
+		let fundamentalDurabilityUnit = Math.floor(weightedChoose([5,7,7,15,15,15,15,15,15,33,33,37,37,50],0.5,2))
+
+		let helmetDurability = 11 * fundamentalDurabilityUnit;
+		let chestplateDurability = 16 * fundamentalDurabilityUnit;
+		let leggingsDurability = 15 * fundamentalDurabilityUnit;
+		let bootsDurability = 13 * fundamentalDurabilityUnit;
+		let fullSetDurability = 55 * fundamentalDurabilityUnit;
+		const ARMOR_MULTIPLIER = 55;
+		let armorDurabComparisons = [
+			['leather', 5 * ARMOR_MULTIPLIER],
+			['gold', 7 * ARMOR_MULTIPLIER],
+			['chain', 15 * ARMOR_MULTIPLIER],
+			['iron', 15 * ARMOR_MULTIPLIER],
+			['diamond', 33 * ARMOR_MULTIPLIER],
+			['netherite', 37 * ARMOR_MULTIPLIER],
+			[name, fullSetDurability]
+		]
+
+		let armorDurabilityDiv = document.createElement('div');
+		//armorDurabilityDiv.setAttribute('style','display: flex; align-items: center;')
+
+		let h = document.createElement("h2");
+		h.appendChild(document.createTextNode("Full Set Durability: " + fullSetDurability))
+		armorDurabilityDiv.appendChild(h)
+		for (i of [["Helmet",helmetDurability], ["Chestplate",chestplateDurability], ["Leggings",leggingsDurability], ["Boots",bootsDurability]]) {
+			let h = document.createElement("h3");
+			h.appendChild(document.createTextNode(i[0] + ": " + i[1]))
+			armorDurabilityDiv.appendChild(h);
+		}
+		armorinfodiv.appendChild(armorDurabilityDiv);
+		let durabilitygraph = document.createElement("canvas");
+		drawComparisonGraph(durabilitygraph, name, colorhex, armorDurabComparisons, itemcanvas);
+		armorinfodiv.appendChild(durabilitygraph);
 
 		document.body.appendChild(armorinfodiv);
 
@@ -684,6 +778,115 @@ function generateOre() {
 		th1.setAttribute('id','armorinfo');
 		th1.appendChild(document.createTextNode(toTitleCase(name) + " cannot be made into armor."));
 		document.body.appendChild(th1);
+	}
+
+	//SPECIAL CHARACTERISTICS
+	let consumableOre = (Math.random() < 0.1);
+	let potionEffectOnHit = (canMakeTools && Math.random() < 0.1);
+	let fullSetBonus = (canMakeArmor && Math.random() < 0.1);
+	if (consumableOre || potionEffectOnHit || fullSetBonus) {
+		let specialdiv = document.createElement('div');
+		specialdiv.setAttribute('id', 'specialcharacteristics');
+		specialdiv.setAttribute('style', 'align-items: center;');
+
+		let th1 = document.createElement('h1');
+		th1.appendChild(document.createTextNode("Special Characteristics"));
+		specialdiv.appendChild(th1);
+
+		if (consumableOre) {
+			let h2 = document.createElement('h2');
+			let consumableString = toTitleCase(name) + " is consumable."
+			if (Math.random() < 0.5) {
+				let hungerPoints = getRandomInt(1,20);
+				let saturationPoints = getRandomInt(1,20);
+				consumableString += " Eating it will restore " + hungerPoints + " hunger and " + saturationPoints + " saturation.";
+			} else {
+				let potionEffect;
+				if (Math.random() < 0.8) {
+					potionEffect = choose(POSITIVE_POTION_EFFECTS);
+				} else {
+					potionEffect = choose(NEGATIVE_POTION_EFFECTS);
+				}
+
+				let potency = "";
+				if (!SINGLE_POTENTCY_EFFECTS.includes(potionEffect)) {
+					potency = choose(["I","I","I","I","I","I","II","II","II","III","III","IV"]);
+				}
+
+				if (potionEffect == "Instant Health" || potionEffect == "Instant Damage") {
+					consumableString += " Eating it will give you " + potionEffect + " " + potency + ".";
+				} else {
+					let time = choose(["10s", "10s", "10s", "10s", "10s", "10s", "10s", "10s", "30s", "30s", "30s", "45s", "45s", "1m", "2m"]);
+					consumableString += " Eating it will give you " + potionEffect + " ";
+					if (potency != '') {
+						consumableString += potency + " ";
+					}
+					consumableString += "for " + time + ".";
+				}
+			}
+
+			h2.appendChild(document.createTextNode(consumableString));
+			specialdiv.appendChild(h2);
+		}
+
+		if (potionEffectOnHit) {
+			let h2 = document.createElement('h2');
+			let pEOHString = "Hitting an entity with any " + toTitleCase(name) + " tool gives them ";
+			let potionEffect;
+			if (Math.random() < 0.7) {
+				potionEffect = choose(NEGATIVE_POTION_EFFECTS);
+			} else {
+				potionEffect = choose(POSITIVE_POTION_EFFECTS);
+			}
+
+			let potency = "";
+			if (!SINGLE_POTENTCY_EFFECTS.includes(potionEffect)) {
+				potency = choose(["I","I","I","I","I","I","II","II","II","III","III","IV"]);
+			}
+
+			if (potionEffect == "Instant Health" || potionEffect == "Instant Damage") {
+				pEOHString += potionEffect + " " + potency + ".";
+			} else {
+				let time = choose(["10s", "10s", "10s", "10s", "10s", "10s", "10s", "10s", "10s", "10s", "30s", "35s", "45s", "1m"]);
+				pEOHString += potionEffect + " ";
+				if (potency != '') {
+					pEOHString += potency + " ";
+				}
+				pEOHString += "for " + time + ".";
+			}
+			h2.appendChild(document.createTextNode(pEOHString));
+			specialdiv.appendChild(h2);
+		}
+
+		if (fullSetBonus) {
+			let h2 = document.createElement('h2');
+			let fSBString = "Wearing a full set of " + toTitleCase(name) + " armor grants you permenant ";
+			let potionEffect = "";
+			if (Math.random() < 0.8) {
+				potionEffect = choose(POSITIVE_POTION_EFFECTS);
+			} else {
+				potionEffect = choose(NEGATIVE_POTION_EFFECTS);
+			}
+
+			if (potionEffect == "Instant Health") {
+				potionEffect = "Regeneration";
+			} else if (potionEffect == "Instant Damage") {
+				potionEffect = "Wither";
+			}
+
+			fSBString += potionEffect;
+
+			if (SINGLE_POTENTCY_EFFECTS.includes(potionEffect)) {
+				fSBString += ".";
+			} else {
+				potency = choose(["I","I","I","I","I","I","II","II","II","III","III","IV"]);
+				fSBString += " " + potency + ".";
+			}
+			h2.appendChild(document.createTextNode(fSBString));
+			specialdiv.appendChild(h2);
+
+		}
+		document.body.appendChild(specialdiv);
 	}
 }
 
@@ -720,3 +923,9 @@ function toTitleCase(str) {
 
 randomizeSeed();
 generateOre();
+
+window.addEventListener("keydown", function (event) {
+	if (event.key == "r") {
+		randomizeSeed();
+	}
+});
