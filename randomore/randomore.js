@@ -1,4 +1,5 @@
 function randomizeSeed() {
+	Math.seedrandom();
 	let v = Math.floor(Math.random() * 10000000000);
 	document.getElementById("seed").value = v;
 }
