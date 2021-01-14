@@ -947,5 +947,6 @@ generateOre();
 window.addEventListener("keydown", function (event) {
 	if (event.key == "r") {
 		randomizeSeed();
+		generateOre();
 	}
 });
