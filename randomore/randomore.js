@@ -1,7 +1,6 @@
 function randomizeSeed() {
 	let v = Math.floor(Math.random() * 10000000000);
 	document.getElementById("seed").value = v;
-	generateOre();
 }
 
 
@@ -193,7 +192,6 @@ function generateOre() {
 	//make sure the seed is changed
 	let seed = parseInt(document.getElementById("seed").value);
 	Math.seedrandom(seed);
-	document.getElementById("seed").value = seed;
 
 	let language = document.getElementById('language').value;
 
