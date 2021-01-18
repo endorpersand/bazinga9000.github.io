@@ -459,7 +459,7 @@ function generateOre() {
 	// __mineableBy__ is the material that can mine the ore
 	// __DIRECTORY__ is the directory to the images
 
-	let pickaxeBlocks = ['stone', 'granite', 'diorite', 'andesite', 'obsidian', 'netherrack', 'end_stone'];
+	let pickaxeBlocks = ['stone', 'granite', 'diorite', 'andesite', 'obsidian', 'netherrack', 'end_stone', 'blackstone'];
 	let mimg = document.createElement('img');
 	mimg.src = `randomore/resources/comparisons/${pickaxeBlocks.includes(spawnblock) ? 'pickaxe' : 'shovel'}.png`;
 	let mctx = hcanvas.getContext('2d');
