@@ -1,0 +1,45 @@
+---
+title: Ghost In the Shell Stats
+kochtitle: UMD 2021 Puzzlehunt "Ghost in the Shell" Statistics
+goto: /puzzlehunts.html
+extincludes: https://cdn.jsdelivr.net/npm/luxon@2.0.2/build/global/luxon.min.js
+includes: puzzlehunts/umd21data, puzzlehunts/stat_generator
+---
+<center>
+    <h2>Current Time: </h2>
+    <h2 id="timeDisplay"></h2>
+    <input type="range" min="0" max="30600" value="30600" class="slider" id="currentTime" oninput="updateCurrentTime()">
+</center>
+<center>
+    <div style="display: flex; justify-content: center">
+        <div style="padding: 20px">
+            <h3>Table of Ranks</h3>
+            <table id="ranktable"></table>
+        </div>
+        <div style="padding: 20px">
+            <h3>Rank over Time</h3>
+            <canvas id="rankgraph" width="500" height="500"></canvas>
+        </div>
+        <div style="padding: 20px">
+            <h3>Solves over Time</h3>
+            <canvas id="solvesgraph" width="500" height="500"></canvas>
+        </div>
+    </div>
+    <div style="display: flex; justify-content: center">
+        <div style="padding: 20px">
+            <h3>Time Solved After First Solve</h3>
+            <table id="difftable" style="text-align:center;"></table>
+        </div>
+    </div>
+    <div style="display: flex; justify-content: center">
+        <div style="padding: 20px">
+            <h3>Individual Puzzle Solve Times</h3>
+            <table id="splitstable" style="text-align:center;"></table>
+        </div>
+    </div>
+</center>
+<script>
+    updateCurrentTime();
+    generateDifferentialTable(data);
+    generateSplitTable(data);
+</script>

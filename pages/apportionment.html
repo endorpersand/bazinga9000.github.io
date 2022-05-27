@@ -1,0 +1,23 @@
+---
+title: Apportionment Simulator
+kochtitle: Apportionment Simulator
+goto: /index.html
+extracss: apportionment
+includes: apportionment/templates, apportionment/apportionment
+---
+<button onclick=uploadCustomTemplate();>Upload Custom Template</button>
+<button onclick=alert(exportTemplate());>Export to Template</button>
+<button onclick=clearStates();>Clear</button>
+<br>
+Number of Seats: <input type=number id="seat_number"></input><br>
+<input type="number" id="starting_seats" value=1>Number of Seats each District starts with</input><br>
+<button onclick=apportion()>Apportion</button>
+
+<div id='meta' style='display: flex;'>
+	<div id="state_inputs" style='margin-right: 30px'></div>
+</div>
+<button onclick=newState();>Add New District</button><br>
+
+<h2>Load Data from Templates</h2>
+<button onclick=applyTemplate(us2010);>2010 U.S. House of Representatives</button>
+<button onclick=applyTemplate(world);>World Populations</button><br>

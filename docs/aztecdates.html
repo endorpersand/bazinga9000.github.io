@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+	<head>
+		<title>Aztec Date Finder</title>
+		<link rel="stylesheet" type="text/css" href="./css/default.css">
+		<link rel="icon" type="image/x-icon" href="./resources/favicon.ico">
+		
+		
+		
+			<script src="./js/aztecdates/aztecdates.js"></script>
+		
+		
+	<body>
+		<h1>
+			<center><a href="./index.html"><img src="./resources/koch.png" height="50px" width="auto" style="vertical-align: middle" /></a></center>
+			<center><span>Aztec Date Finder</span></center>
+		</h1>
+		<div id="content">
+            <center>
+	<h2>Start Date</h2>
+	Month <input onchange="setRecommendedStartCalendar();" id="startM" type="number" min="1" max="12" />
+	Day <input onchange="setRecommendedStartCalendar();" id="startD" type="number" min="1" max="31" />
+	Year <input onchange="setRecommendedStartCalendar();" id="startY" type="number" min="-4713" />
+	</br>
+	Calendar <select id="startCalendar">
+		<option>Gregorian</option>
+		<option>Julian</option>
+	</select>
+	<h2>End Date</h2>
+	Month <input onchange="setRecommendedEndCalendar();" id="endM" type="number" min="1" max="12" />
+	Day <input onchange="setRecommendedEndCalendar();" id="endD" type="number" min="1" max="31" />
+	Year <input onchange="setRecommendedEndCalendar();" id="endY" type="number" min="-4713" />
+	</br>
+	Calendar <select id="endCalendar">
+		<option>Gregorian</option>
+		<option>Julian</option>
+	</select>
+	</br>
+	<h2>Search Options</h2>
+	<h5>Note: Setting two of these parameters forces the third. If you set all three, you probably won't get any results unless you have them align correctly.</h5>
+	Search for Trecena <input checked="true" onclick="toggleTrecena();" type="checkbox" id="trecena">
+	<select id="trecena_choice">
+		<option>Crocodile</option>
+		<option>Wind</option>
+		<option>House</option>
+		<option>Lizard</option>
+		<option>Serpent</option>
+		<option>Death</option>
+		<option>Deer</option>
+		<option>Rabbit</option>
+		<option>Water</option>
+		<option>Dog</option>
+		<option>Monkey</option>
+		<option>Grass</option>
+		<option>Reed</option>
+		<option>Ocelot</option>
+		<option>Eagle</option>
+		<option>Vulture</option>
+		<option>Movement</option>
+		<option>Flint</option>
+		<option>Rain</option>
+		<option>Flower</option>
+	</select>
+	<br />
+	Search for Day Sign <input checked="true" onclick="toggleDaySign();" type="checkbox" id="daysign" />
+	<select id="daysign_choice">
+		<option>Crocodile</option>
+		<option>Wind</option>
+		<option>House</option>
+		<option>Lizard</option>
+		<option>Serpent</option>
+		<option>Death</option>
+		<option>Deer</option>
+		<option>Rabbit</option>
+		<option>Water</option>
+		<option>Dog</option>
+		<option>Monkey</option>
+		<option>Grass</option>
+		<option>Reed</option>
+		<option>Ocelot</option>
+		<option>Eagle</option>
+		<option>Vulture</option>
+		<option>Movement</option>
+		<option>Flint</option>
+		<option>Rain</option>
+		<option>Flower</option>
+	</select>
+	<br />
+	Search for Day Number <input checked="true" onclick="toggleDayNumber();" type="checkbox" id="daynumber" />
+	<input id="daynumber_choice" type="number" min="1" max="13" />
+	</br>
+	Output Calendar <select id="outputCalendar">
+		<option>Gregorian</option>
+		<option>Julian</option>
+	</select>
+	<br />
+
+<button onClick="search();">Search</button>
+<br />
+
+<div id="results">
+
+</div>
+</center>
+
+        </div>
+	</body>
+</html>

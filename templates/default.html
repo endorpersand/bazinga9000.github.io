@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+	<head>
+		<title>$title$</title>
+		<link rel="stylesheet" type="text/css" href="/css/default.css">
+		<link rel="icon" type="image/x-icon" href="/resources/favicon.ico">
+		$if(extracss)$
+			<link rel="stylesheet" type="text/css" href="/css/$extracss$.css">
+		$endif$
+		$for(extincludes)$
+			<script src="$include$"></script>
+		$endfor$
+		$for(includes)$
+			<script src="$include$"></script>
+		$endfor$
+		$katex$
+	<body>
+		<h1>
+			<center><a href="$goto$"><img src="/resources/koch.png" height=50px width=auto style='vertical-align: middle'></img></a></center>
+			<center><span>$kochtitle$</span></center>
+		</h1>
+		<div id=content>
+            $body$
+        </div>
+	</body>
+</html>

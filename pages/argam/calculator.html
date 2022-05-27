@@ -1,0 +1,72 @@
+---
+title: Argam Calculator
+kochtitle:  Argam Calculator
+goto: /index.html
+extracss: argam
+extincludes: https://cdn.jsdelivr.net/npm/bignumber.js/bignumber.min.js
+includes: argam/argam, argam/calculator
+---
+<center>
+    <input type="number" id="base" value="60" min="2" max="62" onInput="updateBase();renderStack()">Base</input>
+</center>
+<div style="display:flex;justify-content:center;align-items:center;">
+    <div id="buttons">
+        <table id="operation-buttons">
+            <tr>
+                <td class="argam button" style="font-size: 50px;" onclick="add()">
+                    +
+                </td>
+                <td class="argam button" style="font-size: 50px;" onclick="subtract()">
+                    -
+                </td>
+                <td class="argam button" style="font-size: 50px;" onclick="multiply()">
+                    *
+                </td>
+                <td class="argam button" style="font-size: 50px;" onclick="divide()">
+                    ÷
+                </td>
+            </tr>
+        </table>
+        <table id="numerical-buttons"></table>
+        <table id="special-numerical">
+            <tr>
+                <td class="argam button" style="font-size: 50px;" onclick="inputDigit('.')">
+                    .
+                </td>
+                <td class="argam button" style="font-size: 50px;"  onclick="inputDigit('-')">
+                    ±
+                </td>
+            </tr>
+            <tr>
+                <td class="button" style="font-size: 50px;"  onclick="push()">
+                    Push
+                </td>
+                <td class="button" style="font-size: 50px;"  onclick="drop()">
+                    Drop
+                </td>
+            </tr>
+            <tr>
+                <td class="button" style="font-size: 50px;"  onclick="swap()">
+                    Swap
+                </td>
+                <td class="button" style="font-size: 50px;"  onclick="stackClear()">
+                    Clear
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <center><h3>Stack</h3></center>
+        <table id="stack"></table>
+    </div>
+</div>
+
+
+<center>
+    <h5 style="color: #800000">
+        Note: Inputting digits after a decimal point in large bases may result in visible float imprecision.
+    </h5>
+    <h5>
+        Arqam digits created by <a class="hyperlink" href="http://www.vincico.com/arqam/digits/argam-now.html">Michael Thomas De Vlieger</a>
+    </h5>
+</center>

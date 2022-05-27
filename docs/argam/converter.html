@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+	<head>
+		<title>Argam Converter</title>
+		<link rel="stylesheet" type="text/css" href="../css/default.css">
+		<link rel="icon" type="image/x-icon" href="../resources/favicon.ico">
+		
+			<link rel="stylesheet" type="text/css" href="../css/argam.css">
+		
+		
+			<script src="https://cdn.jsdelivr.net/npm/bignumber.js/bignumber.min.js"></script>
+		
+		
+			<script src="../js/argam/argam.js"></script>
+		
+			<script src="../js/argam/converter.js"></script>
+		
+		
+	<body>
+		<h1>
+			<center><a href="../index.html"><img src="../resources/koch.png" height="50px" width="auto" style="vertical-align: middle" /></a></center>
+			<center><span>Argam Converter</span></center>
+		</h1>
+		<div id="content">
+            <center>
+    <input type="number" id="num" step="any" onInput="convert()">Number to convert to Argam</input>
+    <br>
+    <input type="number" id="base" value="60" min="2" max="62" onInput="convert()">Base</input>
+    <br>
+    <span style="font-size: 72px;" class="argam" id="output"></span>
+    <br>
+    <span style="font-size: 15px;" id="output-name"></span>
+</center>
+
+
+<center>
+    <h5>
+        Arqam digits created by <a class="hyperlink" href="http://www.vincico.com/arqam/digits/argam-now.html">Michael Thomas De Vlieger</a>
+    </h5>
+</center>
+
+        </div>
+	</body>
+</html>

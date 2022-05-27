@@ -1,0 +1,24 @@
+---
+title: Argam Converter
+kochtitle:  Argam Converter
+goto: /index.html
+extracss: argam
+extincludes: https://cdn.jsdelivr.net/npm/bignumber.js/bignumber.min.js
+includes: argam/argam, argam/converter
+---
+<center>
+    <input type="number" id="num" step="any" onInput="convert()">Number to convert to Argam</input>
+    <br>
+    <input type="number" id="base" value="60" min="2" max="62" onInput="convert()">Base</input>
+    <br>
+    <span style="font-size: 72px;" class="argam" id="output"></span>
+    <br>
+    <span style="font-size: 15px;" id="output-name"></span>
+</center>
+
+
+<center>
+    <h5>
+        Arqam digits created by <a class="hyperlink" href="http://www.vincico.com/arqam/digits/argam-now.html">Michael Thomas De Vlieger</a>
+    </h5>
+</center>
