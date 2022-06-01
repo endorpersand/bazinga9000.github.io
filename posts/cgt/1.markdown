@@ -87,7 +87,11 @@ So, what would happen if we do this?
     Figure 1.5: Finally, a Position With Both Colors
 </center>  
 
-If we play this out, we find that whoever moves first must cut their branch, after which the second player will cut theirs, leaving the first player without any moves. Whoever moves first loses, just like in the empty position. What is the value of this position? Well, we get it by combining two positions, one with a spare move for Lazuli (value $1$) and one with a spare move for Ruby (value $-1$), and it looks like the spare moves cancel each other out, so we will say that the value of this position is $1 + (-1) = 0$.
+If we play this out, we find that whoever moves first must cut their branch, after which the second player will cut theirs, leaving the first player without any moves. Whoever moves first loses, just like in the empty position. What is the value of this position?
+
+Finding this out reveals a fundamental aspect of Combinatorial Game Theory: the ability to **combine** positions. In Hackenbush, combining two positions is simply putting them next to each other, but later we'll find out the general way to combine two positions in any game.
+
+In this case, our position is made up of two simpler ones, one with a spare move for Lazuli (value $1$) and one with a spare move for Ruby (value $-1$), and it looks like the spare moves cancel each other out, so we will say that the value of this position is $1 + (-1) = 0$.
 
 This works in general, too. If you had a position with three blue branches (value $3$) and a position with seven red branches (value $-7$), their combination would have a value of $3 - 7 = -4$. You can verify this by playing the game out and seeing that Ruby wins going first or second, and they have at least four moves to spare when doing so.
 
@@ -128,6 +132,7 @@ Suppose it's Lazuli's turn. They decide to cut one of the blue branches in the l
 * A game is a **combinatorial game** if it has two players, if has no randomness or hidden information, if a player loses when unable to move, and (for now) if the game will eventually end.
 * Positions in combinatorial games can be given **values** which tell us who will win that position, and by how much.
 * If a position has a positive value, Lazuli always wins it. If it has a negative value, Ruby always wins it. If it has a value of zero, whoever goes second will win.
+* One way of finding the value a Hackenbush position is splitting it up into individual components and adding up their values.
 * The Tweedledee and Tweedledum Argument shows that combining a position with its negative will produce a zero position.
 
 ## In Part 2, we will:

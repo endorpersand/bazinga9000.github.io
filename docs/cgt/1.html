@@ -82,7 +82,9 @@ Figure 1.4: The Second Simplest Possible Hackenbush Position
 <br>
 Figure 1.5: Finally, a Position With Both Colors
 </center>
-<p>If we play this out, we find that whoever moves first must cut their branch, after which the second player will cut theirs, leaving the first player without any moves. Whoever moves first loses, just like in the empty position. What is the value of this position? Well, we get it by combining two positions, one with a spare move for Lazuli (value <span class="math inline">\(1\)</span>) and one with a spare move for Ruby (value <span class="math inline">\(-1\)</span>), and it looks like the spare moves cancel each other out, so we will say that the value of this position is <span class="math inline">\(1 + (-1) = 0\)</span>.</p>
+<p>If we play this out, we find that whoever moves first must cut their branch, after which the second player will cut theirs, leaving the first player without any moves. Whoever moves first loses, just like in the empty position. What is the value of this position?</p>
+<p>Finding this out reveals a fundamental aspect of Combinatorial Game Theory: the ability to <strong>combine</strong> positions. In Hackenbush, combining two positions is simply putting them next to each other, but later we’ll find out the general way to combine two positions in any game.</p>
+<p>In this case, our position is made up of two simpler ones, one with a spare move for Lazuli (value <span class="math inline">\(1\)</span>) and one with a spare move for Ruby (value <span class="math inline">\(-1\)</span>), and it looks like the spare moves cancel each other out, so we will say that the value of this position is <span class="math inline">\(1 + (-1) = 0\)</span>.</p>
 <p>This works in general, too. If you had a position with three blue branches (value <span class="math inline">\(3\)</span>) and a position with seven red branches (value <span class="math inline">\(-7\)</span>), their combination would have a value of <span class="math inline">\(3 - 7 = -4\)</span>. You can verify this by playing the game out and seeing that Ruby wins going first or second, and they have at least four moves to spare when doing so.</p>
 <p>(You may be asking yourself at this point whether or not adding these spare move values to get the value of a combined position actually works, and for now I unfortunately say that you’ll have to trust me that this works. You’ll see a rigorous explanation of this addition later.)</p>
 <p>The fact that this value came out to zero when the branches are equal on both sides is very important. Zero is special. It is the value of <strong>any</strong> position where the <strong>second player can always force a win</strong>, no matter who starts. The empty position also has a value of zero for this same reason. This allows us to look at the value of a position and determine who can force victory:</p>
@@ -112,6 +114,7 @@ Figure 1.6: Mutual Loss
 <li>A game is a <strong>combinatorial game</strong> if it has two players, if has no randomness or hidden information, if a player loses when unable to move, and (for now) if the game will eventually end.</li>
 <li>Positions in combinatorial games can be given <strong>values</strong> which tell us who will win that position, and by how much.</li>
 <li>If a position has a positive value, Lazuli always wins it. If it has a negative value, Ruby always wins it. If it has a value of zero, whoever goes second will win.</li>
+<li>One way of finding the value a Hackenbush position is splitting it up into individual components and adding up their values.</li>
 <li>The Tweedledee and Tweedledum Argument shows that combining a position with its negative will produce a zero position.</li>
 </ul>
 <h2 id="in-part-2-we-will">In Part 2, we will:</h2>
