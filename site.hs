@@ -1,17 +1,23 @@
 --------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
 import           Control.Monad
+import           Data.Maybe
 import           Data.Monoid         (mappend)
 import           Data.String         (fromString)
+import qualified Data.Text           as T
 import           Hakyll
 import           Text.Pandoc.Options
 
---------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
+Configuration
+-------------------------------------------------------------------------------}
 config :: Configuration
 config = defaultConfiguration
   { destinationDirectory = "docs"
   }
---------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
+Main
+-------------------------------------------------------------------------------}
 main :: IO ()
 main = hakyllWith config $ do
         forM_ [ "CNAME"
@@ -26,12 +32,34 @@ main = hakyllWith config $ do
             compile compressCssCompiler
 
         match "pages/**.html" $ do
-            route pageRoute
-            compile $ compileWithDefaultOptions getResourceBody
+            route $ stripPrefixRoute "pages/"
+            compile $ postCompiler getResourceBody
 
         match "pages/**.markdown" $ do
-            route $ pageRoute `composeRoutes` setExtension "html"
-            compile $ compileWithDefaultOptions fullPandocCompiler
+            route $ stripPrefixRoute "pages/" `composeRoutes` setExtension "html"
+            compile $ postCompiler fullPandocCompiler
+
+        forM_ ["cgt"] $ \f -> do
+            match (postFolder f ".html") $ do
+                route $ stripPrefixRoute "posts/"
+                compile $ postCompiler getResourceBody
+
+            match (postFolder f ".markdown") $ do
+                route $ stripPrefixRoute "posts/" `composeRoutes` setExtension "html"
+                compile $ postCompiler fullPandocCompiler
+
+            match (fromGlob $ "posts/" ++ f ++ ".markdown") $ do
+                route $ stripPrefixRoute "posts/" `composeRoutes` setExtension "html"
+                compile $ compileWithDefaultOptions $ do
+                    posts <- loadAll (fromGlob $ "posts/" ++ f ++ "/**.markdown")
+
+                    let indexCtx = getIndexContext posts
+
+                    fullPandocCompiler >>=
+                        loadAndApplyTemplate "templates/postlist.html" indexCtx
+
+
+
 
         match "js/**" $ do
             route idRoute
@@ -40,9 +68,11 @@ main = hakyllWith config $ do
         match "templates/*" $ compile templateBodyCompiler
 
         match "misc/**" $ do
-            route miscRoute
+            route $ stripPrefixRoute "misc/"
             compile copyFileCompiler
---------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
+Math In Pandoc
+-------------------------------------------------------------------------------}
 globalReaderOptions :: ReaderOptions
 globalReaderOptions = defaultHakyllReaderOptions
 
@@ -77,13 +107,9 @@ fullPandocCompiler = do
     Just "true" -> mathPandocCompiler
     _           -> pandocCompiler
 
-
-postCtx :: Context String
-postCtx =
-    dateField "date" "%B %e, %Y" `mappend`
-    defaultContext
-
-
+{-------------------------------------------------------------------------------
+Context Manipulation
+-------------------------------------------------------------------------------}
 makeBooleanContext :: String -> String -> Context a
 makeBooleanContext fieldName stringToUse = field fieldName $ \item -> do
     f <- getMetadataField (itemIdentifier item) fieldName
@@ -125,13 +151,24 @@ fullContext = externIncludesContext
            <> mathContext
            <> defaultContext
 
-pageRoute :: Routes
-pageRoute = gsubRoute "pages/" (const "")
-
-miscRoute :: Routes
-miscRoute = gsubRoute "misc/" (const "")
+stripPrefixRoute :: String -> Routes
+stripPrefixRoute s = gsubRoute s (const "")
 
 compileWithDefaultOptions :: Compiler (Item String) -> Compiler (Item String)
 compileWithDefaultOptions c = do
     c >>= loadAndApplyTemplate "templates/default.html" fullContext
       >>= relativizeUrls
+
+{-------------------------------------------------------------------------------
+Posts
+-------------------------------------------------------------------------------}
+postFolder :: String -> String -> Pattern
+postFolder f ext = fromGlob $ "posts/" ++ f ++ "/**" ++ ext
+
+getIndexContext :: [Item String] -> Context String
+getIndexContext posts = listField "posts" fullContext (return posts) <> fullContext
+
+postCompiler :: Compiler (Item String) -> Compiler (Item String)
+postCompiler c = do
+    compileWithDefaultOptions $ c
+        >>= loadAndApplyTemplate "templates/post.html" fullContext

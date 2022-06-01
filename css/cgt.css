@@ -1,0 +1,22 @@
+a {
+      color: #51e194;
+}
+
+a:hover {
+      color: #256643;
+}
+
+
+.lazuli {
+      color: #345ec3;
+}
+
+.ruby {
+      color: #d24d61;
+}
+
+#content {
+    width: 66%;
+    margin: auto;
+    line-height: 150%;
+}
