@@ -33,11 +33,11 @@ main = hakyllWith config $ do
 
         match "pages/**.html" $ do
             route $ stripPrefixRoute "pages/"
-            compile $ postCompiler getResourceBody
+            compile $ compileWithDefaultOptions getResourceBody
 
         match "pages/**.markdown" $ do
             route $ stripPrefixRoute "pages/" `composeRoutes` setExtension "html"
-            compile $ postCompiler fullPandocCompiler
+            compile $ compileWithDefaultOptions fullPandocCompiler
 
         forM_ ["cgt"] $ \f -> do
             match (postFolder f ".html") $ do
