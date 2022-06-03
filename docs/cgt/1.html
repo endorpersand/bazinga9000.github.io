@@ -31,6 +31,8 @@
 <p>Combinatorial Game Theory, as you might expect, concerns itself with the studies of games. In particular, it focuses on a class of games known as <strong>combinatorial</strong> games. A game is a <strong>combinatorial game</strong> if it satisfies all of the following properties:</p>
 <ul>
 <li>The game has exactly two players.</li>
+<li>The game has some number of <strong>positions</strong>, which can be moved from by a player to other positions.</li>
+<li>The two players move in sequence.</li>
 <li>The game has no randomness.</li>
 <li>Both players have complete information about the game state.</li>
 <li>A player loses if they are unable to move (this is called the <strong>normal play condition</strong>)</li>
@@ -45,43 +47,58 @@
 <p>As for examples of combinatorial games, we will see a handful throughout this series, and you will see even more if you dive into <em>Winning Ways</em>, but our game of choice for a large portion of this series will be <strong>Hackenbush</strong>. It’s a simple game, extremely useful for learning general analysis.</p>
 <h2 id="our-players">Our Players</h2>
 <p>Before we get into the rules of Hackenbush, we need to introduce our players. Since several games will be covered and it will help to have consistent names across all games, allow me to introduce you to <span class="lazuli">Lazuli</span> and <span class="ruby">Ruby</span>:</p>
+<figure>
 <center>
-<img src="../resources/cgt/1/lazuliandruby.png" width="300px" height="auto" />
-<br>
+<img src="../resources/cgt/1/lazuliandruby.png" width="auto" height="300px" />
+<figcaption>
 Figure 1.1: Lazuli and Ruby <em>(I am many things but an artist is not one of them.)</em>
+</figcaption>
 </center>
+</figure>
 <p>Whenever I show some diagram of a position in a game, if possible, the various parts of the game will be color-coded to show whether they’re “associated” with Lazuli or with Ruby. Sometimes the actual game as described in <em>Winning Ways</em> or elsewhere won’t have this direct association to the players, instead some more arbitrary one, but in this series things will be as color-coded as possible.</p>
 <p>On top of that, in the future when we get rigorous, you’ll find that the L and R I’ve ever so conveniently placed at the start of their names will also help keep things straight. But we’re getting ahead of ourselves.</p>
 <h2 id="the-rules-of-hackenbush">The Rules of Hackenbush</h2>
+<figure>
 <center>
-<img src="../resources/cgt/1/samplehackenpos.png" width="500px" height="auto" />
-<br>
+<img src="../resources/cgt/1/example.svg" width="50%" height="auto" />
+<figcaption>
 Figure 1.2: A Completely Inconspicuous Example of a Hackenbush Position
+<figcaption>
 </center>
+</figure>
 <p>Hackenbush is a game of branches. A position in Hackenbush is composed of a collection of branches which are either connected to some other branch or to the ground. On each player’s turn, they must remove one branch of their color (that is, Lazuli removes their blue branches and Ruby removes their red branches). If, after this cut, a branch is left unconnected to the ground, it too is removed. For example, in Figure 1.2, if it was Ruby’s turn and they elected to cut the rightmost red branch, that blue branch on the far right would also be removed. As this is a combinatorial game, whoever finds themself unable to move loses.</p>
 <h2 id="analyzing-hackenbush">Analyzing Hackenbush</h2>
 <p>What we would like to do throughout this series is look at a position and determine whether Lazuli or Ruby has a winning strategy from that position. First, we will look at some very simple positions:</p>
+<figure>
 <center>
-<img src="../resources/cgt/1/simplestpos.png" width="500px" height="auto" />
-<br>
+<img src="../resources/cgt/1/simplestpos.png" width="50%" height="auto" />
+<figcaption>
 Figure 1.3: The Simplest Possible Hackenbush Position
+</figcaption>
 </center>
+</figure>
 <p>In this position, there is nothing. Lazuli has no moves, and Ruby is also without any moves. So, whoever has the misfortune of holding the current turn will immediately lose. Or, in other words, the winner in this position is <strong>whoever moves second</strong>. This will be important later. Now, for the second simplest Hackenbush position:</p>
+<figure>
 <center>
-<img src="../resources/cgt/1/onebranch.png" width="300px" height="auto" />
-<br>
+<img src="../resources/cgt/1/one.svg" width="12.5%" height="auto" />
+<figcaption>
 Figure 1.4: The Second Simplest Possible Hackenbush Position
+</figcaption>
 </center>
+</figure>
 <p>In this position, Lazuli has a single blue branch. If Ruby starts here, they will immediately lose. However, if Lazuli starts, they can cut their single branch and force Ruby into the empty position, whereupon Ruby loses. Lazuli wins <strong>no matter who goes first</strong>.</p>
 <p>A helpful way to think about this is that the branch gave Lazuli a <em>spare move</em>. If Lazuli has to move, they can simply cut their free branch and then force Ruby to make a move in turn. However, this branch won’t help Lazuli any more than <em>once</em>, since after it is gone Lazuli is left to find a move elsewhere. Because of this, we will say that this position has a value of <span class="math inline">\(+1\)</span>.</p>
 <p>If we were to replace that blue branch with a red one, the same logic would hold in the other direction and we would say that Ruby has one spare move which allows them to win no matter who goes first, and that the value of the position would be <span class="math inline">\(-1\)</span>.</p>
 <p>Furthermore, if we wanted to, we could continue to stack branches of the same color on top of each other to grant Lazuli or Ruby even more spare moves. Let’s say we built some structure out of five blue branches. They could be a chain of branches one on top of the other, or they could all connect to the ground individually, or they could be in some weirder shape. In all of these cases, Lazuli will be able to find some order to cut the branches so that they are all of use. Ruby can’t interfere by breaking the structure’s connection to the ground, because it’s entirely blue. Thus, it gives Lazuli <span class="math inline">\(5\)</span> spare moves of advantage. Similarly, a structure of five red branches connected to the ground confers Ruby five spare moves, so it will have a value of <span class="math inline">\(-5\)</span>. There’s nothing special about five here, of course, if we have <span class="math inline">\(x\)</span> branches all of one color with no branches of the other color in the structure, it confers a value of <span class="math inline">\(x\)</span> if the branches are blue, and <span class="math inline">\(-x\)</span> if the branches are red.</p>
 <p>So, what would happen if we do this?</p>
+<figure>
 <center>
-<img src="../resources/cgt/1/twobranches.png" width="300px" height="auto" />
-<br>
+<img src="../resources/cgt/1/oneminusone.svg" width="25%" height="auto" />
+<figcaption>
 Figure 1.5: Finally, a Position With Both Colors
+</figcaption>
 </center>
+</figure>
 <p>If we play this out, we find that whoever moves first must cut their branch, after which the second player will cut theirs, leaving the first player without any moves. Whoever moves first loses, just like in the empty position. What is the value of this position?</p>
 <p>Finding this out reveals a fundamental aspect of Combinatorial Game Theory: the ability to <strong>combine</strong> positions. In Hackenbush, combining two positions is simply putting them next to each other, but later we’ll find out the general way to combine two positions in any game.</p>
 <p>In this case, our position is made up of two simpler ones, one with a spare move for Lazuli (value <span class="math inline">\(1\)</span>) and one with a spare move for Ruby (value <span class="math inline">\(-1\)</span>), and it looks like the spare moves cancel each other out, so we will say that the value of this position is <span class="math inline">\(1 + (-1) = 0\)</span>.</p>
@@ -103,15 +120,18 @@ x + -x = 0
 using the fact that zero positions are a win for the second player.</p>
 <p>But first, what does <span class="math inline">\(-x\)</span> look like in general? Suppose we had some position that had a value of <span class="math inline">\(x\)</span>. Now suppose we generated a new position that took the old, and swapped all the red and blue branches. In this new position, Lazuli’s options are the same as Ruby’s in the previous position, and vice versa. We have swapped the roles of the two players. If Lazuli had some number of spare moves in the old position, they are now Ruby’s, and vice versa. Given how we defined spare moves for the two players giving values of opposite signs, what this does to the value <span class="math inline">\(x\)</span> is change its sign to <span class="math inline">\(-x\)</span>.</p>
 <p>Now for the Argument. To show this, we’ll take our sample position from Figure 1.2 and combine it with its negative:</p>
+<figure>
+<img src="../resources/cgt/1/tweedle.svg" width="100%" height="auto" />
 <center>
-<img src="../resources/cgt/1/mutualloss.png" width="600px" height="auto" />
-<br>
+<figcaption>
 Figure 1.6: Mutual Loss
+</figcaption>
 </center>
+</figure>
 <p>Suppose it’s Lazuli’s turn. They decide to cut one of the blue branches in the left half. If the Tweedledee and Tweedledum Argument is true, this entire position should have a value of <span class="math inline">\(0\)</span>. How should Ruby respond, then, to ensure victory? Since the right half of the position is the negative of the left, whatever move Lazuli made in the left half has a corresponding move avaliable to Ruby in the right half. Ruby can then make this move. If Ruby simply continues this process, always “copying” whatever move Lazuli does, they will never be left moveless. This means that they cannot lose, and since the game must end, Lazuli will eventually run out of moves. This hands the victory to Ruby, the second player. By exactly the same logic, Lazuli wins when Ruby goes first. This means that the second player always wins, forcing the value of the position to <span class="math inline">\(0\)</span>.</p>
 <h2 id="summary-of-part-1">Summary of Part 1</h2>
 <ul>
-<li>A game is a <strong>combinatorial game</strong> if it has two players, if has no randomness or hidden information, if a player loses when unable to move, and (for now) if the game will eventually end.</li>
+<li>A game is a <strong>combinatorial game</strong> if it has two players, if has no randomness or hidden information, if a player loses when unable to move, if the two players move sequentially from one position to another, and (for now) if the game will eventually end.</li>
 <li>Positions in combinatorial games can be given <strong>values</strong> which tell us who will win that position, and by how much.</li>
 <li>If a position has a positive value, Lazuli always wins it. If it has a negative value, Ruby always wins it. If it has a value of zero, whoever goes second will win.</li>
 <li>One way of finding the value a Hackenbush position is splitting it up into individual components and adding up their values.</li>
@@ -130,7 +150,7 @@ Figure 1.6: Mutual Loss
 
 <a href="../cgt.html" style="font-size: 40px">☉</a>
 
-<span style="font-size: 30px">×</span>
+<a href="../cgt/2.html" style="font-size: 30px">→</a>
 
 </div>
 </center>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+	<head>
+		<title>CGT Part 2</title>
+		<link rel="stylesheet" type="text/css" href="../css/default.css">
+		<link rel="icon" type="image/x-icon" href="../resources/favicon.ico">
+		
+			<link rel="stylesheet" type="text/css" href="../css/cgt.css">
+		
+		
+		
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css" integrity="sha384-ZPe7yZ91iWxYumsBEOn7ieg8q/o+qh/hQpSaPow8T6BwALcXSCS6C6fSRPIAnTQs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js" integrity="sha384-ljao5I1l+8KYFXG7LNEA7DyaFvuvSCmedUf6Y6JI7LJqiu8q5dEivP2nDdFH31V4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+	<body>
+		<h1>
+			<center><a href="../cgt.html"><img src="../resources/koch.png" height="50px" width="auto" style="vertical-align: middle" /></a></center>
+			<center><span>Part 2 - You Can't Say It's Only A Half</span></center>
+		</h1>
+		<div id="content">
+            <hr />
+<center>
+“Fractions are Hard.”
+</center>
+<center>
+—<em>Countless Elementary School Students</em>
+</center>
+<hr />
+<p>What’s the value of this position?</p>
+<figure>
+<center>
+<img src="../resources/cgt/2/halfmove.svg" width="12.5%" height="auto" />
+<figcaption>
+Figure 2.1: A Multicolored Stack
+</figcaption>
+</center>
+</figure>
+<p>Well, just from looking at it, we know it to be positive, since Lazuli is the only one who can ever hope to win. Ruby’s extra branch does not save them. Given that it’s just a single blue branch, which we know to have a value of <span class="math inline">\(1\)</span>, with a red branch that doesn’t seem to help Ruby, perhaps this position is also a value of <span class="math inline">\(1\)</span>? We can find out by combining it with a position of value <span class="math inline">\(-1\)</span>, like so:</p>
+<figure>
+<center>
+<img src="../resources/cgt/2/isitminusone.svg" width="25%" height="auto" />
+<figcaption>
+Figure 2.2: Who wins here?
+</figcaption>
+</center>
+</figure>
+<p>If our position really did have a value of <span class="math inline">\(-1\)</span>, this new position would be 0, meaning that if Ruby starts, Lazuli will win. Is this the case?</p>
+<p>As it turns out, it’s not! That seemingly useless red branch stacked on the blue one is now Ruby’s savior, as they can cut it to hand Lazuli a zero position. Remember, since zero positions are a loss for whoever has to move in them, you win if you can force one onto your opponent!</p>
+<p>It’s easy to check that Ruby also wins when Lazuli starts, since Lazuli has only a single move which leaves the position with only a single red branch. This means that the position in Figure 2.2 is negative since Ruby wins it no matter who starts. Recall that we got this position by combining a position of value -1 with our mystery position. If we label the value of that mystery position <span class="math inline">\(m\)</span>, what Figure 2.2 tells us is that
+<span class="math display">\[
+m - 1 &lt; 0
+\]</span>
+<span class="math display">\[
+m &lt; 1
+\]</span>
+Combining this with what we figured out from playing out the position, we know that <span class="math inline">\(m\)</span> is between zero and one. At this point, thinking of position values as “spare moves” starts to break down a bit, so it might be more helpful to think of position values as an abstract measure of “advantage” that can be added, though the spare move analogy will still come in handy sometimes, so keep it in the back of your mind.</p>
+<p>The next candidate for the value of <span class="math inline">\(m\)</span> is <span class="math inline">\(\frac{1}{2}\)</span>, but we can only make positions with integer values, so what position could we make to check this? Since we can add values by combining positions, we can check whether or not <span class="math inline">\(m = \frac{1}{2}\)</span> by seeing if
+<span class="math display">\[
+m + m - 1 = 0
+\]</span></p>
+<p>That is, if we make a position by combining two copies of our mystery position and a position with value <span class="math inline">\(-1\)</span>, and we get a zero position, then we will have found the value of <span class="math inline">\(m\)</span> to be one half! Let’s make that position:</p>
+<figure>
+<center>
+<img src="../resources/cgt/2/isitonehalf.svg" width="25%" height="auto" />
+<figcaption>
+Figure 2.3: A Position with value <span class="math inline">\(m + m - 1\)</span>
+</figcaption>
+</center>
+</figure>
+<p>This position, as it turns out, is a win for whoever goes second. I leave the actual checking of this to you as an exercise (a helpful trick is that if you reach a position whose value you already know or a sum of such, you don’t need to keep checking that line by hand). Given this, we have now discovered the value of our mystery position to be <span class="math inline">\(\frac{1}{2}\)</span>! A fraction is born! Let’s make another!</p>
+<figure>
+<center>
+<img src="../resources/cgt/2/quarter.svg" width="12.5%" height="auto" />
+<figcaption>
+Figure 2.4: This is getting out of hand. Now there are two of them!
+</figcaption>
+</center>
+</figure>
+<p>What’s the value of this position? There are several ways intuition might complete the pattern. Maybe each red branch halves the value of the stack, so this would be <span class="math inline">\(\frac{1}{4}\)</span>. Or perhaps since there are now three branches the value might be <span class="math inline">\(\frac{1}{3}\)</span>. Or maybe it’s something else entirely. Let’s find out!</p>
+<p>First, it’s still positive since Lazuli is the only one who can win. Let’s check <span class="math inline">\(\frac{1}{4}\)</span>. Since we now have access to a position of value <span class="math inline">\(\frac{1}{2}\)</span>, we can check if this position is zero:</p>
+<figure>
+<center>
+<img src="../resources/cgt/2/quarterverification.svg" width="25%" height="auto" />
+<figcaption>
+Figure 2.5: If this is zero, the Blue-Red-Red stack has a value of <span class="math inline">\(\frac{1}{4}\)</span>.
+</figcaption>
+</center>
+</figure>
+<p>I again leave the playing out of this position to you, but it will end up being a win for the second player, meaning that adding another red branch to the stack drops the value from a half to a quarter. It seems like each additional red branch cuts the value in half, and it turns out that this continues to hold forever.</p>
+<p>For example, a stack of branches with the colors Blue-Red-Red-Red has <span class="math inline">\(3\)</span> red branches on top of the blue one, so its value will be <span class="math inline">\(\frac{1}{2^{3}} = \frac{1}{8}\)</span>. In general, a stack with one blue branch and <span class="math inline">\(n\)</span> red branches will have a value of <span class="math inline">\(\frac{1}{2^n}\)</span>. A proof of this fact will be presented in Part 3.</p>
+<p>Combining various quantities of these positions allows us to construct <em>any</em> fractional position whose demoninator is a power of two. Such fractions are called <strong>dyadic rationals</strong>, and they have the form</p>
+<p><span class="math display">\[\frac{m}{2^n}\]</span></p>
+<p>for any integer <span class="math inline">\(m\)</span> and any non-negative integer <span class="math inline">\(n\)</span>.</p>
+<p>In fact, it’s possible to construct a Hackenbush position with a value of any dyadic rational that only has <em>one</em> stack of branches. This is:</p>
+<h2 id="berlekamps-rule">Berlekamp’s Rule</h2>
+<p>This rule takes advantage of binary to generate a single stack of branches that has a value of whatever dyadic rational we want.</p>
+<p>I will explain this rule using an example. Suppose we wished to construct a Hackenbush position with a value of <span class="math inline">\(\frac{3}{4}\)</span>. First, we write this number in binary:</p>
+<p><span class="math display">\[ \frac{3}{4} = 0 + \frac{1}{2} + \frac{1}{4} = 0.11 \]</span></p>
+<p>First, we round down and add that many blue branches. Since our particular example rounds down to zero, we can skip this step.</p>
+<p>Next, we add a blue branch followed by a red branch. This will represent the “decimal point”.</p>
+<p>Now, we go through the binary after the decimal point one digit at a time, adding a blue branch for every <span class="math inline">\(1\)</span> and a red branch for every <span class="math inline">\(0\)</span>. However, you must <em>ignore the last</em> <span class="math inline">\(1\)</span>. In this case, since the binary is <span class="math inline">\(11\)</span>, we add one blue branch and then stop. This gives us a branch that looks like this:</p>
+<figure>
+<center>
+<img src="../resources/cgt/2/threequarters.svg" width="12.5%" height="auto" />
+<figcaption>
+Figure 2.7: A stack with a value of <span class="math inline">\(\frac{3}{4}\)</span>.
+</figcaption>
+</center>
+</figure>
+<p>You can check if the value of that position is what I say it is by adding a quarter and subtracting one.</p>
+<p>To generate a position of negative value, negate the corresponding positive position. You can also follow this rule in reverse to evaluate any stack.</p>
+<p>If you want some practice, here are some stacks. Find their values, and then hover over the blurry text to see if you were right. (Remember the extra <span class="math inline">\(1\)</span>!):</p>
+<section class="boxsection">
+<figure class="boxfigure">
+<center>
+<img src="../resources/cgt/2/example1.svg" width="50%" height="auto" />
+<figcaption class="spoiler">
+<span class="math inline">\(2\frac{3}{4}\)</span>
+</figcaption>
+</center>
+</figure>
+<figure class="boxfigure">
+<center>
+<img src="../resources/cgt/2/example2.svg" width="50%" height="auto" />
+<figcaption class="spoiler">
+<span class="math inline">\(1\frac{1}{4}\)</span>
+</figcaption>
+</center>
+</figure>
+<figure class="boxfigure">
+<center>
+<img src="../resources/cgt/2/example3.svg" width="50%" height="auto" />
+<figcaption class="spoiler">
+<span class="math inline">\(\frac{13}{16}\)</span>
+</figcaption>
+</center>
+</figure>
+<figure class="boxfigure">
+<center>
+<img src="../resources/cgt/2/example4.svg" width="50%" height="auto" />
+<figcaption class="spoiler">
+<span class="math inline">\(1\frac{7}{8}\)</span>
+</figcaption>
+</center>
+</figure>
+<figure class="boxfigure">
+<center>
+<img src="../resources/cgt/2/example5.svg" width="50%" height="auto" />
+<figcaption class="spoiler">
+<span class="math inline">\(-1\frac{3}{4}\)</span>
+</figcaption>
+</center>
+</figure>
+<figure class="boxfigure">
+<center>
+<img src="../resources/cgt/2/example6.svg" width="50%" height="auto" />
+<figcaption class="spoiler">
+<span class="math inline">\(\frac{5}{8}\)</span>
+</figcaption>
+</center>
+</figure>
+<figure class="boxfigure">
+<center>
+<img src="../resources/cgt/2/example7.svg" width="50%" height="auto" />
+<figcaption class="spoiler">
+<span class="math inline">\(2\frac{1}{4}\)</span>
+</figcaption>
+</center>
+</figure>
+<figure class="boxfigure">
+<center>
+<img src="../resources/cgt/2/example8.svg" width="50%" height="auto" />
+<figcaption class="spoiler">
+<span class="math inline">\(-\frac{3}{8}\)</span>
+</figcaption>
+</center>
+</figure>
+</section>
+<p>Now, for something weird:</p>
+<h2 id="something-weird">Something Weird</h2>
+<p>Let’s add something to the game of Hackenbush. Along with red and blue branches, we will allow <em>green</em> branches. Green branches can be cut by <em>either</em> player. Seems natural enough, right? Let’s see what happens when we try to find the value of a single green branch:</p>
+<figure>
+<center>
+<img src="../resources/cgt/2/green.svg" width="12.5%" height="auto" />
+<figcaption>
+Figure 2.7: A Single Green Branch
+</figcaption>
+</center>
+</figure>
+<p>First we should determine its sign. Is it positive, negative, or zero? Well, if Lazuli starts, they cut the branch and win. If Ruby starts, they… cut the branch and win. This position is a win for whoever goes <strong>first</strong>. Huh. Perhaps we can compare it to some other positions.</p>
+<p>One (read: you, as an exercise) can verify that it’s smaller a half, smaller than a quarter, smaller than an eighth… It’s smaller than <em>all</em> the positive fractions! Similarly, it’s bigger than all the negative fractions. We already know of a number that acts like that, which is zero. But, remember! Positions are only zero when whoever moves <strong>second</strong> wins. This position does not satisfy that. So it can’t be zero!</p>
+<p>To summarize, this position is not positive, not negative, and not zero…</p>
+<p>So what is it?</p>
+<p>To answer that, we’ll need to give a more rigorous treatment to our concept of “value”, as our current conception of what values positions can take is incomplete.</p>
+<h2 id="summary-of-part-2">Summary of Part 2</h2>
+<ul>
+<li>Hackenbush Positions can have fractional values, which can be generated by writing the desired value in binary and following Berlekamp’s Rule.</li>
+<li>Some positions are neither positive, negative, nor zero.</li>
+</ul>
+<h2 id="in-part-3-we-will">In Part 3, we will</h2>
+<ul>
+<li>Get to the bottom of the Mystery of the Green Branch.</li>
+<li>Define our position values more rigorously.</li>
+<li>Define <em>everything</em> more rigorously.</li>
+</ul>
+
+<center>
+<div class="pagination">
+
+<a href="../cgt/1.html" style="font-size: 30px">←</a>
+
+<a href="../cgt.html" style="font-size: 40px">☉</a>
+
+<span style="font-size: 30px">×</span>
+
+</div>
+</center>
+
+        </div>
+	</body>
+</html>

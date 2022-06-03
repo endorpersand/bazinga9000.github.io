@@ -1,0 +1,202 @@
+---
+title: CGT Part 2
+kochtitle: Part 2 - You Can't Say It's Only A Half
+goto: /cgt.html
+katex: on
+extracss: cgt
+prev: /cgt/1.html
+---
+
+-----------
+
+<center>"Fractions are Hard."</center>
+<center>—*Countless Elementary School Students*</center>
+
+-----------
+
+What's the value of this position?
+
+<figure><center>
+    <img src="/resources/cgt/2/halfmove.svg" width="12.5%" height="auto"></img>
+    <figcaption>
+        Figure 2.1: A Multicolored Stack
+    </figcaption>
+</center></figure>
+
+Well, just from looking at it, we know it to be positive, since Lazuli is the only one who can ever hope to win. Ruby's extra branch does not save them. Given that it's just a single blue branch, which we know to have a value of $1$, with a red branch that doesn't seem to help Ruby, perhaps this position is also a value of $1$? We can find out by combining it with a position of value $-1$, like so:
+
+<figure><center>
+    <img src="/resources/cgt/2/isitminusone.svg" width="25%" height="auto"></img>
+    <figcaption>
+        Figure 2.2: Who wins here?
+    </figcaption>
+</center></figure>
+
+If our position really did have a value of $-1$, this new position would be 0, meaning that if Ruby starts, Lazuli will win. Is this the case?
+
+As it turns out, it's not! That seemingly useless red branch stacked on the blue one is now Ruby's savior, as they can cut it to hand Lazuli a zero position. Remember, since zero positions are a loss for whoever has to move in them, you win if you can force one onto your opponent!
+
+It's easy to check that Ruby also wins when Lazuli starts, since Lazuli has only a single move which leaves the position with only a single red branch. This means that the position in Figure 2.2 is negative since Ruby wins it no matter who starts. Recall that we got this position by combining a position of value -1 with our mystery position. If we label the value of that mystery position $m$, what Figure 2.2 tells us is that
+$$
+m - 1 < 0
+$$
+$$
+m < 1
+$$
+Combining this with what we figured out from playing out the position, we know that $m$ is between zero and one. At this point, thinking of position values as "spare moves" starts to break down a bit, so it might be more helpful to think of position values as an abstract measure of "advantage" that can be added, though the spare move analogy will still come in handy sometimes, so keep it in the back of your mind.
+
+The next candidate for the value of $m$ is $\frac{1}{2}$, but we can only make positions with integer values, so what position could we make to check this? Since we can add values by combining positions, we can check whether or not $m = \frac{1}{2}$ by seeing if
+$$
+m + m - 1 = 0
+$$
+
+That is, if we make a position by combining two copies of our mystery position and a position with value $-1$, and we get a zero position, then we will have found the value of $m$ to be one half! Let's make that position:
+
+<figure><center>
+    <img src="/resources/cgt/2/isitonehalf.svg" width="25%" height="auto"></img>
+    <figcaption>
+        Figure 2.3: A Position with value $m + m - 1$
+    </figcaption>
+</center></figure>
+
+This position, as it turns out, is a win for whoever goes second. I leave the actual checking of this to you as an exercise (a helpful trick is that if you reach a position whose value you already know or a sum of such, you don't need to keep checking that line by hand). Given this, we have now discovered the value of our mystery position to be $\frac{1}{2}$! A fraction is born! Let's make another!
+
+<figure><center>
+    <img src="/resources/cgt/2/quarter.svg" width="12.5%" height="auto"></img>
+    <figcaption>
+        Figure 2.4: This is getting out of hand. Now there are two of them!
+    </figcaption>
+</center></figure>
+
+What's the value of this position? There are several ways intuition might complete the pattern. Maybe each red branch halves the value of the stack, so this would be $\frac{1}{4}$. Or perhaps since there are now three branches the value might be $\frac{1}{3}$. Or maybe it's something else entirely. Let's find out!
+
+First, it's still positive since Lazuli is the only one who can win. Let's check $\frac{1}{4}$. Since we now have access to a position of value $\frac{1}{2}$, we can check if this position is zero:
+
+<figure><center>
+    <img src="/resources/cgt/2/quarterverification.svg" width="25%" height="auto"></img>
+    <figcaption>
+        Figure 2.5: If this is zero, the Blue-Red-Red stack has a value of $\frac{1}{4}$.
+    </figcaption>
+</center></figure>
+
+I again leave the playing out of this position to you, but it will end up being a win for the second player, meaning that adding another red branch to the stack drops the value from a half to a quarter. It seems like each additional red branch cuts the value in half, and it turns out that this continues to hold forever.
+
+For example, a stack of branches with the colors Blue-Red-Red-Red has $3$ red branches on top of the blue one, so its value will be $\frac{1}{2^{3}} = \frac{1}{8}$. In general, a stack with one blue branch and $n$ red branches will have a value of $\frac{1}{2^n}$. A proof of this fact will be presented in Part 3.
+
+Combining various quantities of these positions allows us to construct *any* fractional position whose demoninator is a power of two. Such fractions are called **dyadic rationals**, and they have the form
+
+$$\frac{m}{2^n}$$
+
+for any integer $m$ and any non-negative integer $n$.
+
+In fact, it's possible to construct a Hackenbush position with a value of any dyadic rational that only has *one* stack of branches. This is:
+
+## Berlekamp's Rule
+
+This rule takes advantage of binary to generate a single stack of branches that has a value of whatever dyadic rational we want.
+
+I will explain this rule using an example. Suppose we wished to construct a Hackenbush position with a value of $\frac{3}{4}$. First, we write this number in binary:
+
+$$ \frac{3}{4} = 0 + \frac{1}{2} + \frac{1}{4} = 0.11 $$
+
+First, we round down and add that many blue branches. Since our particular example rounds down to zero, we can skip this step.
+
+Next, we add a blue branch followed by a red branch. This will represent the "decimal point".
+
+Now, we go through the binary after the decimal point one digit at a time, adding a blue branch for every $1$ and a red branch for every $0$. However, you must *ignore the last* $1$. In this case, since the binary is $11$, we add one blue branch and then stop. This gives us a branch that looks like this:
+
+<figure><center>
+    <img src="/resources/cgt/2/threequarters.svg" width="12.5%" height="auto"></img>
+    <figcaption>
+        Figure 2.7: A stack with a value of $\frac{3}{4}$.
+    </figcaption>
+</center></figure>
+
+You can check if the value of that position is what I say it is by adding a quarter and subtracting one.
+
+To generate a position of negative value, negate the corresponding positive position. You can also follow this rule in reverse to evaluate any stack.
+
+If you want some practice, here are some stacks. Find their values, and then hover over the blurry text to see if you were right. (Remember the extra $1$!):
+
+<section class="boxsection">
+<figure class="boxfigure"><center>
+    <img src="/resources/cgt/2/example1.svg" width="50%" height="auto"></img>
+    <figcaption class="spoiler">
+        $2\frac{3}{4}$
+    </figcaption>
+</center></figure>
+<figure class="boxfigure"><center>
+    <img src="/resources/cgt/2/example2.svg" width="50%" height="auto"></img>
+    <figcaption class="spoiler">
+        $1\frac{1}{4}$
+    </figcaption>
+</center></figure>
+<figure class="boxfigure"><center>
+    <img src="/resources/cgt/2/example3.svg" width="50%" height="auto"></img>
+    <figcaption class="spoiler">
+        $\frac{13}{16}$
+    </figcaption>
+</center></figure>
+<figure class="boxfigure"><center>
+    <img src="/resources/cgt/2/example4.svg" width="50%" height="auto"></img>
+    <figcaption class="spoiler">
+        $1\frac{7}{8}$
+    </figcaption>
+</center></figure>
+<figure class="boxfigure"><center>
+    <img src="/resources/cgt/2/example5.svg" width="50%" height="auto"></img>
+    <figcaption class="spoiler">
+        $-1\frac{3}{4}$
+    </figcaption>
+</center></figure>
+<figure class="boxfigure"><center>
+    <img src="/resources/cgt/2/example6.svg" width="50%" height="auto"></img>
+    <figcaption class="spoiler">
+        $\frac{5}{8}$
+    </figcaption>
+</center></figure>
+<figure class="boxfigure"><center>
+    <img src="/resources/cgt/2/example7.svg" width="50%" height="auto"></img>
+    <figcaption class="spoiler">
+        $2\frac{1}{4}$
+    </figcaption>
+</center></figure>
+<figure class="boxfigure"><center>
+    <img src="/resources/cgt/2/example8.svg" width="50%" height="auto"></img>
+    <figcaption class="spoiler">
+        $-\frac{3}{8}$
+    </figcaption>
+</center></figure>
+</section>
+
+Now, for something weird:
+
+## Something Weird
+
+Let's add something to the game of Hackenbush. Along with red and blue branches, we will allow *green* branches. Green branches can be cut by *either* player. Seems natural enough, right? Let's see what happens when we try to find the value of a single green branch:
+
+<figure><center>
+    <img src="/resources/cgt/2/green.svg" width="12.5%" height="auto"/>
+    <figcaption>
+        Figure 2.7: A Single Green Branch
+    </figcaption>
+</center></figure>  
+
+First we should determine its sign. Is it positive, negative, or zero? Well, if Lazuli starts, they cut the branch and win. If Ruby starts, they... cut the branch and win. This position is a win for whoever goes **first**. Huh. Perhaps we can compare it to some other positions.
+
+One (read: you, as an exercise) can verify that it's smaller a half, smaller than a quarter, smaller than an eighth... It's smaller than *all* the positive fractions! Similarly, it's bigger than all the negative fractions. We already know of a number that acts like that, which is zero. But, remember! Positions are only zero when whoever moves **second** wins. This position does not satisfy that. So it can't be zero!
+
+To summarize, this position is not positive, not negative, and not zero...
+
+So what is it?
+
+To answer that, we'll need to give a more rigorous treatment to our concept of "value", as our current conception of what values positions can take is incomplete.
+
+## Summary of Part 2
+* Hackenbush Positions can have fractional values, which can be generated by writing the desired value in binary and following Berlekamp's Rule.
+* Some positions are neither positive, negative, nor zero.
+
+## In Part 3, we will
+* Get to the bottom of the Mystery of the Green Branch.
+* Define our position values more rigorously.
+* Define *everything* more rigorously.
