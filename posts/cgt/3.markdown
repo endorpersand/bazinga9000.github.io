@@ -201,7 +201,7 @@ Now that we have the concept of addition, we can use it to compare arbitrary pos
 
 These are all spoken the way you'd expect, with the exception that when $G \mid\mid H$ we say that $G$ is **confused with** H. 
 
-It is important to note now that before this section, when I have been using the $=$ symbol, I have either been using it to define things like $0$ or $1$, or I meant that the two positions in question had the exact same options on the left and right side of the bar. Now, the $=$ symbol will refer to the relationship defined immediately above. For example, $\{ \mid \}$ and $\{1 \mid -1 \}$ are not identical positions, but they are equal to eachother, as their difference is a second-player win. (Verify this as an exercise.) 
+It is important to note now that before this section, when I have been using the $=$ symbol, I have either been using it to define things like $0$ or $1$, or I meant that the two positions in question had the exact same options on the left and right side of the bar. Now, the $=$ symbol will refer to the relationship defined immediately above. For example, $\{ \mid \}$ and $\{-1 \mid 1 \}$ are not identical positions, but they are equal to eachother, as their difference is a second-player win. (Verify this as an exercise.) 
 
 The intuition of the $=$ relation is that two positions are equal if they have the same value as we have been working with in Parts 1 and 2. In order to remove ambiguity, from now on if I wish to state that two positions have identical *form* and not just that their difference is zero, I will use the $\equiv$ operator.
 
