@@ -188,6 +188,8 @@ For similar reasons, addition is associative. That is, $(A + B) + C = A + (B + C
 
 The formal proofs of these statements are left as an exercise to the interested reader, because I can't think of an elegant way to write them here.
 
+One more property that's useful is that negation distributes over addition. That is, $-(G + H) = -G - H$. Since a sum is just allowing a player to move in one of many components, swapping the roles of Lazuli and Ruby in a sum is done simply by swapping their roles in each component and then adding the new negated components.
+
 ## Comparing Positions
 
 Now that we have the concept of addition, we can use it to compare arbitrary positions, like so:
