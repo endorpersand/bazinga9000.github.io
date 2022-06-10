@@ -109,7 +109,7 @@ Now, we go through the binary after the decimal point one digit at a time, addin
 <figure><center>
     <img src="/resources/cgt/2/threequarters.svg" width="12.5%" height="auto"></img>
     <figcaption>
-        Figure 2.7: A stack with a value of $\frac{3}{4}$.
+        Figure 2.6: A stack with a value of $\frac{3}{4}$.
     </figcaption>
 </center></figure>
 

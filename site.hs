@@ -110,20 +110,18 @@ fullPandocCompiler = do
 {-------------------------------------------------------------------------------
 Context Manipulation
 -------------------------------------------------------------------------------}
-makeBooleanContext :: String -> String -> Context a
-makeBooleanContext fieldName stringToUse = field fieldName $ \item -> do
+
+makeBooleanContext :: String -> Context a
+makeBooleanContext fieldName = field fieldName $ \item -> do
     f <- getMetadataField (itemIdentifier item) fieldName
-    return $ case f of
-        Just "true" -> stringToUse
-        Just "on"   -> stringToUse
-        _           -> ""
-
-
-katexScriptString :: String
-katexScriptString = "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css\" integrity=\"sha384-ZPe7yZ91iWxYumsBEOn7ieg8q/o+qh/hQpSaPow8T6BwALcXSCS6C6fSRPIAnTQs\" crossorigin=\"anonymous\">\n<script defer src=\"https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js\" integrity=\"sha384-ljao5I1l+8KYFXG7LNEA7DyaFvuvSCmedUf6Y6JI7LJqiu8q5dEivP2nDdFH31V4\" crossorigin=\"anonymous\"></script>\n<script defer src=\"https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js\" integrity=\"sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR\" crossorigin=\"anonymous\" onload=\"renderMathInElement(document.body);\"></script>\n"
+    case f of
+        Just "true" -> return ""
+        Just "on"   -> return ""
+        _           -> noResult "intentional failure"
 
 mathContext :: Context a
-mathContext = makeBooleanContext "katex" katexScriptString
+--mathContext = makeBooleanStringContext "katex" katexScriptString
+mathContext = makeBooleanContext "katex"
 
 makeListOfStringsContext :: String -> String -> (String -> String) -> Context a
 makeListOfStringsContext fieldName subfieldName subFieldF = listFieldWith fieldName ctx (\item -> do

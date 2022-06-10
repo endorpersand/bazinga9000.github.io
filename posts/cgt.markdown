@@ -20,7 +20,7 @@ That video and this series are both based on the four-volume series *Winning Way
 
 Another note for readers of *Winning Ways*: There are some bits of convention in that book that I'm ignoring because I don't like them. If you haven't read or don't want to read the books, you can safely skip over this bit. A list of such is as follows, and may be expanded as the series progresses:
 
-* *Winning Ways* often expresses sums using concatenation, for example writing $\ast\uparrow$ to represent $\ast + \uparrow$. This series will not do that for clarity, always expressing sums using the plus sign.
+* *Winning Ways* often expresses sums using concatenation, for example writing $\ast\uparrow$ to represent $\ast \: + \uparrow$. This series will not do that for clarity, always expressing sums using the plus sign.
 
 * The distinction between the terms "game" and "position" in *Winning Ways* is very vague, as the books often use "game" to refer to a position within a game. In this series, the term "game" will exclusively refer to entire games, such as Hackenbush, whereas "position" will refer only to individual game states.
 
