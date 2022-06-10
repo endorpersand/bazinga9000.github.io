@@ -1,0 +1,266 @@
+---
+title: CGT Part 3
+kochtitle: Part 3 - What's Really Going On Here
+goto: /cgt.html
+katex: on
+extracss: cgt
+prev: /cgt/2.html
+---
+
+-----------
+
+<center>"What makes one game one way and the next game another way and some games the same?"</center>
+<center>—Bill Wurtz, *i'm a huge gamer most of the time*</center>
+
+-----------
+
+Now, I know that some of you in this audience think the branch-cutting and the Hacking of Bushes and the Tweedledees and Tweedledums are all well and good, but you want something more. Namely,
+
+<figure><center>
+    <img src="/resources/cgt/3/rigor.png" width="50%" height="auto"></img>
+    <figcaption>
+        Figure 3.1: You.
+    </figcaption>
+</center></figure>
+
+Here is the place and now is the time that you will get your wish. For those of you who haven't much mathematical background, fear not. I'll try to boil the pot as slowly as possible and get you acclimated to the madness at the bottom of Combinatorial Game Theory.
+
+*Note: There will be proofs ahead. While proofs are important to verifying what I say is true, I recognize that some of the proofs are very dense and hard to wade through for the inexperienced, so they will be in nice self-contained collapsible boxes. You need not open the proof boxes to follow what's going on, but they are there if you wish to dive right in.*
+
+The reason we're here is because we were unable to find a number that properly described the value of a single green branch. Our previous system of assigning numbers to positions has failed us. What we will really do is the opposite. We will define our *numbers* as *positions*. From this our problems will be solved, and we will unlock the true potential of Combinatorial Game Theory.
+
+## So, What the Hell is a Position?
+
+A **position** (*Winning Ways* will often call these "games" as well, but I will stick to position as I mentioned in the preface), is defined in terms of the positions to which each player can move to.
+
+We notate a position using a pair of braces and a vertical bar. We put the positions that **L**azuli can move to on the **l**eft side of the bar, and those positions that **R**uby can move to on the **r**ight side of the bar.
+
+But this raises a question: If we wish to define positions in terms of other positions, how do we "break in"? We have to start somewhere. Well, what we really need is *sets* of positions. Before we have access to any positions at all, we do have access to a particular set of positions: the empty set, containing no positions at all! Let's use this to construct our first position, where Lazuli has no options and neither does Ruby. We call this position $0$ and it is notated like this:
+
+$$ 0 = \{\mid\} $$
+
+This new $0$ characterizes the empty Hackenbush position we saw at the start of Part 1, as it describes what moves Lazuli and Ruby can take from it (no moves at all). Now we have the power to use this position to define others. There are three new positions we can make now that we have $0$:
+
+$$ \{ 0 \mid \} $$
+$$ \{ \mid 0 \} $$
+$$ \{ 0 \mid 0 \} $$
+
+Let's look at exactly what $\{ 0 \mid \}$ is telling us. What it says is that Lazuli has one move, which is to go to the position $0$, and Ruby has no moves at all. This, too, directly corresponds to a Hackenbush position, one with a single blue branch. Ruby has no moves (nothing on the right side of the bar), and Lazuli's only move takes the game to the empty position, which we just called $0$. This we shall call $1$, as that was the value we gave it in Part 1. And similarly, $\{ \mid 0 \}$ describes the position of the red branch, which we will call $-1$.
+
+Now, $\{0 \mid 0\}$ is special. To see why, think of what Hackenbush position is described in this form. A position where both players have the same exact move, to go to the empty zero position... Why, this is the answer to our mystery from the end of Part 2! This is the value of the green branch! This position has a special name, too. It is called $\ast$, pronounced "star". A star is born!
+
+$\ast$'s weird properties from Part 2 can now be explored. We said that $\ast$ cannot be a positive number, a negative number, or zero. But this raises a problem. Namely, we need to define the words "positive", "negative", "zero", and "number". We'll handle the first three now:
+
+## The "Sign" of a Position
+
+Positions can be split into four of what *Winning Ways* calls **outcome classes** which are analogous to the sign of conventional numbers. In fact, the four games we have yet created give us examples of all of them, and the first three are exactly as written in Part 1:
+
+* $0 = \{ \mid \}$ is **zero**, because the **second** player can always win
+* $1 = \{ 0 \mid \}$ is **positive**, because **<span class="lazuli">Lazuli</span>** can always win.
+* $-1 = \{ \mid 0 \}$ is **negative**, because **<span class="ruby">Ruby</span>** can always win.
+
+$\ast$ requires us to add another case, because as we discovered in Part 2 it is not any of these three:
+
+* $\ast = \{ 0 \mid 0 \}$ is **fuzzy**, because the **first** player can always win.
+
+We can also use symbols. For any position $G$:
+
+* $G = 0$ means that $G$ is **zero**
+* $G > 0$ means that $G$ is **positive**
+* $G < 0$ means that $G$ is **negative**
+* $G \mid\mid 0$ means that $G$ is **fuzzy**
+
+Of course, we can combine these symbols: $G \geq 0$ means that $G$ is positive or zero and $G \mid\mid> 0$ means that $G$ is positive or fuzzy, for example.
+
+Something else that will be helpful is to arrange these outcome classes into a table, to highlight who wins when each player starts:
+
++---------------------------+------------------------+-------------------------+
+|                           | Lazuli starts and wins | Lazuli starts and loses |
++:=========================:+:======================:+:=======================:+
+| **Ruby starts and wins**  | $G \mid\mid 0$         | $G < 0$                 |
++---------------------------+------------------------+-------------------------+
+| **Ruby starts and loses** | $G > 0$                | $G = 0$                 |
++---------------------------+------------------------+-------------------------+
+
+This raises an important question: Can *every* position be classified this way? The answer is yes, and the proof for the interested is below:
+
+<details>
+    <summary>**Theorem:** Every position is either zero, positive, negative, or fuzzy.</summary>
+
+    -----------
+
+    **Proof:** By induction.
+
+    Base Case: $\{ | \}$ is zero.
+
+    Inductive Case: Suppose for some $G = \{ G^L \mid G^R \}$, all $G^L$ and all $G^R$ are either positive, negative, zero, or fuzzy (though it is not necessarily the case that they are all of the *same* outcome class).
+
+    Suppose Lazuli starts. We consider all of Lazuli's options, all $G^L$.
+
+    If there exists a position $P \in G^L$ that is positive or zero, Lazuli can move to it. Since the position is positive or zero, and Ruby starts in it, Ruby has no winning strategy. This means that Lazuli has a winning strategy in $G$, namely "moving to one such $P$ and following its strategy". Since such a winning strategy exists for $G$, it is either positive or fuzzy.
+
+    If there is no such position, Ruby will have a winning strategy after Lazuli's move no matter what move is made. In this case, Ruby has a winning strategy in $G$, namely "wait for Lazuli to move and then follow the strategy that exists for the new position." This means that $G$ is either zero or negative. $\blacksquare$
+</details>
+
+Right, now we have the ability to compare things to zero. What, then, should we do if we want to compare to things that are *not* zero? In the previous parts I spoke of adding and negating positions and using that to compare, and that is exactly what we will do.
+
+## Arithmetic on Positions
+
+Suppose we had two positions. Remember, these positions are abstract and so could represent any game. What, then, would it mean to *add* two positions together? As a concrete example, suppose we had a Hackenbush position and a Nim position (you'll learn a lot more about Nim in Part 5). What we mean when we say that we *add* these two positions is, that on a player's turn they may choose to either chop a branch in the Hackenbush position or to remove part of the Nim heap. They *must* move in *exactly* one component. This position still follows the normal rules of combinatorial games, so whoever cannot move loses, and in a sum of games this means that if a player cannot move in *every* component, they lose.
+
+Using our notation, we represent this concept like so:
+
+$$ \{G^L \mid G^R\} + \{H^L \mid H^R\} = \{G^L + H, G + H^L \mid G^R + H, G + H^R \}$$
+
+(Note that when we say $G^R + H$, what we really mean is "take every option on the right side of $G$ and add each of them to H)
+
+Each of those four pieces in the right hand side correspond to each player moving in one of the games, and leaving the other intact.
+
+I also present the defintion of *negation*, which also follows from the intuition we gave in Part 1. To negate a position is to swap the "roles" of each player. Lazuli now wants to play as Ruby would, and vice versa. In the notation:
+
+$$ -\{G^L \mid G^R \} = \{-G^R \mid -G^L \} $$
+
+The reason that we negate the options after swapping them is that if we did not, our negation would only correspond to a position where Lazuli and Ruby swapped for one turn only before reverting back to normality, and not one where this swap persists throughout.
+
+We also define subtraction in terms of these two operations:
+$$ G - H = G + (-H) $$
+
+Let's do an example: what is $1 + 1$? 
+
+Expanding out:
+
+$$ 1 + 1 = \{ 0 \mid \} + \{ 0 \mid \} $$
+
+So, $G^L$ and $H^L$ are both just $0$, and $G^R$ and $H^R$ are empty. We can now apply the definition:
+
+$$ 1 + 1 = \{0 + 1, 0 + 1 \mid \} $$
+
+Since $G^R$ and $H^R$ are empty, we have no sums to put on the right side of the bar, leaving it empty.
+
+We now need to add $0 + 1$ which is $1$. Zero works as it does usually, and I'll show the proof at the end of this example. So now we have
+
+$$ 1 + 1 = \{1, 1 \mid \} $$
+
+We can do a small bit of simplification here, which is removing duplicates if the same position occurs multiple times on one side of the bar. You'll learn more about simplifying positions in Part 4.
+
+So, all in all,
+
+$$ 1 + 1 = \{ 1 \mid \} $$
+
+This position has a name. It's called $2$. We'll give more positions names in Part 4.
+
+## Some Properties of Addition
+
+We can call anything we want "addition", but does it actually work like we'd expect addition to? Here are some useful properties of our position addition:
+
+
+Adding 0 to any game does not change it. Since the zero position has no moves, combining it with another position doesn't give either player any options they didn't already have. For a formal proof: 
+<details>
+    <summary>**Proposition:** $G + 0 = G$ for all $G$.</summary>
+
+    -----------
+
+    **Proof:** By induction.
+
+    Base Case: 
+    $0 + 0 = \{0^L + 0, 0 + 0^L \mid 0^R + 0, 0 + 0^R \}$
+
+    Since $0^L$ and $0^R$ are both empty, there are no additions to be done and the result is $\{ \mid \} = 0$
+
+    Inductive Case:
+    Suppose that for $G = \{G^L \mid G^R \}$, $P + 0 = P$ for any $P \in G^L, P \in G^R$
+
+    $$ G + 0 = \{G^L + 0, G + 0^L \mid G^R + 0, G + 0^R \} $$
+
+    Since $0^L$ and $0^R$ are both empty,
+
+    $$ \{G^L + 0, G + 0^L \mid G^R + 0, G + 0^R \} = \{G^L + 0 \mid G^R + 0 \} $$
+
+    which by induction is equal to $\{G^L \mid G^R \} = G$
+    
+    $\blacksquare$
+
+</details>
+
+Addition is also commutative. That is, $G + H = H + G$. Intuitively, the order in which you combine positions doesn't matter, as you'd still have the same positions in front of you. Since you are free to move in any of the components on your turn, their order is irrelevant. 
+
+For similar reasons, addition is associative. That is, $(A + B) + C = A + (B + C)$. 
+
+The formal proofs of these statements are left as an exercise to the interested reader, because I can't think of an elegant way to write them here.
+
+## Comparing Positions
+
+Now that we have the concept of addition, we can use it to compare arbitrary positions, like so:
+
+* $G > H$ if $G - H$ is positive.
+* $G < H$ if $G - H$ is negative.
+* $G = H$ if $G - H$ is zero.
+* $G \mid\mid H$ if $G - H$ is fuzzy.
+
+These are all spoken the way you'd expect, with the exception that when $G \mid\mid H$ we say that $G$ is **confused with** H. 
+
+It is important to note now that before this section, when I have been using the $=$ symbol, I have either been using it to define things like $0$ or $1$, or I meant that the two positions in question had the exact same options on the left and right side of the bar. Now, the $=$ symbol will refer to the relationship defined immediately above. For example, $\{ \mid \}$ and $\{1 \mid -1 \}$ are not identical positions, but they are equal to eachother, as their difference is a second-player win. (Verify this as an exercise.) 
+
+The intuition of the $=$ relation is that two positions are equal if they have the same value as we have been working with in Parts 1 and 2. In order to remove ambiguity, from now on if I wish to state that two positions have identical *form* and not just that their difference is zero, I will use the $\equiv$ operator.
+
+We will now show three important properties of that $=$ relation. 
+
+Firstly, $G = G$ for all $G$. That is, $=$ is *reflexive*. This is equivalent to saying that $G - G = 0$ for all $G$, which is exactly the Tweedledee and Tweedledum Argument we showed in Part 1! The formal proof is essentially the same as the Tweedledee and Tweedledum Argument, so it is omitted.
+
+Secondly, if $G = H$, then $H = G$. That is, $=$ is *symmetric*. Intuitionally, this is clear since the order of the equality shouldn't matter if both positions cancel each other out. Formally,
+
+<details>
+    <summary>**Proposition:** If $G = H$, then $H = G$. </summary>
+
+    -----------
+
+    **Proof:**
+
+    $G = H$ means that $G - H$ is zero, and that the second player wins.
+
+    Consider the negative position, $-(G - H) \equiv (-G + H) \equiv H - G$. If this position is a second player win, then $H = G$. 
+    
+    However, this is the negation of a zero position. Lazuli starts and loses in $G - H$, so Ruby starts and loses in $H - G$. Ruby starts and loses in $G - H$, so Lazuli starts and loses in $G - H$. Since both players lose if they start, $H - G$ is zero and so $H = G$.
+
+    $\blacksquare$
+
+</details>
+
+Lastly, if $A = B$ and $B = C$, then $A = C$. That is, $=$ is *transitive*. Unfortunately, I can't think of an intuitive way to explain this, so if you want justification you'll need to look at the proof, which is actually quite short.
+
+<details>
+    <summary>**Proposition:** If $A = B$ and $B = C$, then $A = C$. </summary>
+
+    -----------
+
+    **Proof:**
+
+    Since $A = B$, $A - B = 0$.
+    Since $B = C$, $B - C = 0$.
+
+    $$
+    A - C = A - B + B - C = 0 + 0 = 0
+    $$
+
+    $\blacksquare$
+
+</details>
+
+For those who know what the words "equivalence relation" mean, we have just shown that equality is one. For the rest of this series, we will mostly care about comparing positions using this notion of equality, and not really whether or not they are perfectly identical. To distinguish, I will call the equivalence class that a given position falls into its "value", and if on the off chance we need to distinguish positions based on exactly what their options are (which we will call their *form*), I will use the $\equiv$ operator. The names $0$, $1$, $-1$, $\ast$, and $2$ that I gave to positions in this part are actually names for the equivalence classes.
+
+If you had no idea what that last paragraph was saying, don't worry about it. All you need to know is that I will use the phrase "has the same value" to mean "equal", and that we only really want to call two positions "different" if they have different values. Two positions that do not look exactly the same are allowed to be equal.
+
+## Summary of Part 3
+
+* A position is defined in terms of the positions that each player can move to, and each one has a value. Two positions with the same value are considered equal.
+* $\{ \mid \}$ has value $0$.
+* $\{ 0 \mid \}$ has value $1$.
+* $\{ \mid 0 \}$ has value $-1$.
+* $\{ 0 \mid 0 \}$ has value $\ast$.
+* It is possible to add two positions, and what is meant by that is that on your turn you must move in exactly one of the components of your choosing.
+* We can compare positions by checking who wins their difference.
+
+## In Part 4, we will
+
+* Find out how to notate several Hackenbush positions.
+* Give names to various positions.

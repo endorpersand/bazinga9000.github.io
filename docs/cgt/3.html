@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+	<head>
+		<title>CGT Part 3</title>
+		<link rel="stylesheet" type="text/css" href="../css/default.css">
+		<link rel="icon" type="image/x-icon" href="../resources/favicon.ico">
+		
+			<link rel="stylesheet" type="text/css" href="../css/cgt.css">
+		
+		
+		
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css" integrity="sha384-ZPe7yZ91iWxYumsBEOn7ieg8q/o+qh/hQpSaPow8T6BwALcXSCS6C6fSRPIAnTQs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js" integrity="sha384-ljao5I1l+8KYFXG7LNEA7DyaFvuvSCmedUf6Y6JI7LJqiu8q5dEivP2nDdFH31V4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+	<body>
+		<h1>
+			<center><a href="../cgt.html"><img src="../resources/koch.png" height="50px" width="auto" style="vertical-align: middle" /></a></center>
+			<center><span>Part 3 - What's Really Going On Here</span></center>
+		</h1>
+		<div id="content">
+            <hr />
+<center>
+“What makes one game one way and the next game another way and some games the same?”
+</center>
+<center>
+—Bill Wurtz, <em>i’m a huge gamer most of the time</em>
+</center>
+<hr />
+<p>Now, I know that some of you in this audience think the branch-cutting and the Hacking of Bushes and the Tweedledees and Tweedledums are all well and good, but you want something more. Namely,</p>
+<figure>
+<center>
+<img src="../resources/cgt/3/rigor.png" width="50%" height="auto" />
+<figcaption>
+Figure 3.1: You.
+</figcaption>
+</center>
+</figure>
+<p>Here is the place and now is the time that you will get your wish. For those of you who haven’t much mathematical background, fear not. I’ll try to boil the pot as slowly as possible and get you acclimated to the madness at the bottom of Combinatorial Game Theory.</p>
+<p><em>Note: There will be proofs ahead. While proofs are important to verifying what I say is true, I recognize that some of the proofs are very dense and hard to wade through for the inexperienced, so they will be in nice self-contained collapsible boxes. You need not open the proof boxes to follow what’s going on, but they are there if you wish to dive right in.</em></p>
+<p>The reason we’re here is because we were unable to find a number that properly described the value of a single green branch. Our previous system of assigning numbers to positions has failed us. What we will really do is the opposite. We will define our <em>numbers</em> as <em>positions</em>. From this our problems will be solved, and we will unlock the true potential of Combinatorial Game Theory.</p>
+<h2 id="so-what-the-hell-is-a-position">So, What the Hell is a Position?</h2>
+<p>A <strong>position</strong> (<em>Winning Ways</em> will often call these “games” as well, but I will stick to position as I mentioned in the preface), is defined in terms of the positions to which each player can move to.</p>
+<p>We notate a position using a pair of braces and a vertical bar. We put the positions that <strong>L</strong>azuli can move to on the <strong>l</strong>eft side of the bar, and those positions that <strong>R</strong>uby can move to on the <strong>r</strong>ight side of the bar.</p>
+<p>But this raises a question: If we wish to define positions in terms of other positions, how do we “break in”? We have to start somewhere. Well, what we really need is <em>sets</em> of positions. Before we have access to any positions at all, we do have access to a particular set of positions: the empty set, containing no positions at all! Let’s use this to construct our first position, where Lazuli has no options and neither does Ruby. We call this position <span class="math inline">\(0\)</span> and it is notated like this:</p>
+<p><span class="math display">\[ 0 = \{\mid\} \]</span></p>
+<p>This new <span class="math inline">\(0\)</span> characterizes the empty Hackenbush position we saw at the start of Part 1, as it describes what moves Lazuli and Ruby can take from it (no moves at all). Now we have the power to use this position to define others. There are three new positions we can make now that we have <span class="math inline">\(0\)</span>:</p>
+<p><span class="math display">\[ \{ 0 \mid \} \]</span>
+<span class="math display">\[ \{ \mid 0 \} \]</span>
+<span class="math display">\[ \{ 0 \mid 0 \} \]</span></p>
+<p>Let’s look at exactly what <span class="math inline">\(\{ 0 \mid \}\)</span> is telling us. What it says is that Lazuli has one move, which is to go to the position <span class="math inline">\(0\)</span>, and Ruby has no moves at all. This, too, directly corresponds to a Hackenbush position, one with a single blue branch. Ruby has no moves (nothing on the right side of the bar), and Lazuli’s only move takes the game to the empty position, which we just called <span class="math inline">\(0\)</span>. This we shall call <span class="math inline">\(1\)</span>, as that was the value we gave it in Part 1. And similarly, <span class="math inline">\(\{ \mid 0 \}\)</span> describes the position of the red branch, which we will call <span class="math inline">\(-1\)</span>.</p>
+<p>Now, <span class="math inline">\(\{0 \mid 0\}\)</span> is special. To see why, think of what Hackenbush position is described in this form. A position where both players have the same exact move, to go to the empty zero position… Why, this is the answer to our mystery from the end of Part 2! This is the value of the green branch! This position has a special name, too. It is called <span class="math inline">\(\ast\)</span>, pronounced “star”. A star is born!</p>
+<p><span class="math inline">\(\ast\)</span>’s weird properties from Part 2 can now be explored. We said that <span class="math inline">\(\ast\)</span> cannot be a positive number, a negative number, or zero. But this raises a problem. Namely, we need to define the words “positive”, “negative”, “zero”, and “number”. We’ll handle the first three now:</p>
+<h2 id="the-sign-of-a-position">The “Sign” of a Position</h2>
+<p>Positions can be split into four of what <em>Winning Ways</em> calls <strong>outcome classes</strong> which are analogous to the sign of conventional numbers. In fact, the four games we have yet created give us examples of all of them, and the first three are exactly as written in Part 1:</p>
+<ul>
+<li><span class="math inline">\(0 = \{ \mid \}\)</span> is <strong>zero</strong>, because the <strong>second</strong> player can always win</li>
+<li><span class="math inline">\(1 = \{ 0 \mid \}\)</span> is <strong>positive</strong>, because <strong><span class="lazuli">Lazuli</span></strong> can always win.</li>
+<li><span class="math inline">\(-1 = \{ \mid 0 \}\)</span> is <strong>negative</strong>, because <strong><span class="ruby">Ruby</span></strong> can always win.</li>
+</ul>
+<p><span class="math inline">\(\ast\)</span> requires us to add another case, because as we discovered in Part 2 it is not any of these three:</p>
+<ul>
+<li><span class="math inline">\(\ast = \{ 0 \mid 0 \}\)</span> is <strong>fuzzy</strong>, because the <strong>first</strong> player can always win.</li>
+</ul>
+<p>We can also use symbols. For any position <span class="math inline">\(G\)</span>:</p>
+<ul>
+<li><span class="math inline">\(G = 0\)</span> means that <span class="math inline">\(G\)</span> is <strong>zero</strong></li>
+<li><span class="math inline">\(G &gt; 0\)</span> means that <span class="math inline">\(G\)</span> is <strong>positive</strong></li>
+<li><span class="math inline">\(G &lt; 0\)</span> means that <span class="math inline">\(G\)</span> is <strong>negative</strong></li>
+<li><span class="math inline">\(G \mid\mid 0\)</span> means that <span class="math inline">\(G\)</span> is <strong>fuzzy</strong></li>
+</ul>
+<p>Of course, we can combine these symbols: <span class="math inline">\(G \geq 0\)</span> means that <span class="math inline">\(G\)</span> is positive or zero and <span class="math inline">\(G \mid\mid&gt; 0\)</span> means that <span class="math inline">\(G\)</span> is positive or fuzzy, for example.</p>
+<p>Something else that will be helpful is to arrange these outcome classes into a table, to highlight who wins when each player starts:</p>
+<table style="width:99%;">
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 31%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Lazuli starts and wins</th>
+<th style="text-align: center;">Lazuli starts and loses</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><strong>Ruby starts and wins</strong></td>
+<td style="text-align: center;"><span class="math inline">\(G \mid\mid 0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(G &lt; 0\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Ruby starts and loses</strong></td>
+<td style="text-align: center;"><span class="math inline">\(G &gt; 0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(G = 0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>This raises an important question: Can <em>every</em> position be classified this way? The answer is yes, and the proof for the interested is below:</p>
+<details>
+<summary>
+<strong>Theorem:</strong> Every position is either zero, positive, negative, or fuzzy.
+</summary>
+<hr />
+<p><strong>Proof:</strong> By induction.</p>
+<p>Base Case: <span class="math inline">\(\{ | \}\)</span> is zero.</p>
+<p>Inductive Case: Suppose for some <span class="math inline">\(G = \{ G^L \mid G^R \}\)</span>, all <span class="math inline">\(G^L\)</span> and all <span class="math inline">\(G^R\)</span> are either positive, negative, zero, or fuzzy (though it is not necessarily the case that they are all of the <em>same</em> outcome class).</p>
+<p>Suppose Lazuli starts. We consider all of Lazuli’s options, all <span class="math inline">\(G^L\)</span>.</p>
+<p>If there exists a position <span class="math inline">\(P \in G^L\)</span> that is positive or zero, Lazuli can move to it. Since the position is positive or zero, and Ruby starts in it, Ruby has no winning strategy. This means that Lazuli has a winning strategy in <span class="math inline">\(G\)</span>, namely “moving to one such <span class="math inline">\(P\)</span> and following its strategy”. Since such a winning strategy exists for <span class="math inline">\(G\)</span>, it is either positive or fuzzy.</p>
+If there is no such position, Ruby will have a winning strategy after Lazuli’s move no matter what move is made. In this case, Ruby has a winning strategy in <span class="math inline">\(G\)</span>, namely “wait for Lazuli to move and then follow the strategy that exists for the new position.” This means that <span class="math inline">\(G\)</span> is either zero or negative. <span class="math inline">\(\blacksquare\)</span>
+</details>
+<p>Right, now we have the ability to compare things to zero. What, then, should we do if we want to compare to things that are <em>not</em> zero? In the previous parts I spoke of adding and negating positions and using that to compare, and that is exactly what we will do.</p>
+<h2 id="arithmetic-on-positions">Arithmetic on Positions</h2>
+<p>Suppose we had two positions. Remember, these positions are abstract and so could represent any game. What, then, would it mean to <em>add</em> two positions together? As a concrete example, suppose we had a Hackenbush position and a Nim position (you’ll learn a lot more about Nim in Part 5). What we mean when we say that we <em>add</em> these two positions is, that on a player’s turn they may choose to either chop a branch in the Hackenbush position or to remove part of the Nim heap. They <em>must</em> move in <em>exactly</em> one component. This position still follows the normal rules of combinatorial games, so whoever cannot move loses, and in a sum of games this means that if a player cannot move in <em>every</em> component, they lose.</p>
+<p>Using our notation, we represent this concept like so:</p>
+<p><span class="math display">\[ \{G^L \mid G^R\} + \{H^L \mid H^R\} = \{G^L + H, G + H^L \mid G^R + H, G + H^R \}\]</span></p>
+<p>(Note that when we say <span class="math inline">\(G^R + H\)</span>, what we really mean is “take every option on the right side of <span class="math inline">\(G\)</span> and add each of them to H)</p>
+<p>Each of those four pieces in the right hand side correspond to each player moving in one of the games, and leaving the other intact.</p>
+<p>I also present the defintion of <em>negation</em>, which also follows from the intuition we gave in Part 1. To negate a position is to swap the “roles” of each player. Lazuli now wants to play as Ruby would, and vice versa. In the notation:</p>
+<p><span class="math display">\[ -\{G^L \mid G^R \} = \{-G^R \mid -G^L \} \]</span></p>
+<p>The reason that we negate the options after swapping them is that if we did not, our negation would only correspond to a position where Lazuli and Ruby swapped for one turn only before reverting back to normality, and not one where this swap persists throughout.</p>
+<p>We also define subtraction in terms of these two operations:
+<span class="math display">\[ G - H = G + (-H) \]</span></p>
+<p>Let’s do an example: what is <span class="math inline">\(1 + 1\)</span>?</p>
+<p>Expanding out:</p>
+<p><span class="math display">\[ 1 + 1 = \{ 0 \mid \} + \{ 0 \mid \} \]</span></p>
+<p>So, <span class="math inline">\(G^L\)</span> and <span class="math inline">\(H^L\)</span> are both just <span class="math inline">\(0\)</span>, and <span class="math inline">\(G^R\)</span> and <span class="math inline">\(H^R\)</span> are empty. We can now apply the definition:</p>
+<p><span class="math display">\[ 1 + 1 = \{0 + 1, 0 + 1 \mid \} \]</span></p>
+<p>Since <span class="math inline">\(G^R\)</span> and <span class="math inline">\(H^R\)</span> are empty, we have no sums to put on the right side of the bar, leaving it empty.</p>
+<p>We now need to add <span class="math inline">\(0 + 1\)</span> which is <span class="math inline">\(1\)</span>. Zero works as it does usually, and I’ll show the proof at the end of this example. So now we have</p>
+<p><span class="math display">\[ 1 + 1 = \{1, 1 \mid \} \]</span></p>
+<p>We can do a small bit of simplification here, which is removing duplicates if the same position occurs multiple times on one side of the bar. You’ll learn more about simplifying positions in Part 4.</p>
+<p>So, all in all,</p>
+<p><span class="math display">\[ 1 + 1 = \{ 1 \mid \} \]</span></p>
+<p>This position has a name. It’s called <span class="math inline">\(2\)</span>. We’ll give more positions names in Part 4.</p>
+<h2 id="some-properties-of-addition">Some Properties of Addition</h2>
+<p>We can call anything we want “addition”, but does it actually work like we’d expect addition to? Here are some useful properties of our position addition:</p>
+Adding 0 to any game does not change it. Since the zero position has no moves, combining it with another position doesn’t give either player any options they didn’t already have. For a formal proof:
+<details>
+<summary>
+<strong>Proposition:</strong> <span class="math inline">\(G + 0 = G\)</span> for all <span class="math inline">\(G\)</span>.
+</summary>
+<hr />
+<p><strong>Proof:</strong> By induction.</p>
+<p>Base Case:
+<span class="math inline">\(0 + 0 = \{0^L + 0, 0 + 0^L \mid 0^R + 0, 0 + 0^R \}\)</span></p>
+<p>Since <span class="math inline">\(0^L\)</span> and <span class="math inline">\(0^R\)</span> are both empty, there are no additions to be done and the result is <span class="math inline">\(\{ \mid \} = 0\)</span></p>
+<p>Inductive Case:
+Suppose that for <span class="math inline">\(G = \{G^L \mid G^R \}\)</span>, <span class="math inline">\(P + 0 = P\)</span> for any <span class="math inline">\(P \in G^L, P \in G^R\)</span></p>
+<p><span class="math display">\[ G + 0 = \{G^L + 0, G + 0^L \mid G^R + 0, G + 0^R \} \]</span></p>
+<p>Since <span class="math inline">\(0^L\)</span> and <span class="math inline">\(0^R\)</span> are both empty,</p>
+<p><span class="math display">\[ \{G^L + 0, G + 0^L \mid G^R + 0, G + 0^R \} = \{G^L + 0 \mid G^R + 0 \} \]</span></p>
+<p>which by induction is equal to <span class="math inline">\(\{G^L \mid G^R \} = G\)</span></p>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</details>
+<p>Addition is also commutative. That is, <span class="math inline">\(G + H = H + G\)</span>. Intuitively, the order in which you combine positions doesn’t matter, as you’d still have the same positions in front of you. Since you are free to move in any of the components on your turn, their order is irrelevant.</p>
+<p>For similar reasons, addition is associative. That is, <span class="math inline">\((A + B) + C = A + (B + C)\)</span>.</p>
+<p>The formal proofs of these statements are left as an exercise to the interested reader, because I can’t think of an elegant way to write them here.</p>
+<h2 id="comparing-positions">Comparing Positions</h2>
+<p>Now that we have the concept of addition, we can use it to compare arbitrary positions, like so:</p>
+<ul>
+<li><span class="math inline">\(G &gt; H\)</span> if <span class="math inline">\(G - H\)</span> is positive.</li>
+<li><span class="math inline">\(G &lt; H\)</span> if <span class="math inline">\(G - H\)</span> is negative.</li>
+<li><span class="math inline">\(G = H\)</span> if <span class="math inline">\(G - H\)</span> is zero.</li>
+<li><span class="math inline">\(G \mid\mid H\)</span> if <span class="math inline">\(G - H\)</span> is fuzzy.</li>
+</ul>
+<p>These are all spoken the way you’d expect, with the exception that when <span class="math inline">\(G \mid\mid H\)</span> we say that <span class="math inline">\(G\)</span> is <strong>confused with</strong> H.</p>
+<p>It is important to note now that before this section, when I have been using the <span class="math inline">\(=\)</span> symbol, I have either been using it to define things like <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>, or I meant that the two positions in question had the exact same options on the left and right side of the bar. Now, the <span class="math inline">\(=\)</span> symbol will refer to the relationship defined immediately above. For example, <span class="math inline">\(\{ \mid \}\)</span> and <span class="math inline">\(\{1 \mid -1 \}\)</span> are not identical positions, but they are equal to eachother, as their difference is a second-player win. (Verify this as an exercise.)</p>
+<p>The intuition of the <span class="math inline">\(=\)</span> relation is that two positions are equal if they have the same value as we have been working with in Parts 1 and 2. In order to remove ambiguity, from now on if I wish to state that two positions have identical <em>form</em> and not just that their difference is zero, I will use the <span class="math inline">\(\equiv\)</span> operator.</p>
+<p>We will now show three important properties of that <span class="math inline">\(=\)</span> relation.</p>
+<p>Firstly, <span class="math inline">\(G = G\)</span> for all <span class="math inline">\(G\)</span>. That is, <span class="math inline">\(=\)</span> is <em>reflexive</em>. This is equivalent to saying that <span class="math inline">\(G - G = 0\)</span> for all <span class="math inline">\(G\)</span>, which is exactly the Tweedledee and Tweedledum Argument we showed in Part 1! The formal proof is essentially the same as the Tweedledee and Tweedledum Argument, so it is omitted.</p>
+<p>Secondly, if <span class="math inline">\(G = H\)</span>, then <span class="math inline">\(H = G\)</span>. That is, <span class="math inline">\(=\)</span> is <em>symmetric</em>. Intuitionally, this is clear since the order of the equality shouldn’t matter if both positions cancel each other out. Formally,</p>
+<details>
+<summary>
+<strong>Proposition:</strong> If <span class="math inline">\(G = H\)</span>, then <span class="math inline">\(H = G\)</span>.
+</summary>
+<hr />
+<p><strong>Proof:</strong></p>
+<p><span class="math inline">\(G = H\)</span> means that <span class="math inline">\(G - H\)</span> is zero, and that the second player wins.</p>
+<p>Consider the negative position, <span class="math inline">\(-(G - H) \equiv (-G + H) \equiv H - G\)</span>. If this position is a second player win, then <span class="math inline">\(H = G\)</span>.</p>
+<p>However, this is the negation of a zero position. Lazuli starts and loses in <span class="math inline">\(G - H\)</span>, so Ruby starts and loses in <span class="math inline">\(H - G\)</span>. Ruby starts and loses in <span class="math inline">\(G - H\)</span>, so Lazuli starts and loses in <span class="math inline">\(G - H\)</span>. Since both players lose if they start, <span class="math inline">\(H - G\)</span> is zero and so <span class="math inline">\(H = G\)</span>.</p>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</details>
+<p>Lastly, if <span class="math inline">\(A = B\)</span> and <span class="math inline">\(B = C\)</span>, then <span class="math inline">\(A = C\)</span>. That is, <span class="math inline">\(=\)</span> is <em>transitive</em>. Unfortunately, I can’t think of an intuitive way to explain this, so if you want justification you’ll need to look at the proof, which is actually quite short.</p>
+<details>
+<summary>
+<strong>Proposition:</strong> If <span class="math inline">\(A = B\)</span> and <span class="math inline">\(B = C\)</span>, then <span class="math inline">\(A = C\)</span>.
+</summary>
+<hr />
+<p><strong>Proof:</strong></p>
+<p>Since <span class="math inline">\(A = B\)</span>, <span class="math inline">\(A - B = 0\)</span>.
+Since <span class="math inline">\(B = C\)</span>, <span class="math inline">\(B - C = 0\)</span>.</p>
+<p><span class="math display">\[
+    A - C = A - B + B - C = 0 + 0 = 0
+    \]</span></p>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</details>
+<p>For those who know what the words “equivalence relation” mean, we have just shown that equality is one. For the rest of this series, we will mostly care about comparing positions using this notion of equality, and not really whether or not they are perfectly identical. To distinguish, I will call the equivalence class that a given position falls into its “value”, and if on the off chance we need to distinguish positions based on exactly what their options are (which we will call their <em>form</em>), I will use the <span class="math inline">\(\equiv\)</span> operator. The names <span class="math inline">\(0\)</span>, <span class="math inline">\(1\)</span>, <span class="math inline">\(-1\)</span>, <span class="math inline">\(\ast\)</span>, and <span class="math inline">\(2\)</span> that I gave to positions in this part are actually names for the equivalence classes.</p>
+<p>If you had no idea what that last paragraph was saying, don’t worry about it. All you need to know is that I will use the phrase “has the same value” to mean “equal”, and that we only really want to call two positions “different” if they have different values. Two positions that do not look exactly the same are allowed to be equal.</p>
+<h2 id="summary-of-part-3">Summary of Part 3</h2>
+<ul>
+<li>A position is defined in terms of the positions that each player can move to, and each one has a value. Two positions with the same value are considered equal.</li>
+<li><span class="math inline">\(\{ \mid \}\)</span> has value <span class="math inline">\(0\)</span>.</li>
+<li><span class="math inline">\(\{ 0 \mid \}\)</span> has value <span class="math inline">\(1\)</span>.</li>
+<li><span class="math inline">\(\{ \mid 0 \}\)</span> has value <span class="math inline">\(-1\)</span>.</li>
+<li><span class="math inline">\(\{ 0 \mid 0 \}\)</span> has value <span class="math inline">\(\ast\)</span>.</li>
+<li>It is possible to add two positions, and what is meant by that is that on your turn you must move in exactly one of the components of your choosing.</li>
+<li>We can compare positions by checking who wins their difference.</li>
+</ul>
+<h2 id="in-part-4-we-will">In Part 4, we will</h2>
+<ul>
+<li>Find out how to notate several Hackenbush positions.</li>
+<li>Give names to various positions.</li>
+</ul>
+
+<center>
+<div class="pagination">
+
+<a href="../cgt/2.html" style="font-size: 30px">←</a>
+
+<a href="../cgt.html" style="font-size: 40px">☉</a>
+
+<span style="font-size: 30px">×</span>
+
+</div>
+</center>
+
+        </div>
+	</body>
+</html>

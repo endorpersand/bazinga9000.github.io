@@ -48,3 +48,10 @@ figure {
 .spoiler:hover {
     filter: none;
 }
+
+details {
+    border-style: solid;
+    border-color: white;
+    border-width: 1px;
+    padding: 20px;
+}
