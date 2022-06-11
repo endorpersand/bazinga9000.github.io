@@ -133,7 +133,7 @@ $$ 1 + 1 = \game{0}{\,} + \game{0}{\,} $$
 
 So, $G^L$ and $H^L$ are both just $0$, and $G^R$ and $H^R$ are empty. We can now apply the definition:
 
-$$ 1 + 1 = \game{0 + 1}{0 + 1} $$
+$$ 1 + 1 = \game{0 + 1, 0 + 1}{\,} $$
 
 Since $G^R$ and $H^R$ are empty, we have no sums to put on the right side of the bar, leaving it empty.
 
