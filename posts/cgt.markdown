@@ -24,4 +24,37 @@ Another note for readers of *Winning Ways*: There are some bits of convention in
 
 * The distinction between the terms "game" and "position" in *Winning Ways* is very vague, as the books often use "game" to refer to a position within a game. In this series, the term "game" will exclusively refer to entire games, such as Hackenbush, whereas "position" will refer only to individual game states.
 
+I also have some people to thank. Some of these people have made other texts and resources that are helpful to me as I write this and will likely be helpful to you in turn if you wish to go further than I have taught you:
+
+<details>
+<summary>**Acknowledgements**</summary>
+-----------
+
+An extremely large thank you goes out to the writers of a handful of very very comprehensive and useful texts:
+
+* **Conway, Berlekamp, and Guy**, the authors of *Winning Ways for your Mathematical Plays*, the text which founded the field.
+    
+* **Conway** (again), the author of *On Numbers and Games*, which also founded the field.
+    
+* **Albert, Nowakowski, and Wolfe**, the authors of *Lessons in Play: An Introduction to Combinatorial Game Theory*, which had many examples not seen in other texts and helped me reinforce my knowledge.
+    
+* **Siegel**, the author of the AMS' *Graduate Studies in Mathematics Volume 146: Combinatorial Game Theory*, a modern overview of the entire field (it even has a list of open problems!)
+    
+* **Siegel** (again), the creator of [CGSuite](http://www.cgsuite.org), a most helpful Computer Algebra System that lets me, to put it simply, fuck around and find out about games.
+    
+* **Owen Maitzen**, creator of the [Hackenbush video](https://www.youtube.com/watch?v=ZYj4NkeGPdM) which showed me just how wild this field is and started me down this path.
+
+I also have some other thanks to give to people who have not written any texts or made any videos on CGT, but have been influential nonetheless:
+
+* **The Invisible Rabbit Hole**, for looking over my proofs with a fine-toothed comb and being extremely enthusiastic about this project.
+    
+* **The UMD Math Lounge**, for convincing me to give a talk on this which led to me creating this as one method of preparation. And also for putting up with my constant jokes about the Sprague-Grundy Theorem.
+
+And, of course, no matter how cheesy it may sound:
+
+* **You**, for reading this. One of the many reasons I am making this is because I want to show people how cool this field is. If you're here reading this, that means I have (hopefully) succeeded.
+
+</details>
+
+
 With that out of the way, let's get to it!
