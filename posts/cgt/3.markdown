@@ -5,6 +5,7 @@ goto: /cgt.html
 katex: on
 extracss: cgt
 prev: /cgt/2.html
+next: /cgt/4.html
 ---
 
 -----------
@@ -85,21 +86,26 @@ Something else that will be helpful is to arrange these outcome classes into a t
 This raises an important question: Can *every* position be classified this way? The answer is yes, and the proof for the interested is below:
 
 <details>
-    <summary>**Theorem:** Every position is either zero, positive, negative, or fuzzy.</summary>
+<summary>
 
-    -----------
+**Theorem:** Every position is either zero, positive, negative, or fuzzy.
+</summary>
 
-    **Proof:** By induction.
+-----------
 
-    Base Case: $\game{\,}{\,}$ is zero.
+**Proof:** By induction.
 
-    Inductive Case: Suppose for some $G = \game{G^L}{G^R}$, all $G^L$ and all $G^R$ are either positive, negative, zero, or fuzzy (though it is not necessarily the case that they are all of the *same* outcome class).
+Base Case: $\game{\,}{\,}$ is zero.
 
-    Suppose Lazuli starts. We consider all of Lazuli's options, all $G^L$.
+Inductive Case: Suppose for some $G = \game{G^L}{G^R}$, all $G^L$ and all $G^R$ are either positive, negative, zero, or fuzzy (though it is not necessarily the case that they are all of the *same* outcome class).
 
-    If there exists a position $P \in G^L$ that is positive or zero, Lazuli can move to it. Since the position is positive or zero, and Ruby starts in it, Ruby has no winning strategy. This means that Lazuli has a winning strategy in $G$, namely "moving to one such $P$ and following its strategy". Since such a winning strategy exists for $G$, it is either positive or fuzzy.
+Suppose Lazuli starts. We consider all of Lazuli's options, all $G^L$.
 
-    If there is no such position, Ruby will have a winning strategy after Lazuli's move no matter what move is made. In this case, Ruby has a winning strategy in $G$, namely "wait for Lazuli to move and then follow the strategy that exists for the new position." This means that $G$ is either zero or negative. $\blacksquare$
+If there exists a position $P \in G^L$ that is positive or zero, Lazuli can move to it. Since the position is positive or zero, and Ruby starts in it, Ruby has no winning strategy. This means that Lazuli has a winning strategy in $G$, namely "moving to one such $P$ and following its strategy". Since such a winning strategy exists for $G$, it is either positive or fuzzy.
+
+If there is no such position, Ruby will have a winning strategy after Lazuli's move no matter what move is made. In this case, Ruby has a winning strategy in $G$, namely "wait for Lazuli to move and then follow the strategy that exists for the new position." This means that $G$ is either zero or negative.
+
+$\blacksquare$
 </details>
 
 Right, now we have the ability to compare things to zero. What, then, should we do if we want to compare to things that are *not* zero? In the previous parts I spoke of adding and negating positions and using that to compare, and that is exactly what we will do.
@@ -125,7 +131,7 @@ The reason that we negate the options after swapping them is that if we did not,
 We also define subtraction in terms of these two operations:
 $$ G - H = G + (-H) $$
 
-Let's do an example: what is $1 + 1$? 
+Let's do an example: what is $1 + 1$?
 
 Expanding out:
 
@@ -153,38 +159,40 @@ This position has a name. It's called $2$. We'll give more positions names in Pa
 
 We can call anything we want "addition", but does it actually work like we'd expect addition to? Here are some useful properties of our position addition:
 
-
-Adding 0 to any game does not change it. Since the zero position has no moves, combining it with another position doesn't give either player any options they didn't already have. For a formal proof: 
+Adding 0 to any game does not change it. Since the zero position has no moves, combining it with another position doesn't give either player any options they didn't already have. For a formal proof:
 <details>
-    <summary>**Proposition:** $G + 0 = G$ for all $G$.</summary>
+<summary>
 
-    -----------
+**Proposition:** $G + 0 = G$ for all $G$.
+</summary>
 
-    **Proof:** By induction.
+-----------
 
-    Base Case: 
-    $0 + 0 = \game{0^L + 0, 0 + 0^L}{0^R + 0, 0 + 0^R}$
+**Proof:** By induction.
 
-    Since $0^L$ and $0^R$ are both empty, there are no additions to be done and the result is $\game{\,}{\,} = 0$
+Base Case:
+$0 + 0 = \game{0^L + 0, 0 + 0^L}{0^R + 0, 0 + 0^R}$
 
-    Inductive Case:
-    Suppose that for $G = \game{G^L}{G^R}$, $P + 0 = P$ for any $P \in G^L, P \in G^R$
+Since $0^L$ and $0^R$ are both empty, there are no additions to be done and the result is $\game{\,}{\,} = 0$
 
-    $$ G + 0 = \game{G^L + 0, G + 0^L}{G^R + 0, G + 0^R} $$
+Inductive Case:
+Suppose that for $G = \game{G^L}{G^R}$, $P + 0 = P$ for any $P \in G^L, P \in G^R$
 
-    Since $0^L$ and $0^R$ are both empty,
+$$ G + 0 = \game{G^L + 0, G + 0^L}{G^R + 0, G + 0^R} $$
 
-    $$ \game{G^L + 0, G + 0^L}{G^R + 0, G + 0^R} = \game{G^L + 0}{G^R + 0} $$
+Since $0^L$ and $0^R$ are both empty,
 
-    which by induction is equal to $\game{G^L}{G^R} = G$
-    
-    $\blacksquare$
+$$ \game{G^L + 0, G + 0^L}{G^R + 0, G + 0^R} = \game{G^L + 0}{G^R + 0} $$
+
+which by induction is equal to $\game{G^L}{G^R} = G$
+
+$\blacksquare$
 
 </details>
 
-Addition is also commutative. That is, $G + H = H + G$. Intuitively, the order in which you combine positions doesn't matter, as you'd still have the same positions in front of you. Since you are free to move in any of the components on your turn, their order is irrelevant. 
+Addition is also commutative. That is, $G + H = H + G$. Intuitively, the order in which you combine positions doesn't matter, as you'd still have the same positions in front of you. Since you are free to move in any of the components on your turn, their order is irrelevant.
 
-For similar reasons, addition is associative. That is, $(A + B) + C = A + (B + C)$. 
+For similar reasons, addition is associative. That is, $(A + B) + C = A + (B + C)$.
 
 The formal proofs of these statements are left as an exercise to the interested reader, because I can't think of an elegant way to write them here.
 
@@ -199,52 +207,56 @@ Now that we have the concept of addition, we can use it to compare arbitrary pos
 * $G = H$ if $G - H$ is zero.
 * $G \mid\mid H$ if $G - H$ is fuzzy.
 
-These are all spoken the way you'd expect, with the exception that when $G \mid\mid H$ we say that $G$ is **confused with** H. 
+These are all spoken the way you'd expect, with the exception that when $G \mid\mid H$ we say that $G$ is **confused with** H.
 
-It is important to note now that before this section, when I have been using the $=$ symbol, I have either been using it to define things like $0$ or $1$, or I meant that the two positions in question had the exact same options on the left and right side of the bar. Now, the $=$ symbol will refer to the relationship defined immediately above. For example, $\game{\,}{\,}$ and $\game{-1}{1}$ are not identical positions, but they are equal to eachother, as their difference is a second-player win. (Verify this as an exercise.) 
+It is important to note now that before this section, when I have been using the $=$ symbol, I have either been using it to define things like $0$ or $1$, or I meant that the two positions in question had the exact same options on the left and right side of the bar. Now, the $=$ symbol will refer to the relationship defined immediately above. For example, $\game{\,}{\,}$ and $\game{-1}{1}$ are not identical positions, but they are equal to eachother, as their difference is a second-player win. (Verify this as an exercise.)
 
 The intuition of the $=$ relation is that two positions are equal if they have the same value as we have been working with in Parts 1 and 2. In order to remove ambiguity, from now on if I wish to state that two positions have identical *form* and not just that their difference is zero, I will use the $\equiv$ operator.
 
-We will now show three important properties of that $=$ relation. 
+We will now show three important properties of that $=$ relation.
 
 Firstly, $G = G$ for all $G$. That is, $=$ is *reflexive*. This is equivalent to saying that $G - G = 0$ for all $G$, which is exactly the Tweedledee and Tweedledum Argument we showed in Part 1! The formal proof is essentially the same as the Tweedledee and Tweedledum Argument, so it is omitted.
 
 Secondly, if $G = H$, then $H = G$. That is, $=$ is *symmetric*. Intuitionally, this is clear since the order of the equality shouldn't matter if both positions cancel each other out. Formally,
 
 <details>
-    <summary>**Proposition:** If $G = H$, then $H = G$. </summary>
+<summary>
 
-    -----------
+**Proposition:** If $G = H$, then $H = G$.
+</summary>
 
-    **Proof:**
+-----------
 
-    $G = H$ means that $G - H$ is zero, and that the second player wins.
+**Proof:**
 
-    Consider the negative position, $-(G - H) \equiv (-G + H) \equiv H - G$. If this position is a second player win, then $H = G$. 
-    
-    However, this is the negation of a zero position. Lazuli starts and loses in $G - H$, so Ruby starts and loses in $H - G$. Ruby starts and loses in $G - H$, so Lazuli starts and loses in $G - H$. Since both players lose if they start, $H - G$ is zero and so $H = G$.
+$G = H$ means that $G - H$ is zero, and that the second player wins.
 
-    $\blacksquare$
+Consider the negative position, $-(G - H) \equiv (-G + H) \equiv H - G$. If this position is a second player win, then $H = G$.
+
+However, this is the negation of a zero position. Lazuli starts and loses in $G - H$, so Ruby starts and loses in $H - G$. Ruby starts and loses in $G - H$, so Lazuli starts and loses in $G - H$. Since both players lose if they start, $H - G$ is zero and so $H = G$.
+
+$\blacksquare$
 
 </details>
 
 Lastly, if $A = B$ and $B = C$, then $A = C$. That is, $=$ is *transitive*. Unfortunately, I can't think of an intuitive way to explain this, so if you want justification you'll need to look at the proof, which is actually quite short.
 
 <details>
-    <summary>**Proposition:** If $A = B$ and $B = C$, then $A = C$. </summary>
+<summary>
 
-    -----------
+**Proposition:** If $A = B$ and $B = C$, then $A = C$.
+</summary>
 
-    **Proof:**
+-----------
 
-    Since $A = B$, $A - B = 0$.
-    Since $B = C$, $B - C = 0$.
+**Proof:**
 
-    $$
-    A - C = A - B + B - C = 0 + 0 = 0
-    $$
+Since $A = B$, $A - B = 0$.
+Since $B = C$, $B - C = 0$.
 
-    $\blacksquare$
+$$A - C = A - B + B - C = 0 + 0 = 0$$
+
+$\blacksquare$
 
 </details>
 

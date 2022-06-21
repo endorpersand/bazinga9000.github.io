@@ -1,0 +1,308 @@
+---
+title: CGT Part 4
+kochtitle: Part 4 - The Name of the Game
+goto: /cgt.html
+katex: on
+extracss: cgt
+prev: /cgt/3.html
+---
+
+-----------
+
+<center>"The beginning of wisdom is to call things by their proper name."</center>
+<center>—*Confucius*</center>
+
+-----------
+
+Part 3 has given us a wonderful gift: A formal way to describe an arbitrary position in *any* combinatorial game whatsoever, and how to give values to those positions. Throughout later parts in this series we will stretch our conception of what values a position can take to impossible heights, but before we learn to fly we must learn to run, and before we learn to run we must learn to walk. Let's take a closer look at the values we came up with in Parts 1 and 2 to understand some ways that positions can be manipulated while preserving their value.
+
+We will continue to use Hackenbush as our game of choice for illustrative purposes, but it should be stressed that positions in *any* combinatorial game can be described in this way.
+
+The simplest Hackenbush position we have not yet treated formally is two blue branches next to each other:
+
+<figure><center>
+    <img src="/resources/cgt/4/twolong.svg" width="25%" height="auto"></img>
+    <figcaption>
+        Figure 4.1: Two blue branches next to each other.
+    </figcaption>
+</center></figure>
+
+We showed in Part 3 that $1 + 1 = \game{1}{\,}$, and this position is in fact the sum of two single branch positions with a value of $1$ each, but let's verify this by checking explicitly what options each player has. Ruby has no moves at all, so the position has nothing on the right side of the bar. Lazuli's two options both remove one blue branch, leaving us with a value of $\game{1,1}{\,}$. Duplicate entries on either side of the bar can be combined, since these are sets, so we are left with $\game{1}{\,}$, exactly as predicted by adding $1 + 1$. This value is called $2$, also as you might expect.
+
+I leave you as an exercise to show that the negative of this position, $\game{\,}{-1}$, which we naturally call $-2$, has a value of $-1 + -1$.
+
+Cool, what about two blue branches on *top* of each other?
+
+<figure><center>
+    <img src="/resources/cgt/4/twohigh.svg" width="12.5%" height="auto"></img>
+    <figcaption>
+        Figure 4.2: Two blue branches on top of each other.
+    </figcaption>
+</center></figure>
+
+Writing down the options for Lazuli and Ruby show us that this position is $\game{0,1}{\,}$. Is this equal to $2$ as well? One can check that yes, this stack is countered by two isolated red branches to result in a zero position, but there is a more general principle at play here. Look at Lazuli's options. They have the choice between moving to $0$ and moving to $1$. Positions that are more positive are better for Lazuli, so assuming they are playing optimally (which we always are assuming), why in the world would Lazuli *ever* move to $0$, when $1$ is there, which is better for them? This allows us to *simplify* our representation. That is, since $0 \leq 1$,
+
+$$ \game{0,1}{\,} = \game{1}{\,} $$
+
+In general, in some game $G = \game{G^L}{G^R}$, if we have two options in $G^L$, call them $A$ and $B$, where $A \leq B$, we will say that $A$ is **dominated** by $B$.
+Likewise, if if we have two options in $G^R$, call them $X$ and $Y$, where $X \geq Y$ (note that the inequality changed directions), we will also say that $X$ is **dominated** by $Y$.
+
+What an option being dominated *means* is that the player that has that option also has another option which is *at least as good* for them. The reason this is relevant is that removing a dominated option (while *retaining* at least one option that dominated it) *does not change the value of a position.* Intuitively, this makes sense. Removing options that someone would never want to play doesn't change anything.
+
+<details>
+<summary>
+
+**Theorem:** Removing dominated options (and keeping an option that dominates it) does not change the value of a position. That is, for some position
+$$ G = \game{A, B, C, \cdots}{X, Y, Z, \cdots} $$
+if $B \geq A$, then the position
+$$ H = \game{B, C, \cdots}{X, Y, Z, \cdots} $$
+is equal to $G$.
+Likewise, if $Y \leq X$, then
+$$ H' = \game{A, B, C, \cdots}{Y, Z, \cdots} $$
+is equal to $G$.
+</summary>
+
+-----------
+
+**Proof:**
+
+We will show this is true for Lazuli's options only. A similar argument will hold for Ruby's options.
+
+We wish to show that $H = G$. We do this by showing that the second player can win their difference, $G - H$.
+
+Recall that $-H = \game{-X, -Y, -Z, \cdots}{-B, -C, \cdots}$
+
+With one exception, the first player's move can be copied on the other component by the second. Suppose the first player moves from one of the components to some position $P$. The second player can then move to $-P$ in the other component, leaving a position with a value of $P - P = 0$ for the first player to move in. In this case, the second player then wins.
+
+The one exception to this is as follows: Suppose Lazuli is first, and they move in $G$ to $A$. There is no corresponding $-A$ in $-H$ for Ruby to move to. However, what Ruby *does* have is $-B$. If Ruby moves to $-B$ from $H$, the entire position is now $A - B$. Since $B \geq A$, this difference is negative or zero, and in either case Ruby has a winning strategy.
+
+Since, in either case, the second player has a winning strategy, the difference is a zero position and $G = H$.
+
+$\blacksquare$
+
+</details>
+
+By the same logic, we can determine the value of any number of blue branches, either in a stack or side-by-side, and they have the names you would expect from Part 1:
+
+$$ 2 = \game{1}{\,} $$
+$$ 3 = \game{2}{\,} $$
+$$ 4 = \game{3}{\,} $$
+
+and, in general, for some natural number $n$,
+
+$$ n = \game{n-1}{\,} $$
+
+One can, of course, negate these positions to produce the rest of the integers:
+
+$$ -n = \game{\,}{-(n-1)} $$
+
+Now, giving only one player options makes for some pretty boring positions. Now, we'll cover Part 2's fractional values. Recall this position from part 2:
+
+<figure><center>
+    <img src="/resources/cgt/2/halfmove.svg" width="12.5%" height="auto"></img>
+    <figcaption>
+        Figure 4.3: "Half a Spare Move"
+    </figcaption>
+</center></figure>
+
+Let's notate this position. For the first time, both players have things to do! Lazuli has one move, to go to the empty position $0$, and Ruby's only move leaves Lazuli with a single branch, which we know to have a value of $1$. Thus, this position, which we called $\frac{1}{2}$, is
+
+$$ \frac{1}{2} = \game{0}{1} $$
+
+We can justify our nomenclature by verifying that $\frac{1}{2} + \frac{1}{2} = 1$, which is left as an exercise.
+
+What about adding another red branch? In that case, the position becomes $\game{0}{1, \frac{1}{2}}$ which can be simplified by removing the dominated $1$. We earlier gave this position a value of $\frac{1}{4}$, and indeed this is still the case. You can check again that two copies add to $\frac{1}{2}$. So, in terms of fractions, we now have
+
+$$ \frac{1}{2} = \game{0}{1} $$
+$$ \frac{1}{4} = \game{0}{\frac{1}{2}} $$
+
+We can see a pattern brewing. What about $\game{0}{\frac{1}{4}}$? We can show that this is how one would write the Hackenbush position that has three red branches stacked upon a blue one, which we saw to be $\frac{1}{8}$ in Part 2. Looking at Hackenbush positions with these expressions we can see that this pattern will continue, but we can also show it explicitly. Suppose we defined the sequence of positions $G_n$ with
+
+$$G_0 = 1 = \game{0}{\,}$$
+$$G_n = \game{0}{G_{n-1}}$$
+
+(Note that $G_0 > G_1 > G_2 \cdots$. This isn't too hard to show, so I leave it as an exercise.)
+
+We want to give these the value $G_n = \frac{1}{2^n}$. To justify that, we will use the arithmetic I left as exercise (so, spoilers if you're doing those), and show
+
+<details>
+<summary>
+
+**Proposition:** $G_n + G_n = G_{n-1}$.
+</summary>
+
+-----------
+
+**Proof:** By induction on $n$.
+
+Base Case: $\game{0}{1} + \game{0}{1} - \game{0}{}$ is a second-player win, so $G_{1} + G_{1} = G_{0}$
+
+Inductive Case: Suppose $G_{n-1} + G_{n-1} = G_{n-2}$. We wish to show $G_{n} + G_{n} = G_{n-1}$ which we will do by showing that
+
+$$G_{n} + G_{n} - G_{n-1} = \game{0}{G_{n-1}} + \game{0}{G_{n-1}} + \game{-G_{n-2}}{0} $$
+
+is a second-player win. To do this, we will explicitly state the winning strategy for the second player.
+
+* Suppose Lazuli starts:
+
+  * If Lazuli moves $\game{0}{G_{n-1}} \to 0$, Ruby can move the other $\game{0}{G_{n-1}} \to G_{n-1}$, leaving Lazuli a position with value $G_{n-1} - G_{n-1} = 0$, which is thus won for Ruby.
+  * If Lazuli moves $\game{-G_{n-2}}{0} \to -G_{n-2}$, Ruby can move $\game{0}{G_{n-1}} \to G_{n-1}$, leaving Lazuli a position with value $G_n + G_{n-1} - G_{n-2}$. By induction, $G_{n-1} + G_{n-1} = G_{n-2}$, so $G_{n-1} - G_{n-2} = -G_{n-1}$, meaning that the new position has a total value of $G_n - G_{n-1} < 0$, so Ruby wins.
+
+* Suppose Ruby starts:
+
+  * If Ruby moves $\game{0}{G_{n-1}} \to G_{n-1}$, Lazuli can move the other $\game{0}{G_{n-1}} \to 0$, leaving Ruby a position with value $G_{n-1} - G_{n-1}$, which is thus won for Lazuli.
+  * If Ruby moves $\game{-G_{n-2}}{0} \to 0$, Lazuli can move $\game{0}{G_{n-1}} \to 0$, leaving the sum as only $G_n$, which is positive, meaning that Lazuli wins.
+
+$\blacksquare$
+
+</details>
+
+Cool, now we have the all the (negative) powers of two. We can add these together to get any dyadic rational. Though, that begs the question, what is a simple way to represent any dyadic rational? Can we just say that the value of $\game{a}{b}$ is $\frac{a + b}{2}$? It looks like that's how the fractions we've already made work. As it turns out, this doesn't hold in general. For an example, consider the position
+
+$$ \game{-10}{100} $$
+
+You'd think, by taking averages, this game would have a value of $45$, meaning that Lazuli will always win, but clearly if Lazuli moves first, they lose! This is a second-player win position, so its value is $0$. While the notion of taking averages doesn't work, the value of a position like $\game{a}{b}$ will always be between $a$ and $b$, provided that $a < b$. We'll learn a way to find this value shortly, and the method of simplifying any position at all in Part 5, but now that I've told you that taking averages doesn't work, we will define every dyadic rational by... taking averages. It works here, but *not in general*. With that out of the way, here is the formula for the remaining dyadic rationals:
+
+<details>
+<summary>
+
+**Theorem:** For any integer $p$ and any natural number $m$,
+$$\game{\frac{p}{2^m}}{\frac{p+1}{2^m}} = \frac{2p+1}{2^{m+1}}$$
+</summary>
+
+-----------
+
+**Proof:**
+
+Suppose that $2p + 1 > 0$. Rewrite the right side as the sum of $2p+1$ copies of $\frac{1}{2^{m+1}} = \game{0}{\frac{1}{2^m}}$
+
+Now we consider each player's options in the right hand side.
+
+If Lazuli starts, their only option is to move one of the $\game{0}{\frac{1}{2^m}} \to 0$, leaving the final sum as $2p$ copies of $\frac{1}{2^{m+1}}$ plus zero, or $\frac{2p}{2^{m+1}}$.
+
+If Ruby starts, their only option is to move one of the $\game{0}{\frac{1}{2^m}} \to \frac{1}{2^m}$, leaving the final sum as $2p$ copies of $\frac{1}{2^{m+1}}$ plus $\frac{1}{2^m}$ which is equal to $\frac{2p}{2^{m+1}} + \frac{1}{2^m}$.
+
+Thus, the right hand side is equivalent to the position
+
+$$ \game{\frac{2p}{2^{m+1}}}{\frac{2p}{2^{m+1}} + \frac{1}{2^m}} $$
+
+which, after simplifying and summing fractions, is also equal to
+
+$$ \game{\frac{p}{2^m}}{\frac{p+1}{2^m}} $$
+
+precisely the left hand side. The case where $2p + 1 < 0$ is similar and omitted.
+
+$\blacksquare$
+
+</details>
+
+Excellent. We now have a way to express a position with a value that is any dyadic rational. Though, there are many positions like the ones we characterized above whose values we do not yet know. What's the value of $\game{-7}{-3}$? Or $\game{\frac{3}{8}}{23}$? We can make values in so many ways, but how can we *simplify* them?
+
+I introduce to you now a rule that works for any number, which is a specific way of expressing a more general property we will learn in Part 5. But before doing that, there is a matter of terminology we must clear up.
+
+## What Even Is A Number?
+
+You might have noticed in those last few sentences I have used both the term "number" and the term "value". It might seem like they are interchangable, but in fact only some values are considered numbers.
+
+For a position $\game{G^L}{G^R}$ to be called a **number**, it must have the following properties:
+
+* All $G^L$ and all $G^R$ must be numbers
+* Every $G^L$ must be strictly less than every $G^R$
+
+Those among you who know what surreal numbers are may find this defintion strangely familiar, and to that I say we will encounter those lovely things a bit later.
+
+For some examples, every position we've talked about in this part is a number. $\ast = \game{0}{0}$, on the other hand, is not, because $0$ is not strictly less than $0$. We will encounter many more positions that are not numbers in Parts 5 and 6.
+
+Now that you know what a "number" is, I present
+
+## The Simplicity Rule
+
+The Simplicity Rule is a powerful tool for finding out the values of numbers. It allows us to look at all the options and, at a glance, immediately divine the value. Suppose we have some number
+
+$$G = \game{A, B, C, \cdots}{X, Y, Z, \cdots}$$
+
+We can immediately determine the value of $G$, by finding the *simplest* number between everything on the left and everything on the right! That of course begs the question: What does it mean for one number to be *simpler* than another? The method I will outline now works only for numbers that are dyadic rationals, but there is a more general method that works for much more interesting numbers (if you wish to do some research on your own, the term "birthday" will help).
+
+Here are the three rules for simplifying numbers:
+
+* Numbers with *smaller* denominators (assuming your fractions are in simplest form) are simpler than those with *larger* denominators
+* If we have two integers, the one with smaller *absolute value* is simpler.
+* Zero is simpler than every other number.
+
+Note that this definition only allows us to compare *some* pairs of numbers, but it will be enough. For example, neither $\frac{7}{8}$ nor $\frac{1}{8}$ is simpler than the other.
+
+This allows us to find the values of many positions that previously stumped us. The value of a number is the *simplest* number between all the left and right options.
+
+For example, the ones I asked about above,
+
+$$ \game{-7}{-3} = -4 $$
+$$ \game{\frac{3}{8}}{23} = 1 $$
+
+The rules above can be applied for some very easy simplifications:
+
+* If all the left options are negative and all the right options are positive, the position is zero.
+* If there are any integers between the left and right options, the value is the smallest such (in absolute value).
+
+You may be asking yourself that because it is possible to have two numbers where neither is simpler than the other, that the title of "simplest number" we've been using is not unique? Could there be two numbers between the left and right options that are both simpler than everything else but have no simplicity relationship, such as $\frac{7}{8}$ and $\frac{1}{8}$? The answer is no. Our current ordering is sufficient. Why? The reason is
+
+<details>
+<summary>
+
+**Theorem:** Suppose we had a position,
+$$G = \game{A, B, C, \cdots}{X, Y, Z, \cdots}$$
+where all $G^L$ and all $G^R$ are numbers.
+If there exists a number $r$ such that
+$$r > A, r > B, r > C, \cdots$$
+and
+$$r < X, r < Y, r < Z, \cdots$$
+then $G$ is equal to the simplest such $r$.
+</summary>
+
+-----------
+
+**Proof:**
+
+Before we begin, recall that any dyadic rational $r$ can be written in one of these ways:
+
+* $r = \game{\,}{\,}$
+* $r = \game{s}{\,}$, where $s$ is a number simpler than $r$, and $s < r$
+* $r = \game{\,}{s}$, where $s$ is a number simpler than $r$, and $s > r$
+* $r = \game{s}{t}$, where $s$ and $t$ are numbers simpler than $r$, and $s < r < t$
+
+Now, for the proof. We must show three things:
+
+1. There exists a simplest $r$ that satisfies the inequalities.
+2. $G = r$
+3. $r$ is unique.
+
+*Step 1:* Consider the set of all dyadic rationals that satisfy the inequalities. Since the denominators are all finite, there is at least one dyadic rational $r$ with smallest denominator. If that smallest denominator is $1$, choose the one with the smallest absolute value.
+
+*Step 2:* We wish to show that $G = r$ which will be done by showing that the second player wins their difference, $G + (-r)$.
+
+Suppose Lazuli starts. The argument for Ruby starting is similar and omitted.
+
+Since any left option is less than $r$, any of Lazuli's moves in the $G$ component will be leave the total position negative, in which case Ruby wins.
+
+Now suppose that Lazuli instead moves in $-r$. Note that by our recollection above, we can assume the move to be $(-r) \to (-n)$, where $n$ is simpler than $r$ and $r < n$. It follows from our choice of $r$ that either there exists some left option $a \geq r$ in $G$ or that there is some right option $x \leq n$ in $G$.
+
+However, we know $n > r > a$, so it must be that there is some right option $x \leq n$ in $G$. Ruby can take this option, leaving the final postiion at $x - n \leq 0$. Since the position is less than or equal to zero, and it is Lazuli's turn to move, Ruby wins.
+
+*Step 3:* If $r$ were not unique, then by step 2 $G$ would be equal to two different numbers, which is impossible.
+
+$\blacksquare$
+</details>
+
+And with that, we've done all that we can currently do in the land of numbers. Now, we must look further, and learn about some positions that are not numbers.
+
+## Summary of Part 4
+
+* For any positive integer $n$, $n = \game{n-1}{\,}$
+* For any negative integer $-n$, $-n = \game{\,}{-(n-1)}$
+* For any positive integer $n$, $\frac{1}{2^n} = \game{0}{\frac{1}{2^{n-1}}}$
+* For any integer $p$ and any natural number $m$, $\game{\frac{p}{2^m}}{\frac{p+1}{2^m}} = \frac{2p+1}{2^{m+1}}$
+* If there is a number between all left options and all right options of $G$, $G$ is equal to the simplest such.
+
+## In Part 5, we will
+
+* Learn more about $\ast$ and its friends.
+* Discover a powerful theorem.

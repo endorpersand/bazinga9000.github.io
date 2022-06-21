@@ -22,7 +22,7 @@
 		</h1>
 		<div id="content">
 			
-				$$\gdef\game#1#2{\{#1 \mid #2\}}$$
+				$$\gdef\game#1#2{\left\{#1 \,\middle\vert\, #2\right\}}$$
 			
             <hr />
 <center>
@@ -113,7 +113,8 @@ Figure 3.1: You.
 <p>Inductive Case: Suppose for some <span class="math inline">\(G = \game{G^L}{G^R}\)</span>, all <span class="math inline">\(G^L\)</span> and all <span class="math inline">\(G^R\)</span> are either positive, negative, zero, or fuzzy (though it is not necessarily the case that they are all of the <em>same</em> outcome class).</p>
 <p>Suppose Lazuli starts. We consider all of Lazuli’s options, all <span class="math inline">\(G^L\)</span>.</p>
 <p>If there exists a position <span class="math inline">\(P \in G^L\)</span> that is positive or zero, Lazuli can move to it. Since the position is positive or zero, and Ruby starts in it, Ruby has no winning strategy. This means that Lazuli has a winning strategy in <span class="math inline">\(G\)</span>, namely “moving to one such <span class="math inline">\(P\)</span> and following its strategy”. Since such a winning strategy exists for <span class="math inline">\(G\)</span>, it is either positive or fuzzy.</p>
-If there is no such position, Ruby will have a winning strategy after Lazuli’s move no matter what move is made. In this case, Ruby has a winning strategy in <span class="math inline">\(G\)</span>, namely “wait for Lazuli to move and then follow the strategy that exists for the new position.” This means that <span class="math inline">\(G\)</span> is either zero or negative. <span class="math inline">\(\blacksquare\)</span>
+<p>If there is no such position, Ruby will have a winning strategy after Lazuli’s move no matter what move is made. In this case, Ruby has a winning strategy in <span class="math inline">\(G\)</span>, namely “wait for Lazuli to move and then follow the strategy that exists for the new position.” This means that <span class="math inline">\(G\)</span> is either zero or negative.</p>
+<span class="math inline">\(\blacksquare\)</span>
 </details>
 <p>Right, now we have the ability to compare things to zero. What, then, should we do if we want to compare to things that are <em>not</em> zero? In the previous parts I spoke of adding and negating positions and using that to compare, and that is exactly what we will do.</p>
 <h2 id="arithmetic-on-positions">Arithmetic on Positions</h2>
@@ -197,9 +198,7 @@ Suppose that for <span class="math inline">\(G = \game{G^L}{G^R}\)</span>, <span
 <p><strong>Proof:</strong></p>
 <p>Since <span class="math inline">\(A = B\)</span>, <span class="math inline">\(A - B = 0\)</span>.
 Since <span class="math inline">\(B = C\)</span>, <span class="math inline">\(B - C = 0\)</span>.</p>
-<p><span class="math display">\[
-    A - C = A - B + B - C = 0 + 0 = 0
-    \]</span></p>
+<p><span class="math display">\[A - C = A - B + B - C = 0 + 0 = 0\]</span></p>
 <p><span class="math inline">\(\blacksquare\)</span></p>
 </details>
 <p>For those who know what the words “equivalence relation” mean, we have just shown that equality is one. For the rest of this series, we will mostly care about comparing positions using this notion of equality, and not really whether or not they are perfectly identical. To distinguish, I will call the equivalence class that a given position falls into its “value”, and if on the off chance we need to distinguish positions based on exactly what their options are (which we will call their <em>form</em>), I will use the <span class="math inline">\(\equiv\)</span> operator. The names <span class="math inline">\(0\)</span>, <span class="math inline">\(1\)</span>, <span class="math inline">\(-1\)</span>, <span class="math inline">\(\ast\)</span>, and <span class="math inline">\(2\)</span> that I gave to positions in this part are actually names for the equivalence classes.</p>
@@ -227,7 +226,7 @@ Since <span class="math inline">\(B = C\)</span>, <span class="math inline">\(B 
 
 <a href="../cgt.html" style="font-size: 40px">☉</a>
 
-<span style="font-size: 30px">×</span>
+<a href="../cgt/4.html" style="font-size: 30px">→</a>
 
 </div>
 </center>
