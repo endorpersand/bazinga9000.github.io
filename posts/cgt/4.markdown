@@ -262,6 +262,8 @@ then $G$ is equal to the simplest such $r$.
 
 **Proof:**
 
+*Note: This proof isn't mine. It's from [here](https://mathstrek.blog/2012/08/15/combinatorial-game-theory-vii).*
+
 Before we begin, recall that any dyadic rational $r$ can be written in one of these ways:
 
 * $r = \game{\,}{\,}$
