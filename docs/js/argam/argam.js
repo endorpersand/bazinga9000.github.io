@@ -121,7 +121,7 @@ function getCSSClass(num, base) {
         return 'error';
     }
 
-    if (!n.isFinite() || base <= 132) {
+    if (!n.isFinite() || base <= 62) {
         return 'argam';
     }
 

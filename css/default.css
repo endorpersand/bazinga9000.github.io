@@ -17,18 +17,21 @@ body {
 
 @font-face {
     font-family: 'argam';
-    src: url('/fonts/argam_60_2022-06-21/Argam_60_2022-06-21.eot');
-    src: url('/fonts/argam_60_2022-06-21/Argam_60_2022-06-21.eot?#iefix') format('embedded-opentype'),
-        url('/fonts/argam_60_2022-06-21/Argam_60_2022-06-21.woff2') format('woff2'),
-        url('/fonts/argam_60_2022-06-21/Argam_60_2022-06-21.woff') format('woff'),
-        url('/fonts/argam_60_2022-06-21/Argam_60_2022-06-21.ttf') format('truetype'),
-        url('/fonts/argam_60_2022-06-21/Argam_60_2022-06-21.svg#Argam_60_2022-06-21') format('svg');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+    src: 
+      url('/fonts/argam/argam.ttf') format('truetype'),
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
 }
 
 
+@font-face {
+    font-family: 'argam-large';
+    src: url('/fonts/argam-large/argam-large.ttf') format('truetype'),
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+}
 
 button {
   background: #202020;
