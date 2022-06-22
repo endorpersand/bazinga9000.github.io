@@ -12,17 +12,17 @@ body {
 		local('Montserrat'),
 		local('Montserrat-Regular'),
 		url('/fonts/montserrat/Montserrat-Regular.otf');
-		format('opentype');
+    format('opentype');
 }
 
 @font-face {
     font-family: 'argam';
-    src: url('/fonts/vincifirenzeargam/VinciFirenzeArgam.eot');
-    src: url('/fonts/vincifirenzeargam/VinciFirenzeArgam.eot?#iefix') format('embedded-opentype'),
-        url('/fonts/vincifirenzeargam/VinciFirenzeArgam.woff2') format('woff2'),
-        url('/fonts/vincifirenzeargam/VinciFirenzeArgam.woff') format('woff'),
-        url('/fonts/vincifirenzeargam/VinciFirenzeArgam.ttf') format('truetype'),
-        url('/fonts/vincifirenzeargam/VinciFirenzeArgam.svg#VinciFirenzeArgam') format('svg');
+    src: url('/fonts/argam_60_2022-06-21/Argam_60_2022-06-21.eot');
+    src: url('/fonts/argam_60_2022-06-21/Argam_60_2022-06-21.eot?#iefix') format('embedded-opentype'),
+        url('/fonts/argam_60_2022-06-21/Argam_60_2022-06-21.woff2') format('woff2'),
+        url('/fonts/argam_60_2022-06-21/Argam_60_2022-06-21.woff') format('woff'),
+        url('/fonts/argam_60_2022-06-21/Argam_60_2022-06-21.ttf') format('truetype'),
+        url('/fonts/argam_60_2022-06-21/Argam_60_2022-06-21.svg#Argam_60_2022-06-21') format('svg');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

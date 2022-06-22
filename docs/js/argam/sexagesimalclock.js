@@ -40,7 +40,7 @@ function update_time() {
     const dateStringName = toN(year) + ' ' +
                        toN(dayOfYear);
 
-    const unix = date.getTime() / 1000;
+    const unix = +(date.getTime() / 1000).toFixed(2);
 
     const unixStringDigits = toS(unix);
     const unixStringName = toN(Math.floor(unix));
