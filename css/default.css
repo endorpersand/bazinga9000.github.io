@@ -11,26 +11,26 @@ body {
 	src:
 		local('Montserrat'),
 		local('Montserrat-Regular'),
-		url('/fonts/montserrat/Montserrat-Regular.otf');
-    format('opentype');
+		url('/fonts/montserrat/Montserrat-Regular.otf') format('opentype');
 }
 
 @font-face {
     font-family: 'argam';
     src: 
-      url('/fonts/argam/argam.ttf') format('truetype'),
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
+      url('/fonts/argam/argam.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
 
 @font-face {
     font-family: 'argam-large';
-    src: url('/fonts/argam-large/argam-large.ttf') format('truetype'),
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
+    src: 
+      url('/fonts/argam-large/argam-large.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
 button {

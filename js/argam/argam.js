@@ -1,4 +1,4 @@
-const argamAlphabet = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const argamAlphabet = String.fromCharCode(...Array.from({length: 480}, (_, i) => 0xE000 + i));
 
 BigNumber.config({ ALPHABET: argamAlphabet });
 
